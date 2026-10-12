@@ -24,15 +24,17 @@ bun run dev
 
 ## Next steps
 
-The build, typecheck, and lint pass. Rendered review covered only the Actions page in both modes and the Select popup, so these remain:
+The build, typecheck, and lint pass. Every page has been reviewed in light and dark mode at 1280px and 375px. Overlays, keyboard navigation, and reduced motion have been checked in the browser. These remain:
 
-- Review every page in light and dark mode at desktop and 375px widths. Fix spacing, alignment, and overflow, especially in the state matrices.
-- Open each overlay and check it: dialog, alert dialog, drawer (including swipe to dismiss), popover, preview card, tooltip, and each toast type.
-- Check keyboard behavior: focus outlines, menu and select navigation, tabs, and the mobile navigation drawer.
-- Confirm the checkmark and minus glyphs read clearly inside the 11px checkbox. If they don't, decide between a heavier Phosphor weight and a larger control size in the theme.
-- Check reduced motion: transitions should be immediate and the progress sweep should run once.
+- Decide on the checkbox glyphs. The check and minus are 9.3px with a 0.58px stroke inside the 11px control. They are clear on a 2x display and thin at 1x. The options are a heavier Phosphor weight or a larger control size in the theme.
 - Decide whether to add shadcn components the theme does not cover yet (card, table, badge, alert), and which Kevelle foundations they should use.
 - Run graphical-audit against `gui/themes/kevelle-components.md` and fix any drift it finds.
+- Test drawer swipe-to-dismiss on a touch device. With a mouse, a swipe starts only from the popup padding, because Base UI ignores mouse drags inside `Drawer.Content`.
+
+Two theme assignments are worth revisiting. They come from the reference, not the showcase:
+
+- The disabled slider thumb uses a neutral-2 fill, so it nearly disappears on neutral-2 surfaces.
+- Toggle hover and pressed share the neutral-3 fill, so a hovered toggle looks pressed.
 
 These choices are derived rather than taken from the reference, and are worth confirming:
 

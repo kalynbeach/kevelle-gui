@@ -21,6 +21,13 @@
 @custom-variant focus-visible (&:focus-visible, &[data-preview~="focus"]);
 @custom-variant active (&:active, &[data-preview~="active"]);
 
+/*
+ * shadcn wraps data-disabled in :where(), so Tailwind's own data-* variants
+ * (data-indeterminate, data-invalid, data-pressed) outrank it. Without
+ * :where, disabled takes precedence over every other state.
+ */
+@custom-variant data-disabled (&[data-disabled]:not([data-disabled="false"]));
+
 /* Fonts. Family names match the theme stacks in kevelle-tokens.css. */
 @font-face {
   font-family: "ABC Areal";

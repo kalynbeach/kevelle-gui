@@ -1,8 +1,15 @@
 import * as React from "react"
 
+import { cn } from "@/lib/utils"
+import { stage } from "@/components/showcase/page"
+
+const stateLabel = "font-data text-xs font-regular text-neutral-6"
+
 /*
  * Renders a variant × state grid. States are pinned with data-preview (see
  * app/globals.css) so hover, focus, and pressed render without interaction.
+ * A single variant wraps as labeled cells instead, so wide controls fit
+ * without scrolling.
  */
 export function StateMatrix<Row extends string>({
   rows,
@@ -15,18 +22,28 @@ export function StateMatrix<Row extends string>({
   render: (row: Row, state: string) => React.ReactNode
   rowLabel?: (row: Row) => string
 }) {
+  if (rows.length === 1) {
+    const [row] = rows
+    return (
+      <div className={cn("flex flex-wrap gap-x-l gap-y-m", stage)}>
+        {states.map((state) => (
+          <div key={state} className="flex flex-col items-start gap-xs">
+            <span className={stateLabel}>{state}</span>
+            {render(row, state)}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   return (
-    <div className="w-full overflow-x-auto rounded-m bg-neutral-2 p-l">
-      <table className="border-separate border-spacing-x-l border-spacing-y-s">
+    <div className={cn("w-full overflow-x-auto", stage)}>
+      <table className="border-separate border-spacing-x-m border-spacing-y-s sm:border-spacing-x-l">
         <thead>
           <tr>
             <td />
             {states.map((state) => (
-              <th
-                key={state}
-                scope="col"
-                className="text-start font-data text-xs font-regular text-neutral-6"
-              >
+              <th key={state} scope="col" className={cn("text-start", stateLabel)}>
                 {state}
               </th>
             ))}
@@ -37,7 +54,7 @@ export function StateMatrix<Row extends string>({
             <tr key={row}>
               <th
                 scope="row"
-                className="pe-s text-start font-data text-xs font-regular whitespace-nowrap text-neutral-6"
+                className={cn("text-start whitespace-nowrap", stateLabel)}
               >
                 {rowLabel(row)}
               </th>

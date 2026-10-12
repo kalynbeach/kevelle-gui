@@ -94,15 +94,6 @@ export default function IconsPage() {
                   />
                 ))}
               </div>
-              <div className={`flex items-center gap-m ${className}`}>
-                {icons.slice(0, 4).map(([name, IconComponent]) => (
-                  <IconComponent
-                    key={name}
-                    aria-hidden="true"
-                    className="size-[1em] text-neutral-7"
-                  />
-                ))}
-              </div>
             </Demo>
           ))}
         </div>

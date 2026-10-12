@@ -15,7 +15,7 @@ export function Swatch({ token }: { token: string }) {
       />
       <div className="flex flex-col">
         <span className="text-s text-neutral-10">{token}</span>
-        <span className="truncate font-data text-xs text-neutral-7">
+        <span className="font-data text-xs text-neutral-7">
           {value || " "}
         </span>
       </div>
@@ -82,10 +82,10 @@ export function ContrastPair({
         Aa
       </div>
       <div className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate text-s text-neutral-10">
+        <span className="text-s text-neutral-10">
           {foreground} on {background}
         </span>
-        <span className="truncate text-s text-neutral-7">{use}</span>
+        <span className="text-s text-neutral-7">{use}</span>
       </div>
       <span
         className={cn(

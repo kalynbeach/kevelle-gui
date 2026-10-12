@@ -38,7 +38,11 @@ export function Section({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={cn("flex scroll-mt-xxl flex-col gap-l", className)}
+      className={cn(
+        // Below md the sticky header covers the top of the viewport.
+        "flex scroll-mt-[calc(var(--space-xxl)*2)] flex-col gap-l md:scroll-mt-xxl",
+        className
+      )}
     >
       <h2 id={`${id}-title`} className="text-l font-medium text-neutral-10">
         {title}
@@ -65,7 +69,13 @@ export function Subsection({
   )
 }
 
-/* The stage that holds live components. */
+/*
+ * The stage that holds live components. It sits on the canvas with the
+ * cte-border edge, so parts filled with neutral-2 (collapsible panels,
+ * read-only inputs, disabled thumbs) stay visible.
+ */
+export const stage = "rounded-m p-l ring ring-neutral-6-transparent"
+
 export function Demo({
   children,
   className,
@@ -76,7 +86,8 @@ export function Demo({
   return (
     <div
       className={cn(
-        "flex min-w-0 flex-wrap items-center gap-m rounded-m bg-neutral-2 p-l",
+        "flex min-w-0 flex-wrap items-center gap-m",
+        stage,
         className
       )}
     >

@@ -32,41 +32,34 @@ function StepRow({ step }: { step: (typeof steps)[number] }) {
   ])
 
   return (
-    <tr className="align-baseline">
-      <th scope="row" className="py-s pe-l text-start font-data text-xs font-regular text-neutral-8">
-        {step}
-      </th>
-      <td className="py-s pe-l font-data text-xs whitespace-nowrap text-neutral-7 tabular-nums">
+    <div className="col-span-2 grid grid-cols-subgrid items-baseline gap-y-xxs py-s md:col-span-4">
+      <span className="font-data text-xs text-neutral-8">{step}</span>
+      <span className="font-data text-xs whitespace-nowrap text-neutral-7 tabular-nums">
         {size ? `${size} / ${line} / ${tracking}` : " "}
-      </td>
-      <td className="max-w-0 py-s pe-l">
-        <span className={`block truncate text-neutral-10 ${stepClass[step]}`}>
-          Sample rate and bit depth
-        </span>
-      </td>
-      <td className="py-s text-s text-neutral-7">{uses[step]}</td>
-    </tr>
+      </span>
+      <span className={`col-span-2 text-neutral-10 md:col-span-1 ${stepClass[step]}`}>
+        Sample rate and bit depth
+      </span>
+      <span className="col-span-2 text-s text-neutral-7 md:col-span-1">
+        {uses[step]}
+      </span>
+    </div>
   )
 }
 
+/* Rows share columns through subgrid; below md each specimen gets its own line. */
 export function TypeScale() {
   return (
-    <div className="w-full overflow-x-auto">
-      <table className="w-full">
-        <thead>
-          <tr className="text-start font-data text-xs text-neutral-6">
-            <th scope="col" className="pe-l pb-xs text-start font-regular">Step</th>
-            <th scope="col" className="pe-l pb-xs text-start font-regular">Size / line / tracking</th>
-            <th scope="col" className="w-1/2 pe-l pb-xs text-start font-regular">Specimen</th>
-            <th scope="col" className="pb-xs text-start font-regular">Use</th>
-          </tr>
-        </thead>
-        <tbody>
-          {steps.map((step) => (
-            <StepRow key={step} step={step} />
-          ))}
-        </tbody>
-      </table>
+    <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-l md:grid-cols-[auto_auto_minmax(0,1fr)_minmax(0,12rem)]">
+      <div className="hidden pb-xs font-data text-xs whitespace-nowrap text-neutral-6 md:col-span-4 md:grid md:grid-cols-subgrid">
+        <span>Step</span>
+        <span>Size / line / tracking</span>
+        <span>Specimen</span>
+        <span>Use</span>
+      </div>
+      {steps.map((step) => (
+        <StepRow key={step} step={step} />
+      ))}
     </div>
   )
 }

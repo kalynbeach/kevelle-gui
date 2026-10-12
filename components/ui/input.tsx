@@ -24,7 +24,7 @@ export const textFieldGroup = cn(
 
 /** The bare input inside a textFieldGroup. */
 export const textFieldGroupInput =
-  "h-full min-w-0 flex-1 bg-transparent py-xs ps-s text-inherit outline-none disabled:cursor-default"
+  "min-w-0 flex-1 bg-transparent py-xs ps-s text-inherit outline-none disabled:cursor-default"
 
 function Input({ className, type, ...props }: InputPrimitive.Props) {
   return (

@@ -50,9 +50,9 @@ function SelectTrigger({
       {...props}
     >
       {children}
-      <SelectPrimitive.Icon
-        render={<CaretDownIcon className="text-neutral-7" />}
-      />
+      <SelectPrimitive.Icon className="flex text-neutral-7">
+        <CaretDownIcon />
+      </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   )
 }

@@ -19,11 +19,11 @@ export default function OverviewPage() {
     <>
       <PageHeader title="Kevelle" />
 
-      <div className="flex flex-wrap gap-xxs" aria-hidden="true">
+      <div className="grid grid-cols-7 gap-xxs sm:grid-cols-14" aria-hidden="true">
         {swatches.map((token) => (
           <div
             key={token}
-            className="h-xxl min-w-xxl flex-1 rounded-s shadow-[inset_0_0_0_var(--border-s)_var(--neutral-4-transparent)]"
+            className="h-xxl rounded-s shadow-[inset_0_0_0_var(--border-s)_var(--neutral-4-transparent)]"
             style={{ background: `var(--${token})` }}
           />
         ))}

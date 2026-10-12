@@ -40,13 +40,13 @@ export function ToastDemo() {
       </Button>
       <Button
         variant="outline"
-        onClick={() =>
-          toast.add({
+        onClick={() => {
+          const id = toast.add({
             title: "Track deleted",
             description: "Bass DI was removed from the session.",
-            actionProps: { children: "Undo" },
+            actionProps: { children: "Undo", onClick: () => toast.close(id) },
           })
-        }
+        }}
       >
         With action
       </Button>
