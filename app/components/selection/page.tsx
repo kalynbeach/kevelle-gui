@@ -218,6 +218,7 @@ export default function SelectionPage() {
           <SliderDemo />
           <Slider
             aria-label="Loop range"
+            thumbLabels={["Loop start", "Loop end"]}
             defaultValue={[16, 48]}
             max={64}
             className="max-w-sm"

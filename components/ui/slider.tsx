@@ -7,8 +7,15 @@ function Slider({
   value,
   min = 0,
   max = 100,
+  thumbLabels,
   ...props
-}: SliderPrimitive.Root.Props) {
+}: SliderPrimitive.Root.Props & {
+  /**
+   * Accessible names for the thumbs, by index. Without them each thumb uses
+   * the slider's aria-label, or its aria-labelledby when that is set instead.
+   */
+  thumbLabels?: string[]
+}) {
   // One thumb per array entry. A number, or no value at all, is one thumb.
   const thumbCount = Array.isArray(value)
     ? value.length
@@ -41,6 +48,8 @@ function Slider({
           <SliderPrimitive.Thumb
             data-slot="slider-thumb"
             key={index}
+            index={index}
+            aria-label={thumbLabels?.[index] ?? props["aria-label"]}
             className="relative block size-3 shrink-0 rounded-none border border-ring bg-background alloy-raised ring-ring/50 transition-[color,box-shadow] select-none after:absolute after:-inset-2 hover:ring-2 focus-visible:ring-2 focus-visible:outline-hidden active:ring-2 disabled:pointer-events-none disabled:opacity-50"
           />
         ))}

@@ -85,7 +85,7 @@ The raised and recessed bevels compose with ring and shadow utilities.
 
 ### Motion
 
-Transitions default to 160ms on `cubic-bezier(0.16, 1, 0.3, 1)` (`ease-out`). Two components are exceptions and keep longer durations on the same `--ease-out` curve: toasts move over 500ms because they travel 150% of their height and restack, and the navigation menu moves over 350ms while its popup changes size between panels. Reduced motion makes every transition and animation immediate.
+Transitions default to 160ms on `cubic-bezier(0.16, 1, 0.3, 1)` (`ease-out`). Every component uses the `--ease-out` curve. A few keep longer durations because they travel farther: toasts (500ms) slide 150% of their height and restack, the drawer (450ms) slides a full sheet, the message scroller button (400ms) fades out of the way, and the navigation menu (350ms) resizes between panels. Reduced motion makes every transition and animation immediate.
 
 ## Typography
 
@@ -141,9 +141,9 @@ Local deviations to keep when merging upstream changes:
   - Carousel arrow keys follow `orientation` and leave text fields, selects, and controls that handle arrow keys alone.
   - Tabs and ToggleGroup pass `orientation` to Base UI, so vertical lists use Up and Down.
   - A consumer `onClick` runs alongside the built-in handler on the carousel previous and next buttons, `SidebarRail`, and `InputGroupAddon`, and a consumer `onKeyDown` runs alongside carousel arrow-key navigation.
-  - The combobox clear button and its icon-only trigger have labels.
-  - A slider without an array value renders one thumb.
-  - Calendar day buttons take focus during keyboard navigation.
+  - The combobox clear button, its icon-only trigger, and each chip's remove button ("Remove {value}") have labels.
+  - A slider without an array value renders one thumb. Each thumb gets its `index`, and a name from `thumbLabels` or the slider's `aria-label`.
+  - Calendar day buttons take focus during keyboard navigation, and the calendar formats months and `data-day` in `en-US` when no `locale` is given, so server and client agree.
   - `SidebarMenuSkeleton` derives its width from `useId` instead of `Math.random`, so server and client render the same width.
   - On mobile, `Sidebar` passes its DOM props and `className` to the sheet content instead of the non-rendering sheet root, and every `Sidebar` layout honors `dir`.
   - `ItemGroup` has no `role="list"`, since items render as plain elements, links, or buttons rather than list items.
