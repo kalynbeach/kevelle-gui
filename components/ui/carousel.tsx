@@ -81,6 +81,18 @@ function Carousel({
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
+      // Leave arrow keys to controls inside slides: text fields, selects, and
+      // widgets that handle the key themselves.
+      const target = event.target
+      if (
+        event.defaultPrevented ||
+        (target instanceof HTMLElement &&
+          (target.isContentEditable ||
+            target.matches("input, textarea, select")))
+      ) {
+        return
+      }
+
       const horizontal = orientation === "horizontal"
       if (event.key === (horizontal ? "ArrowLeft" : "ArrowUp")) {
         event.preventDefault()
@@ -124,7 +136,7 @@ function Carousel({
       }}
     >
       <div
-        onKeyDownCapture={handleKeyDown}
+        onKeyDown={handleKeyDown}
         className={cn("relative", className)}
         role="region"
         aria-roledescription="carousel"
