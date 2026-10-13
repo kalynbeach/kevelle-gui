@@ -118,6 +118,7 @@ Kevelle changes to the registry components:
 - Badge and Alert have `success` and `warning` variants.
 - Overlays dim with `bg-scrim`.
 - Indeterminate progress sweeps a third-width bar.
+- The tinted bubble uses `accent` instead of fixed-lightness tints of `--primary`.
 - `Field` is Base UI's `Field.Root`. Inside it, `FieldLabel`, `FieldDescription`, and `FieldError` use Base UI's parts, so Base UI controls get `htmlFor`, `aria-labelledby`, and `aria-describedby` automatically. Plain controls such as `Textarea` and `NativeSelect` still need `aria-describedby` by hand. Outside a `Field`, the parts render plain elements.
 
 `autocomplete`, `checkbox-group`, `form`, `meter`, `number-field`, `otp-field`, and `toolbar` wrap Base UI parts the registry does not ship. They follow the same conventions.
@@ -142,6 +143,9 @@ Local deviations to keep when merging upstream changes:
   - A consumer `onClick` runs alongside the built-in handler on the carousel previous and next buttons, `SidebarRail`, and `InputGroupAddon`, and a consumer `onKeyDown` runs alongside carousel arrow-key navigation.
   - The combobox clear button and its icon-only trigger have labels.
   - A slider without an array value renders one thumb.
+  - Calendar day buttons take focus during keyboard navigation.
+  - `InputGroupAddon` focuses a textarea as well as an input.
+  - `AspectRatio` keeps `--ratio` when given a `style`.
 
 ## Showcase
 
