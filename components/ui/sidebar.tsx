@@ -176,6 +176,7 @@ function Sidebar({
   if (collapsible === "none") {
     return (
       <div
+        dir={dir}
         data-slot="sidebar"
         className={cn(
           "flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground",
@@ -221,6 +222,7 @@ function Sidebar({
 
   return (
     <div
+      dir={dir}
       className="group peer hidden text-sidebar-foreground md:block"
       data-state={state}
       data-collapsible={state === "collapsed" ? collapsible : ""}

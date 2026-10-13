@@ -145,7 +145,7 @@ Local deviations to keep when merging upstream changes:
   - A slider without an array value renders one thumb.
   - Calendar day buttons take focus during keyboard navigation.
   - `SidebarMenuSkeleton` derives its width from `useId` instead of `Math.random`, so server and client render the same width.
-  - On mobile, `Sidebar` passes its DOM props and `className` to the sheet content instead of the non-rendering sheet root.
+  - On mobile, `Sidebar` passes its DOM props and `className` to the sheet content instead of the non-rendering sheet root, and every `Sidebar` layout honors `dir`.
   - `ItemGroup` has no `role="list"`, since items render as plain elements, links, or buttons rather than list items.
   - `InputGroupAddon` focuses a textarea as well as an input.
   - `AspectRatio` keeps `--ratio`, `ToggleGroup` keeps `--gap`, and the Sonner `Toaster` keeps its theme variables when given a `style`.
