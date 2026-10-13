@@ -196,6 +196,7 @@ function CarouselPrevious({
   className,
   variant = "outline",
   size = "icon-sm",
+  disabled,
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -213,7 +214,7 @@ function CarouselPrevious({
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
-      disabled={!canScrollPrev}
+      disabled={disabled || !canScrollPrev}
       onClick={(event) => {
         onClick?.(event)
         scrollPrev()
@@ -230,6 +231,7 @@ function CarouselNext({
   className,
   variant = "outline",
   size = "icon-sm",
+  disabled,
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -247,7 +249,7 @@ function CarouselNext({
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
-      disabled={!canScrollNext}
+      disabled={disabled || !canScrollNext}
       onClick={(event) => {
         onClick?.(event)
         scrollNext()

@@ -145,7 +145,8 @@ Local deviations to keep when merging upstream changes:
   - A slider without an array value renders one thumb.
   - Calendar day buttons take focus during keyboard navigation.
   - `InputGroupAddon` focuses a textarea as well as an input.
-  - `AspectRatio` keeps `--ratio` when given a `style`.
+  - `AspectRatio` keeps `--ratio`, and `ToggleGroup` keeps `--gap`, when given a `style`.
+  - A consumer `disabled` on the carousel previous and next buttons combines with the scroll boundary instead of replacing it.
 
 ## Showcase
 
