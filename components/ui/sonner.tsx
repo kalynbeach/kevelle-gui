@@ -10,7 +10,7 @@ import {
   SpinnerIcon,
 } from "@phosphor-icons/react"
 
-const Toaster = ({ ...props }: ToasterProps) => {
+const Toaster = ({ style, ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
 
   return (
@@ -31,6 +31,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-border": "var(--border)",
           "--border-radius": "var(--radius)",
           fontFamily: "var(--font-sans)",
+          ...style,
         } as React.CSSProperties
       }
       toastOptions={{
