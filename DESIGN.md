@@ -191,7 +191,13 @@ Local deviations to keep when merging upstream changes:
   - `AspectRatio` keeps `--ratio`, `ToggleGroup` keeps `--gap`, and the Sonner `Toaster` keeps its theme variables when given a `style`.
   - A consumer `disabled` on the carousel previous and next buttons combines with the scroll boundary instead of replacing it.
   - `CommandDialog` renders its visually hidden title and description inside `DialogContent`, so they mount with the popup instead of staying on the page while it is closed.
-  - Select, native select, combobox, dropdown menu, context menu, and menubar items use logical padding and `inset-s-*`/`inset-e-*`, so their indicators and icons follow `dir="rtl"`. `components.json` keeps `rtl: false`, so the registry ships physical classes that a merge would bring back.
+  - `InputOTPSeparator` and `ContextMenuSubContent` merge a consumer `className` with their own classes instead of replacing them.
+
+`components.json` sets `rtl: true`, and `bunx --bun shadcn@latest migrate rtl` has converted `components/ui/` to logical classes, so `shadcn add` output matches. The migration leaves these to hand edits, which are also deviations to keep:
+
+- `Sidebar` keeps physical classes on its container, rail, and inset, because its `side` prop is physical: an RTL layout uses `dir="rtl" side="right"`. Its menu actions, badges, text, and sub-menu border are logical.
+- Submenu carets, the breadcrumb separator, and the pagination carets carry `rtl:rotate-180`. The calendar already rotates its nav carets.
+- The carousel is not RTL-ready. Embla needs `opts={{ direction: "rtl" }}`, which the showcase does not set.
 
 ## Showcase
 
