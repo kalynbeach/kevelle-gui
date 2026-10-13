@@ -139,7 +139,7 @@ Local deviations to keep when merging upstream changes:
   - The checkbox shows a minus glyph and the checked fill when indeterminate.
   - Carousel arrow keys follow `orientation` and leave text fields, selects, and controls that handle arrow keys alone.
   - Tabs and ToggleGroup pass `orientation` to Base UI, so vertical lists use Up and Down.
-  - A consumer `onClick` runs alongside the built-in handler on the carousel previous and next buttons, `SidebarRail`, and `InputGroupAddon`.
+  - A consumer `onClick` runs alongside the built-in handler on the carousel previous and next buttons, `SidebarRail`, and `InputGroupAddon`, and a consumer `onKeyDown` runs alongside carousel arrow-key navigation.
   - The combobox clear button and its icon-only trigger have labels.
   - A slider without an array value renders one thumb.
 

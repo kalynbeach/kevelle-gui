@@ -52,6 +52,7 @@ function Carousel({
   plugins,
   className,
   children,
+  onKeyDown,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
   const [carouselRef, api] = useEmblaCarousel(
@@ -136,7 +137,10 @@ function Carousel({
       }}
     >
       <div
-        onKeyDown={handleKeyDown}
+        onKeyDown={(event) => {
+          onKeyDown?.(event)
+          handleKeyDown(event)
+        }}
         className={cn("relative", className)}
         role="region"
         aria-roledescription="carousel"

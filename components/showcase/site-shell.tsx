@@ -55,71 +55,78 @@ function SiteSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                isActive={pathname === "/"}
-                render={<Link href="/" onClick={close} />}
-              >
-                Overview
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Foundations</SidebarGroupLabel>
-          <SidebarGroupContent>
+        <nav aria-label="Showcase" className="flex flex-col">
+          <SidebarGroup>
             <SidebarMenu>
-              {foundations.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton
-                    isActive={pathname === item.href}
-                    render={<Link href={item.href} onClick={close} />}
-                  >
-                    {item.label}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={pathname === "/"}
+                  aria-current={pathname === "/" ? "page" : undefined}
+                  render={<Link href="/" onClick={close} />}
+                >
+                  Overview
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+          </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Components</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {componentGroups.map((group) => {
-                const current = pathname === group.href
-
-                return (
-                  <SidebarMenuItem key={group.href}>
+          <SidebarGroup>
+            <SidebarGroupLabel>Foundations</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {foundations.map((item) => (
+                  <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton
-                      isActive={current}
-                      render={<Link href={group.href} onClick={close} />}
+                      isActive={pathname === item.href}
+                      aria-current={pathname === item.href ? "page" : undefined}
+                      render={<Link href={item.href} onClick={close} />}
                     >
-                      {group.label}
+                      {item.label}
                     </SidebarMenuButton>
-                    {current ? (
-                      <SidebarMenuSub>
-                        {group.items.map((item) => (
-                          <SidebarMenuSubItem key={item.href}>
-                            <SidebarMenuSubButton
-                              render={<Link href={item.href} onClick={close} />}
-                            >
-                              {item.label}
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    ) : null}
                   </SidebarMenuItem>
-                )
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupLabel>Components</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {componentGroups.map((group) => {
+                  const current = pathname === group.href
+
+                  return (
+                    <SidebarMenuItem key={group.href}>
+                      <SidebarMenuButton
+                        isActive={current}
+                        aria-current={current ? "page" : undefined}
+                        render={<Link href={group.href} onClick={close} />}
+                      >
+                        {group.label}
+                      </SidebarMenuButton>
+                      {current ? (
+                        <SidebarMenuSub>
+                          {group.items.map((item) => (
+                            <SidebarMenuSubItem key={item.href}>
+                              <SidebarMenuSubButton
+                                render={
+                                  <Link href={item.href} onClick={close} />
+                                }
+                              >
+                                {item.label}
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      ) : null}
+                    </SidebarMenuItem>
+                  )
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </nav>
       </SidebarContent>
 
       <SidebarFooter>
