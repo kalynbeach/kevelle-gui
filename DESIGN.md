@@ -191,6 +191,7 @@ Local deviations to keep when merging upstream changes:
   - `AspectRatio` keeps `--ratio`, `ToggleGroup` keeps `--gap`, and the Sonner `Toaster` keeps its theme variables when given a `style`.
   - A consumer `disabled` on the carousel previous and next buttons combines with the scroll boundary instead of replacing it.
   - `CommandDialog` renders its visually hidden title and description inside `DialogContent`, so they mount with the popup instead of staying on the page while it is closed.
+  - Select, native select, combobox, dropdown menu, context menu, and menubar items use logical padding and `inset-s-*`/`inset-e-*`, so their indicators and icons follow `dir="rtl"`. `components.json` keeps `rtl: false`, so the registry ships physical classes that a merge would bring back.
 
 ## Showcase
 
