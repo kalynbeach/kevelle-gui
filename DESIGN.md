@@ -85,7 +85,7 @@ The raised and recessed bevels compose with ring and shadow utilities.
 
 ### Motion
 
-Transitions default to 160ms on `cubic-bezier(0.16, 1, 0.3, 1)` (`ease-out`). Reduced motion makes every transition and animation immediate.
+Transitions default to 160ms on `cubic-bezier(0.16, 1, 0.3, 1)` (`ease-out`). Toasts are the exception: they travel 150% of their height and restack, so they move over 500ms on the same `--ease-out` curve. Reduced motion makes every transition and animation immediate.
 
 ## Typography
 
@@ -145,6 +145,8 @@ Local deviations to keep when merging upstream changes:
   - A slider without an array value renders one thumb.
   - Calendar day buttons take focus during keyboard navigation.
   - `SidebarMenuSkeleton` derives its width from `useId` instead of `Math.random`, so server and client render the same width.
+  - On mobile, `Sidebar` passes its DOM props and `className` to the sheet content instead of the non-rendering sheet root.
+  - `ItemGroup` has no `role="list"`, since items render as plain elements, links, or buttons rather than list items.
   - `InputGroupAddon` focuses a textarea as well as an input.
   - `AspectRatio` keeps `--ratio`, `ToggleGroup` keeps `--gap`, and the Sonner `Toaster` keeps its theme variables when given a `style`.
   - A consumer `disabled` on the carousel previous and next buttons combines with the scroll boundary instead of replacing it.
