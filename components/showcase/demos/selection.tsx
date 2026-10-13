@@ -5,10 +5,12 @@ import * as React from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Slider } from "@/components/ui/slider"
 
+// The page is prerendered, so the calendar uses a fixed date for its
+// selection, displayed month, and today marker instead of the clock.
+const showcaseDate = new Date(2026, 9, 12)
+
 export function CalendarDemo() {
-  const [date, setDate] = React.useState<Date | undefined>(
-    () => new Date(new Date().getFullYear(), new Date().getMonth(), 12)
-  )
+  const [date, setDate] = React.useState<Date | undefined>(showcaseDate)
 
   return (
     <div className="border">
@@ -16,6 +18,7 @@ export function CalendarDemo() {
         mode="single"
         selected={date}
         onSelect={setDate}
+        today={showcaseDate}
         captionLayout="dropdown"
       />
     </div>

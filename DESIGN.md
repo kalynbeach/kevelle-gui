@@ -144,6 +144,7 @@ Local deviations to keep when merging upstream changes:
   - The combobox clear button and its icon-only trigger have labels.
   - A slider without an array value renders one thumb.
   - Calendar day buttons take focus during keyboard navigation.
+  - `SidebarMenuSkeleton` derives its width from `useId` instead of `Math.random`, so server and client render the same width.
   - `InputGroupAddon` focuses a textarea as well as an input.
   - `AspectRatio` keeps `--ratio`, `ToggleGroup` keeps `--gap`, and the Sonner `Toaster` keeps its theme variables when given a `style`.
   - A consumer `disabled` on the carousel previous and next buttons combines with the scroll boundary instead of replacing it.
