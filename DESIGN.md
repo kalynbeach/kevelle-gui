@@ -134,7 +134,12 @@ Local deviations to keep when merging upstream changes:
 - The Kevelle edits listed under Components.
 - `"use client"` on accordion, attachment, badge, breadcrumb, bubble, button-group, item, marker, and navigation-menu, which the RSC pages need.
 - Phosphor's `/ssr` entry in native-select, pagination, and spinner.
-- Fixes for upstream bugs: the checkbox shows a minus glyph and the checked fill when indeterminate; carousel arrow keys follow `orientation`, and its previous and next buttons keep scrolling when given an `onClick`; the combobox clear button and its icon-only trigger have labels; a slider without an array value renders one thumb.
+- Fixes for upstream bugs:
+  - The checkbox shows a minus glyph and the checked fill when indeterminate.
+  - Carousel arrow keys follow `orientation`.
+  - A consumer `onClick` runs alongside the built-in handler on the carousel previous and next buttons, `SidebarRail`, and `InputGroupAddon`.
+  - The combobox clear button and its icon-only trigger have labels.
+  - A slider without an array value renders one thumb.
 
 ## Showcase
 
