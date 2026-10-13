@@ -85,7 +85,7 @@ The raised and recessed bevels compose with ring and shadow utilities.
 
 ### Motion
 
-Every transition uses the `--ease-out` curve, `cubic-bezier(0.16, 1, 0.3, 1)`. A transition with no duration of its own takes 160ms. Components set longer durations as their motion covers more distance: popovers and menus 100ms, sheets and the sidebar 200ms, the navigation menu 300 to 350ms, the message scroller button 400ms, the drawer 450ms, and toasts 500ms. Reduced motion makes every transition and animation immediate.
+Every transition uses the `--ease-out` curve, `cubic-bezier(0.16, 1, 0.3, 1)`. A transition with no duration of its own takes 160ms. Components set their own durations by how far they move: popovers and menus 100ms, sheets and the sidebar 200ms, the navigation menu 300 to 350ms, the message scroller button 400ms, the drawer 450ms, and toasts 500ms. Reduced motion makes every transition and animation immediate.
 
 ## Typography
 
