@@ -1,39 +1,24 @@
 "use client"
 
-import type * as React from "react"
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card"
-
-import { cn } from "@/lib/utils"
-import { popupMotion, popupSurface } from "@/components/ui/popup"
-
-/* Kevelle Preview card. The trigger is an inline link in the color-1 role. */
+import { cn } from "cn"
 
 function HoverCard({ ...props }: PreviewCardPrimitive.Root.Props) {
   return <PreviewCardPrimitive.Root data-slot="hover-card" {...props} />
 }
 
-function HoverCardTrigger({
-  className,
-  ...props
-}: PreviewCardPrimitive.Trigger.Props) {
+function HoverCardTrigger({ ...props }: PreviewCardPrimitive.Trigger.Props) {
   return (
-    <PreviewCardPrimitive.Trigger
-      data-slot="hover-card-trigger"
-      className={cn(
-        "rounded-s font-medium text-color-1 underline decoration-color-1-transparent underline-offset-2 transition-colors hover:decoration-color-1",
-        className
-      )}
-      {...props}
-    />
+    <PreviewCardPrimitive.Trigger data-slot="hover-card-trigger" {...props} />
   )
 }
 
 function HoverCardContent({
   className,
   side = "bottom",
-  sideOffset = 6,
+  sideOffset = 4,
   align = "center",
-  alignOffset = 0,
+  alignOffset = 4,
   ...props
 }: PreviewCardPrimitive.Popup.Props &
   Pick<
@@ -47,14 +32,12 @@ function HoverCardContent({
         alignOffset={alignOffset}
         side={side}
         sideOffset={sideOffset}
-        className="z-50"
+        className="isolate z-50"
       >
         <PreviewCardPrimitive.Popup
           data-slot="hover-card-content"
           className={cn(
-            popupSurface,
-            popupMotion,
-            "flex w-2xs max-w-[min(var(--available-width),calc(100vw-var(--space-xl)),420px)] flex-col gap-xs rounded-m p-m",
+            "z-50 w-64 origin-(--transform-origin) rounded-none bg-popover p-2.5 text-sm text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-hidden duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className
           )}
           {...props}
@@ -64,33 +47,4 @@ function HoverCardContent({
   )
 }
 
-function HoverCardTitle({ className, ...props }: React.ComponentProps<"p">) {
-  return (
-    <p
-      data-slot="hover-card-title"
-      className={cn("text-m font-medium text-neutral-10", className)}
-      {...props}
-    />
-  )
-}
-
-function HoverCardDescription({
-  className,
-  ...props
-}: React.ComponentProps<"p">) {
-  return (
-    <p
-      data-slot="hover-card-description"
-      className={cn("text-s text-neutral-7", className)}
-      {...props}
-    />
-  )
-}
-
-export {
-  HoverCard,
-  HoverCardTrigger,
-  HoverCardContent,
-  HoverCardTitle,
-  HoverCardDescription,
-}
+export { HoverCard, HoverCardTrigger, HoverCardContent }

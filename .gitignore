@@ -41,3 +41,6 @@ next-env.d.ts
 # ABC Areal's license bars storing the font on public servers. Add the
 # webfont locally; see README.md.
 /public/fonts/abc-areal/*.woff2
+
+# MEKZANTINE ships without a license; keep the webfont local. See README.md.
+/public/fonts/mekzantine/*.woff2

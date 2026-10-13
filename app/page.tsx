@@ -3,37 +3,39 @@ import Link from "next/link"
 import { componentGroups, foundations } from "@/components/showcase/nav"
 import { PageHeader, Section } from "@/components/showcase/page"
 
-const linkClass =
-  "rounded-s text-s text-neutral-8 underline decoration-neutral-4 underline-offset-2 transition-colors hover:text-neutral-10 hover:decoration-neutral-7"
+const link =
+  "text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground"
 
-const swatches = [
-  ...Array.from({ length: 10 }, (_, index) => `neutral-${index + 1}`),
-  "color-1",
-  "success",
-  "warning",
-  "error",
-]
+/* The neutral ramp as a strip, canvas to ink. */
+const ramp = Array.from({ length: 10 }, (_, index) => `neutral-${index + 1}`)
 
 export default function OverviewPage() {
   return (
     <>
       <PageHeader title="Kevelle" />
 
-      <div className="grid grid-cols-7 gap-xxs sm:grid-cols-14" aria-hidden="true">
-        {swatches.map((token) => (
-          <div
+      <svg
+        className="h-10 w-full border"
+        viewBox="0 0 10 1"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        {ramp.map((token, index) => (
+          <rect
             key={token}
-            className="h-xxl rounded-s shadow-[inset_0_0_0_var(--border-s)_var(--neutral-4-transparent)]"
-            style={{ background: `var(--${token})` }}
+            x={index}
+            width="1"
+            height="1"
+            fill={`var(--${token})`}
           />
         ))}
-      </div>
+      </svg>
 
       <Section title="Foundations">
-        <ul className="grid gap-s sm:grid-cols-3">
+        <ul className="grid gap-3 sm:grid-cols-3">
           {foundations.map((item) => (
             <li key={item.href}>
-              <Link href={item.href} className={linkClass}>
+              <Link href={item.href} className={link}>
                 {item.label}
               </Link>
             </li>
@@ -42,16 +44,19 @@ export default function OverviewPage() {
       </Section>
 
       <Section title="Components">
-        <div className="grid gap-l sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3">
           {componentGroups.map((group) => (
-            <div key={group.href} className="flex flex-col gap-xs">
-              <Link href={group.href} className="w-fit rounded-s text-s font-medium text-neutral-10">
+            <div key={group.href} className="flex flex-col gap-3">
+              <Link
+                href={group.href}
+                className="w-fit type-label text-foreground"
+              >
                 {group.label}
               </Link>
-              <ul className="flex flex-col gap-xxs">
+              <ul className="flex flex-col gap-1.5">
                 {group.items.map((item) => (
                   <li key={item.href}>
-                    <Link href={item.href} className={linkClass}>
+                    <Link href={item.href} className={link}>
                       {item.label}
                     </Link>
                   </li>

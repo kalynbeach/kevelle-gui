@@ -1,8 +1,9 @@
 import * as React from "react"
+import { cn } from "cn"
 
-import { cn } from "@/lib/utils"
 import { slugify } from "@/components/showcase/nav"
 
+/* Page titles use the brand face; nothing else on the page does. */
 export function PageHeader({
   title,
   children,
@@ -11,18 +12,18 @@ export function PageHeader({
   children?: React.ReactNode
 }) {
   return (
-    <header className="flex flex-col gap-s">
-      <h1 className="font-brand text-xl font-medium text-neutral-10">
-        {title}
-      </h1>
+    <header className="flex flex-col gap-4">
+      <h1 className="type-display text-foreground">{title}</h1>
       {children ? (
-        <div className="max-w-[60ch] text-m text-neutral-8">{children}</div>
+        <div className="max-w-prose text-base text-muted-foreground">
+          {children}
+        </div>
       ) : null}
     </header>
   )
 }
 
-/* A titled block with an anchor matching the sidebar link. */
+/* A titled block on a hairline rule, with an anchor matching the sidebar. */
 export function Section({
   title,
   id = slugify(title),
@@ -40,11 +41,11 @@ export function Section({
       aria-labelledby={`${id}-title`}
       className={cn(
         // Below md the sticky header covers the top of the viewport.
-        "flex scroll-mt-[calc(var(--space-xxl)*2)] flex-col gap-l md:scroll-mt-xxl",
+        "flex scroll-mt-20 flex-col gap-6 border-t pt-6 md:scroll-mt-8",
         className
       )}
     >
-      <h2 id={`${id}-title`} className="text-l font-medium text-neutral-10">
+      <h2 id={`${id}-title`} className="text-xl font-medium text-foreground">
         {title}
       </h2>
       {children}
@@ -52,6 +53,7 @@ export function Section({
   )
 }
 
+/* Paper Mono technical heading for a group inside a section. */
 export function Subsection({
   title,
   children,
@@ -62,19 +64,15 @@ export function Subsection({
   className?: string
 }) {
   return (
-    <div className={cn("flex flex-col gap-s", className)}>
-      <h3 className="text-s font-medium text-neutral-7">{title}</h3>
+    <div className={cn("flex flex-col gap-3", className)}>
+      <h3 className="type-label text-muted-foreground">{title}</h3>
       {children}
     </div>
   )
 }
 
-/*
- * The stage that holds live components. It sits on the canvas with the
- * cte-border edge, so parts filled with neutral-2 (collapsible panels,
- * read-only inputs, disabled thumbs) stay visible.
- */
-export const stage = "rounded-m p-l ring ring-neutral-6-transparent"
+/* The frame that holds live components. */
+export const stage = "border p-6"
 
 export function Demo({
   children,
@@ -86,7 +84,7 @@ export function Demo({
   return (
     <div
       className={cn(
-        "flex min-w-0 flex-wrap items-center gap-m",
+        "flex min-w-0 flex-wrap items-center gap-4",
         stage,
         className
       )}
@@ -98,15 +96,13 @@ export function Demo({
 
 export function Prose({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex max-w-[60ch] flex-col gap-s text-s text-neutral-8">
+    <div className="flex max-w-prose flex-col gap-3 text-sm text-muted-foreground">
       {children}
     </div>
   )
 }
 
-/* Token names and values. */
+/* Token names and values in running text. */
 export function Code({ children }: { children: React.ReactNode }) {
-  return (
-    <code className="font-data text-xs text-neutral-8">{children}</code>
-  )
+  return <code className="font-mono text-xs text-foreground">{children}</code>
 }

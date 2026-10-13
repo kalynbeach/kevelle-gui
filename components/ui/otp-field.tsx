@@ -1,34 +1,30 @@
 "use client"
 
 import { OTPField as OTPFieldPrimitive } from "@base-ui/react/otp-field"
-
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 /*
- * Kevelle OTP field. Each slot is control-xl wide with xs vertical padding,
- * on the raised neutral-1 surface with an s shadow. A complete code keeps the
- * color-1 edge; invalid uses error.
+ * Base UI's OTP field, which needs no extra dependency. InputOTP is the
+ * registry alternative built on the input-otp package. Slots are recessed
+ * text fields with Departure Mono digits.
  */
 
 function OTPField({ className, ...props }: OTPFieldPrimitive.Root.Props) {
   return (
     <OTPFieldPrimitive.Root
       data-slot="otp-field"
-      className={cn("group/otp flex items-center gap-xs", className)}
+      className={cn("flex items-center gap-1.5", className)}
       {...props}
     />
   )
 }
 
-function OTPFieldInput({
-  className,
-  ...props
-}: OTPFieldPrimitive.Input.Props) {
+function OTPFieldInput({ className, ...props }: OTPFieldPrimitive.Input.Props) {
   return (
     <OTPFieldPrimitive.Input
       data-slot="otp-field-input"
       className={cn(
-        "w-control-xl min-w-0 shrink-0 rounded-s bg-neutral-1 py-xs text-center font-ui text-s font-medium text-neutral-10 tabular-nums shadow-s ring ring-neutral-4 transition-[background-color,box-shadow] hover:ring-neutral-5 focus-visible:ring-color-1 data-complete:ring-color-1 data-invalid:ring-error dark:ring-inset data-disabled:bg-neutral-2 data-disabled:text-neutral-6 data-disabled:shadow-none",
+        "size-9 min-w-0 shrink-0 rounded-none border border-input bg-transparent alloy-recessed text-center type-pixel-2x transition-colors outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 data-invalid:border-destructive data-invalid:ring-2 data-invalid:ring-destructive/20 dark:bg-input/30 data-disabled:pointer-events-none data-disabled:opacity-50",
         className
       )}
       {...props}
@@ -36,7 +32,6 @@ function OTPFieldInput({
   )
 }
 
-/* A one-sided divider at the border-s width, xs wide. */
 function OTPFieldSeparator({
   className,
   ...props
@@ -44,10 +39,7 @@ function OTPFieldSeparator({
   return (
     <OTPFieldPrimitive.Separator
       data-slot="otp-field-separator"
-      className={cn(
-        "h-(--border-s) w-xs shrink-0 shadow-[inset_0_var(--border-s)_0_0_var(--neutral-4)]",
-        className
-      )}
+      className={cn("h-px w-2 shrink-0 bg-border", className)}
       {...props}
     />
   )

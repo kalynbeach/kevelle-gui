@@ -1,34 +1,24 @@
 "use client"
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
+import { cn } from "cn"
 import { CheckIcon, MinusIcon } from "@phosphor-icons/react"
 
-import { cn } from "@/lib/utils"
-
-/*
- * Kevelle Checkbox: a raised control-m box with a solid neutral-4 edge that
- * fills with color-1 when checked. The ::after expands the hit area.
- */
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer relative flex size-control-m shrink-0 cursor-pointer items-center justify-center rounded-xs bg-neutral-1 text-neutral-1 ring ring-neutral-4 inset-shadow-raised surface-raised transition-[background-color,box-shadow] after:absolute after:-inset-xs hover:ring-neutral-5 focus-visible:ring-color-1-transparent data-checked:bg-color-1 data-checked:ring-inset data-checked:ring-color-1-transparent data-indeterminate:bg-color-1 data-indeterminate:ring-inset data-indeterminate:ring-color-1-transparent dark:ring-inset data-disabled:cursor-default data-disabled:bg-neutral-3 data-disabled:bg-none data-disabled:text-neutral-6 data-disabled:inset-shadow-none",
+        "peer relative flex size-4 shrink-0 items-center justify-center rounded-none border border-input alloy-raised transition-colors outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-checked:border-input after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-indeterminate:border-primary data-indeterminate:bg-primary data-indeterminate:text-primary-foreground group-has-[:focus-visible]/field-label:data-indeterminate:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 dark:data-indeterminate:bg-primary data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary",
         className
       )}
       {...props}
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
-        keepMounted
-        className="flex size-full items-center justify-center data-unchecked:hidden [&>svg]:size-[85%]"
+        className="grid place-content-center text-current transition-none [&>svg]:size-3.5"
       >
-        {props.indeterminate ? (
-          <MinusIcon />
-        ) : (
-          <CheckIcon />
-        )}
+        {props.indeterminate ? <MinusIcon /> : <CheckIcon />}
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )

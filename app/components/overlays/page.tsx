@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
-import { CopyIcon, DownloadSimpleIcon, TrashIcon } from "@phosphor-icons/react/ssr"
+import { TrashIcon } from "@phosphor-icons/react/ssr"
 
-import { Button } from "@/components/ui/button"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,9 +9,12 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogMedia,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogClose,
@@ -33,29 +35,40 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
-import { Field, FieldLabel } from "@/components/ui/field"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import {
   HoverCard,
   HoverCardContent,
-  HoverCardDescription,
-  HoverCardTitle,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 import { Input } from "@/components/ui/input"
 import {
   Popover,
-  PopoverClose,
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import { ToastDemo } from "@/components/showcase/demos/overlays"
-import { Demo, PageHeader, Section } from "@/components/showcase/page"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Slider } from "@/components/ui/slider"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { Kbd } from "@/components/ui/kbd"
+import { SonnerDemo, ToastDemo } from "@/components/showcase/demos/overlays"
+import { Demo, PageHeader, Prose, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Overlays" }
 
@@ -67,18 +80,27 @@ export default function OverlaysPage() {
       <Section title="Dialog">
         <Demo>
           <Dialog>
-            <DialogTrigger render={<Button variant="outline" />}>Rename track</DialogTrigger>
+            <DialogTrigger render={<Button variant="outline" />}>
+              Rename session
+            </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Rename track</DialogTitle>
-                <DialogDescription>The new name appears in the mixer and in exports.</DialogDescription>
+                <DialogTitle>Rename session</DialogTitle>
+                <DialogDescription>
+                  The folder on disk is renamed too.
+                </DialogDescription>
               </DialogHeader>
-              <Field>
-                <FieldLabel>Name</FieldLabel>
-                <Input defaultValue="Bass DI" />
-              </Field>
-              <DialogFooter showCloseButton>
-                <DialogClose render={<Button />}>Save</DialogClose>
+              <FieldGroup>
+                <Field>
+                  <FieldLabel htmlFor="dialog-name">Name</FieldLabel>
+                  <Input id="dialog-name" defaultValue="Night drive" />
+                </Field>
+              </FieldGroup>
+              <DialogFooter>
+                <DialogClose render={<Button variant="outline" />}>
+                  Cancel
+                </DialogClose>
+                <DialogClose render={<Button />}>Rename</DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -88,40 +110,88 @@ export default function OverlaysPage() {
       <Section title="Alert dialog">
         <Demo>
           <AlertDialog>
-            <AlertDialogTrigger render={<Button variant="outline" />}>Delete project</AlertDialogTrigger>
+            <AlertDialogTrigger render={<Button variant="destructive" />}>
+              Delete take
+            </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Delete Night drive?</AlertDialogTitle>
+                <AlertDialogMedia>
+                  <TrashIcon />
+                </AlertDialogMedia>
+                <AlertDialogTitle>Delete take 3?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This removes 14 tracks and their recordings. It cannot be undone.
+                  The audio file is removed from the session folder. This cannot
+                  be undone.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction variant="danger">Delete project</AlertDialogAction>
+                <AlertDialogCancel>Keep take</AlertDialogCancel>
+                <AlertDialogAction variant="destructive">
+                  Delete
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </Demo>
       </Section>
 
+      <Section title="Sheet">
+        <Demo>
+          {(["right", "left", "bottom"] as const).map((side) => (
+            <Sheet key={side}>
+              <SheetTrigger render={<Button variant="outline" />}>
+                {side === "bottom"
+                  ? "Bottom"
+                  : side === "left"
+                    ? "Left"
+                    : "Right"}
+              </SheetTrigger>
+              <SheetContent side={side}>
+                <SheetHeader>
+                  <SheetTitle>Track settings</SheetTitle>
+                  <SheetDescription>Bass DI, input 3.</SheetDescription>
+                </SheetHeader>
+                <div className="px-4">
+                  <FieldGroup>
+                    <Field>
+                      <FieldLabel htmlFor={`sheet-name-${side}`}>
+                        Name
+                      </FieldLabel>
+                      <Input id={`sheet-name-${side}`} defaultValue="Bass DI" />
+                    </Field>
+                  </FieldGroup>
+                </div>
+                <SheetFooter>
+                  <SheetClose render={<Button />}>Save</SheetClose>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+          ))}
+        </Demo>
+      </Section>
+
       <Section title="Drawer">
         <Demo>
           <Drawer>
-            <DrawerTrigger render={<Button variant="outline" />}>Export settings</DrawerTrigger>
+            <DrawerTrigger render={<Button variant="outline" />}>
+              Open mixer
+            </DrawerTrigger>
             <DrawerContent>
               <DrawerHeader>
-                <DrawerTitle>Export settings</DrawerTitle>
-                <DrawerDescription>Applies to the next export only.</DrawerDescription>
+                <DrawerTitle>Mixer</DrawerTitle>
+                <DrawerDescription>Swipe down to close.</DrawerDescription>
               </DrawerHeader>
-              <Label className="font-regular">
-                <Switch defaultChecked />
-                Normalize loudness
-              </Label>
-              <DrawerFooter showCloseButton>
-                <DrawerClose render={<Button />}>
-                  <DownloadSimpleIcon />
-                  Export
+              <div className="flex flex-col gap-6 p-4">
+                {["Drums", "Bass", "Keys"].map((bus) => (
+                  <div key={bus} className="flex items-center gap-4">
+                    <span className="w-16 text-sm">{bus}</span>
+                    <Slider aria-label={`${bus} level`} defaultValue={[70]} />
+                  </div>
+                ))}
+              </div>
+              <DrawerFooter>
+                <DrawerClose render={<Button variant="outline" />}>
+                  Done
                 </DrawerClose>
               </DrawerFooter>
             </DrawerContent>
@@ -132,64 +202,83 @@ export default function OverlaysPage() {
       <Section title="Popover">
         <Demo>
           <Popover>
-            <PopoverTrigger render={<Button variant="outline" />}>Share</PopoverTrigger>
-            <PopoverContent>
+            <PopoverTrigger render={<Button variant="outline" />}>
+              Loop length
+            </PopoverTrigger>
+            <PopoverContent align="start">
               <PopoverHeader>
-                <PopoverTitle>Share mix</PopoverTitle>
-                <PopoverDescription>Anyone with the link can listen.</PopoverDescription>
+                <PopoverTitle>Loop length</PopoverTitle>
+                <PopoverDescription>
+                  In bars, from the playhead.
+                </PopoverDescription>
               </PopoverHeader>
-              <div className="flex gap-xs">
-                <Input readOnly defaultValue="kevelle.studio/m/4821" aria-label="Link" />
-                <PopoverClose render={<Button aria-label="Copy link" size="icon" />}>
-                  <CopyIcon />
-                </PopoverClose>
-              </div>
+              <Field orientation="horizontal">
+                <FieldLabel htmlFor="popover-bars">Bars</FieldLabel>
+                <Input id="popover-bars" type="number" defaultValue={8} />
+              </Field>
             </PopoverContent>
           </Popover>
         </Demo>
       </Section>
 
-      <Section title="Preview card">
+      <Section title="Hover card">
         <Demo>
-          <p className="text-s text-neutral-8">
-            Data text is set in{" "}
-            <HoverCard>
-              <HoverCardTrigger href="https://github.com/paper-design/paper-mono">
-                Paper Mono
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <HoverCardTitle>Paper Mono</HoverCardTitle>
-                <HoverCardDescription>
-                  A monospace family from Paper, based on Geist Mono. Released under the SIL
-                  Open Font License 1.1.
-                </HoverCardDescription>
-              </HoverCardContent>
-            </HoverCard>
-            .
-          </p>
+          <HoverCard>
+            <HoverCardTrigger
+              render={<Button variant="link" />}
+              delay={100}
+              closeDelay={100}
+            >
+              @kevelle
+            </HoverCardTrigger>
+            <HoverCardContent>
+              <div className="flex gap-3">
+                <Avatar>
+                  <AvatarFallback>KB</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm font-medium">Kevelle</span>
+                  <span className="text-sm text-muted-foreground">
+                    Sound and software. 41 sessions.
+                  </span>
+                </div>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
         </Demo>
       </Section>
 
       <Section title="Tooltip">
         <Demo>
           <Tooltip>
-            <TooltipTrigger render={<Button variant="ghost" size="icon" aria-label="Copy" />}>
-              <CopyIcon />
+            <TooltipTrigger render={<Button variant="outline" />}>
+              Record
             </TooltipTrigger>
-            <TooltipContent>Copy</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger render={<Button variant="ghost" size="icon" aria-label="Delete track" />}>
-              <TrashIcon />
-            </TooltipTrigger>
-            <TooltipContent>Delete track</TooltipContent>
+            <TooltipContent>
+              Arm and record <Kbd>R</Kbd>
+            </TooltipContent>
           </Tooltip>
         </Demo>
       </Section>
 
       <Section title="Toast">
+        <Prose>
+          <p>Base UI toasts, the default for this project.</p>
+        </Prose>
         <Demo>
           <ToastDemo />
+        </Demo>
+      </Section>
+
+      <Section title="Sonner">
+        <Prose>
+          <p>
+            The registry&apos;s Sonner toaster, themed with the popover role.
+            Use Toast unless a feature depends on Sonner&apos;s API.
+          </p>
+        </Prose>
+        <Demo>
+          <SonnerDemo />
         </Demo>
       </Section>
     </>
