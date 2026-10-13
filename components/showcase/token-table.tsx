@@ -3,7 +3,10 @@
 import * as React from "react"
 import { cn } from "cn"
 
-import { useTokenValues } from "@/components/showcase/live-token"
+import {
+  useTokenValues,
+  useUtilityValues,
+} from "@/components/showcase/live-token"
 
 export type TokenRow = {
   /* The custom property, without the leading dashes. */
@@ -12,11 +15,27 @@ export type TokenRow = {
   utility: string
   preview: React.ReactNode
   use?: string
+  /*
+   * When set, the value column shows what the utility computes for this
+   * property instead of the custom property's text.
+   */
+  property?: string
 }
 
 /* Token name, live value, specimen, and where Kevelle uses it. */
 export function TokenTable({ rows }: { rows: readonly TokenRow[] }) {
-  const values = useTokenValues(rows.map((row) => `--${row.token}`))
+  const tokens = useTokenValues(rows.map((row) => `--${row.token}`))
+
+  const computed = useUtilityValues(
+    rows.map((row) => ({
+      className: row.property ? row.utility : "",
+      property: row.property ?? "",
+    }))
+  )
+
+  const values = rows.map((row, index) =>
+    row.property ? computed[index] : tokens[index]
+  )
 
   return (
     <div className="flex flex-col">

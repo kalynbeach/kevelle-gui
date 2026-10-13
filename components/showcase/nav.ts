@@ -24,6 +24,7 @@ export const foundations: NavItem[] = [
   { label: "Typography", href: "/foundations/typography" },
   { label: "Spacing", href: "/foundations/spacing" },
   { label: "Radius and elevation", href: "/foundations/shape" },
+  { label: "Dither", href: "/foundations/dither" },
   { label: "Motion", href: "/foundations/motion" },
   { label: "Icons", href: "/foundations/icons" },
 ]

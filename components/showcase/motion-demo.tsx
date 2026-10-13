@@ -12,7 +12,7 @@ export function MotionDemo() {
 
   return (
     <Demo className="flex-col items-stretch">
-      <div className="relative h-8 bg-dither text-muted-foreground/40">
+      <div className="relative h-8 dither-50 text-muted-foreground/40">
         <div
           className={cn(
             "absolute inset-y-0 left-0 w-8 bg-primary transition-all",

@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
 import { Switch } from "@/components/ui/switch"
 import {
   Demo,
@@ -18,44 +17,26 @@ export const metadata: Metadata = { title: "Radius and elevation" }
 
 const block = "h-10 w-24 border bg-muted"
 
-const radii = [
-  {
-    token: "radius-xs",
-    utility: "rounded-xs",
-    preview: <div className={`${block} rounded-xs`} />,
-    use: "Square controls",
-  },
-  {
-    token: "radius-sm",
-    utility: "rounded-sm",
-    preview: <div className={`${block} rounded-sm`} />,
-    use: "Keys and small accents",
-  },
-  {
-    token: "radius-md",
-    utility: "rounded-md",
-    preview: <div className={`${block} rounded-md`} />,
-    use: "Menu and list items",
-  },
-  {
-    token: "radius-lg",
-    utility: "rounded-lg",
-    preview: <div className={`${block} rounded-lg`} />,
-    use: "Buttons, inputs, popovers",
-  },
-  {
-    token: "radius-xl",
-    utility: "rounded-xl",
-    preview: <div className={`${block} rounded-xl`} />,
-    use: "Cards and dialogs",
-  },
-  {
-    token: "radius-2xl",
-    utility: "rounded-2xl",
-    preview: <div className={`${block} rounded-2xl`} />,
-    use: "Toasts",
-  },
-]
+/* Utilities stay literal so Tailwind generates them. */
+const radii = (
+  [
+    ["radius-none", "rounded-none", "Components and surfaces"],
+    ["radius-xs", "rounded-xs"],
+    ["radius-sm", "rounded-sm"],
+    ["radius-md", "rounded-md"],
+    ["radius-lg", "rounded-lg"],
+    ["radius-xl", "rounded-xl"],
+    ["radius-2xl", "rounded-2xl"],
+    ["radius-3xl", "rounded-3xl"],
+    ["radius-4xl", "rounded-4xl"],
+  ] as const
+).map(([token, utility, use]) => ({
+  token,
+  utility,
+  preview: <div className={`${block} ${utility}`} />,
+  use,
+  property: "border-top-left-radius",
+}))
 
 const surface = "h-12 w-24 bg-card ring-1 ring-foreground/10"
 
@@ -88,9 +69,10 @@ export default function RadiusElevationPage() {
       <Section title="Radius">
         <Prose>
           <p>
-            One knob, --radius at 2px, sets every step in whole pixels.
-            Checkboxes, switches, avatars, badges, and progress tracks are
-            square.
+            Components are square: they use rounded-none. Radio buttons, scroll
+            area thumbs, and the drawer handle stay round. The ramp is there for
+            elements that opt into rounding. One knob, --radius at 8px, sets
+            every step in whole pixels.
           </p>
         </Prose>
         <TokenTable rows={radii} />
@@ -112,8 +94,7 @@ export default function RadiusElevationPage() {
           <p>
             Kevelle&apos;s machined surfaces. Filled buttons carry a lit top
             edge and a shaded base. Checkboxes, switch thumbs, and select
-            triggers are raised; text fields are recessed. Meter and progress
-            tracks are dithered.
+            triggers are raised; text fields are recessed.
           </p>
         </Prose>
         <div className="grid gap-6 md:grid-cols-3">
@@ -136,11 +117,6 @@ export default function RadiusElevationPage() {
             </Demo>
           </Subsection>
         </div>
-        <Subsection title="bg-dither">
-          <Demo>
-            <Progress value={34} aria-label="Disk usage" className="w-full" />
-          </Demo>
-        </Subsection>
       </Section>
     </>
   )

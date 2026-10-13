@@ -34,7 +34,7 @@ function Meter({
       {children}
       <MeterPrimitive.Track
         data-slot="meter-track"
-        className="relative h-2 w-full overflow-hidden rounded-none bg-dither text-muted-foreground/50"
+        className="relative h-2 w-full overflow-hidden rounded-none dither-50 text-muted-foreground/50"
       >
         <MeterPrimitive.Indicator
           data-slot="meter-indicator"

@@ -96,15 +96,19 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Whole pixels from one knob, so edges stay crisp. */
-  --radius-xs: 0px;
+  /*
+   * Components are square: they use rounded-none. The ramp is for elements
+   * that opt into rounding, in whole pixels from one knob.
+   */
+  --radius-none: 0px;
+  --radius-xs: calc(var(--radius) * 0.25);
   --radius-sm: calc(var(--radius) * 0.5);
-  --radius-md: var(--radius);
+  --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.5);
   --radius-2xl: calc(var(--radius) * 2);
-  --radius-3xl: calc(var(--radius) * 2);
-  --radius-4xl: calc(var(--radius) * 3);
+  --radius-3xl: calc(var(--radius) * 3);
+  --radius-4xl: calc(var(--radius) * 4);
 }
 
 @theme {
@@ -120,17 +124,17 @@
   --font-heading: var(--font-sans);
 
   /* Hairline system: inputs and outline buttons draw edges, not shadows. */
-  --shadow-2xs: 0 0 #0000;
-  --shadow-xs: 0 0 #0000;
+  --shadow-2xs: 0 0 transparent;
+  --shadow-xs: 0 0 transparent;
   --shadow-sm:
-    0 0.25px 0.75px 0 color-mix(in oklab, var(--shadow-color) 5%, transparent),
-    0 1px 3px 0 color-mix(in oklab, var(--shadow-color) 8%, transparent);
+    0 0.25px 0.75px 0 color-mix(in oklch, var(--shadow-color) 5%, transparent),
+    0 1px 3px 0 color-mix(in oklch, var(--shadow-color) 8%, transparent);
   --shadow-md:
-    0 1px 4px 0 color-mix(in oklab, var(--shadow-color) 4%, transparent),
-    0 4px 16px 0 color-mix(in oklab, var(--shadow-color) 6%, transparent);
+    0 1px 4px 0 color-mix(in oklch, var(--shadow-color) 4%, transparent),
+    0 4px 16px 0 color-mix(in oklch, var(--shadow-color) 6%, transparent);
   --shadow-lg:
-    0 3px 9px 0 color-mix(in oklab, var(--shadow-color) 6%, transparent),
-    0 12px 36px 0 color-mix(in oklab, var(--shadow-color) 9%, transparent);
+    0 3px 9px 0 color-mix(in oklch, var(--shadow-color) 6%, transparent),
+    0 12px 36px 0 color-mix(in oklch, var(--shadow-color) 9%, transparent);
   --shadow-xl: var(--shadow-lg);
   --shadow-2xl: var(--shadow-lg);
 
@@ -153,7 +157,7 @@
 }
 
 :root {
-  --radius: 2px;
+  --radius: 8px;
 
   /*
    * Neutral ramp. Semantic roles below pick steps from it; components use
@@ -184,24 +188,44 @@
   --muted-foreground: var(--neutral-7);
   --accent: var(--neutral-3);
   --accent-foreground: var(--neutral-10);
-  --destructive: oklch(0.546 0.164 22.3);
+  /*
+   * Status and signal colors take a hue from the KKB Palette, the lightness
+   * their role needs for contrast, and the most chroma sRGB allows at that
+   * lightness. Status colors also color text, so they clear 4.5:1 on the
+   * canvas and on their badge tint.
+   */
+  --destructive: oklch(0.54 0.22 28);
   --destructive-foreground: var(--neutral-1);
-  --success: oklch(0.496 0.103 155.5);
+  --success: oklch(0.51 0.147 148);
   --success-foreground: var(--neutral-1);
-  --warning: oklch(0.544 0.103 72.8);
+  --warning: oklch(0.535 0.121 64);
   --warning-foreground: var(--neutral-1);
   --border: var(--neutral-4);
   --input: var(--neutral-5);
   --ring: var(--neutral-7);
-  /* Dims the page behind modal overlays. */
-  --scrim: oklch(0 0 0 / 0.2);
+  /*
+   * Dims the page behind modal overlays. Overlays lay a 50% dither of the
+   * same color over the fill, so the average dim is about 20%.
+   */
+  --scrim: oklch(0 0 0 / 0.14);
 
-  /* Signal colors for data: phosphor, astral, amber, scarlet, magenta. */
-  --chart-1: oklch(0.575 0.166 145.6);
-  --chart-2: oklch(0.45 0.31 264.1);
-  --chart-3: oklch(0.675 0.139 79.9);
-  --chart-4: oklch(0.575 0.235 29.2);
-  --chart-5: oklch(0.59 0.25 325);
+  /*
+   * Signal colors from the KKB Images boards: oscilloscope phosphor, starry
+   * astral blue, and the flame's orange, magenta, and chrome. Charts read
+   * them through chart-1 to chart-5 and need 3:1 on the canvas. Astral leads
+   * in light mode and phosphor leads in dark mode.
+   */
+  --phosphor: oklch(0.62 0.195 145);
+  --astral: oklch(0.5 0.28 264.3);
+  --flame: oklch(0.64 0.182 45);
+  --magenta: oklch(0.58 0.271 325);
+  --chrome: oklch(0.665 0.137 80);
+
+  --chart-1: var(--astral);
+  --chart-2: var(--phosphor);
+  --chart-3: var(--flame);
+  --chart-4: var(--magenta);
+  --chart-5: var(--chrome);
 
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
@@ -220,34 +244,34 @@
    */
   --alloy-raised-image: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--neutral-1) 12%, transparent) 0%,
+    color-mix(in oklch, var(--neutral-1) 12%, transparent) 0%,
     transparent 48%,
-    color-mix(in oklab, var(--neutral-10) 5%, transparent) 100%
+    color-mix(in oklch, var(--neutral-10) 5%, transparent) 100%
   );
   --alloy-raised-shadow:
-    inset 0 1px 0 0 color-mix(in oklab, var(--neutral-1) 70%, transparent),
-    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-10) 16%, transparent);
+    inset 0 1px 0 0 color-mix(in oklch, var(--neutral-1) 70%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklch, var(--neutral-10) 16%, transparent);
   --alloy-recessed-image: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--neutral-10) 5%, transparent) 0%,
+    color-mix(in oklch, var(--neutral-10) 5%, transparent) 0%,
     transparent 55%
   );
   --alloy-recessed-shadow:
-    inset 0 1px 2px 0 color-mix(in oklab, var(--neutral-10) 8%, transparent),
-    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-1) 35%, transparent);
+    inset 0 1px 2px 0 color-mix(in oklch, var(--neutral-10) 8%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklch, var(--neutral-1) 35%, transparent);
   --alloy-action-image: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--neutral-1) 12%, transparent) 0%,
-    color-mix(in oklab, var(--neutral-10) 5%, transparent) 100%
+    color-mix(in oklch, var(--neutral-1) 12%, transparent) 0%,
+    color-mix(in oklch, var(--neutral-10) 5%, transparent) 100%
   );
   --alloy-action-shadow:
-    inset 0 1px 0 0 color-mix(in oklab, var(--neutral-1) 70%, transparent),
-    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-10) 16%, transparent),
-    inset 0 0 0 1px color-mix(in oklab, var(--neutral-1) 18%, transparent);
+    inset 0 1px 0 0 color-mix(in oklch, var(--neutral-1) 70%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklch, var(--neutral-10) 16%, transparent),
+    inset 0 0 0 1px color-mix(in oklch, var(--neutral-1) 18%, transparent);
 }
 
 .dark {
-  /* Dark runs from a #030303 canvas to #fafafa ink. */
+  /* Dark runs from a near-black canvas to near-white ink. */
   --neutral-1: oklch(0.097 0 0);
   --neutral-2: oklch(0.142 0.006 286);
   --neutral-3: oklch(0.189 0.007 285.9);
@@ -273,22 +297,29 @@
   --muted-foreground: var(--neutral-7);
   --accent: var(--neutral-4);
   --accent-foreground: var(--neutral-10);
-  --destructive: oklch(0.789 0.102 15);
+  --destructive: oklch(0.67 0.217 27);
   --destructive-foreground: var(--neutral-1);
-  --success: oklch(0.816 0.091 158.5);
+  --success: oklch(0.8 0.231 148);
   --success-foreground: var(--neutral-1);
-  --warning: oklch(0.829 0.1 84.7);
+  --warning: oklch(0.84 0.163 82);
   --warning-foreground: var(--neutral-1);
   --border: var(--neutral-4);
   --input: var(--neutral-5);
   --ring: var(--neutral-7);
-  --scrim: oklch(0 0 0 / 0.7);
+  /* With the dither layer, the average dim is about 70%. */
+  --scrim: oklch(0 0 0 / 0.59);
 
-  --chart-1: oklch(0.803 0.234 146.9);
-  --chart-2: oklch(0.625 0.202 260);
-  --chart-3: oklch(0.825 0.168 91.3);
-  --chart-4: oklch(0.725 0.141 27.6);
-  --chart-5: oklch(0.675 0.223 324.1);
+  --phosphor: oklch(0.86 0.262 146);
+  --astral: oklch(0.64 0.192 262);
+  --flame: oklch(0.72 0.19 50);
+  --magenta: oklch(0.69 0.304 325);
+  --chrome: oklch(0.89 0.182 96);
+
+  --chart-1: var(--phosphor);
+  --chart-2: var(--astral);
+  --chart-3: var(--flame);
+  --chart-4: var(--magenta);
+  --chart-5: var(--chrome);
 
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
@@ -303,30 +334,30 @@
 
   --alloy-raised-image: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--neutral-10) 10%, transparent) 0%,
+    color-mix(in oklch, var(--neutral-10) 10%, transparent) 0%,
     transparent 48%,
-    color-mix(in oklab, var(--neutral-1) 12%, transparent) 100%
+    color-mix(in oklch, var(--neutral-1) 12%, transparent) 100%
   );
   --alloy-raised-shadow:
-    inset 0 1px 0 0 color-mix(in oklab, var(--neutral-10) 24%, transparent),
-    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-1) 24%, transparent);
+    inset 0 1px 0 0 color-mix(in oklch, var(--neutral-10) 24%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklch, var(--neutral-1) 24%, transparent);
   --alloy-recessed-image: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--neutral-1) 12%, transparent) 0%,
+    color-mix(in oklch, var(--neutral-1) 12%, transparent) 0%,
     transparent 55%
   );
   --alloy-recessed-shadow:
-    inset 0 1px 2px 0 color-mix(in oklab, var(--neutral-1) 20%, transparent),
-    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-10) 12%, transparent);
+    inset 0 1px 2px 0 color-mix(in oklch, var(--neutral-1) 20%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklch, var(--neutral-10) 12%, transparent);
   --alloy-action-image: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--neutral-10) 10%, transparent) 0%,
-    color-mix(in oklab, var(--neutral-1) 12%, transparent) 100%
+    color-mix(in oklch, var(--neutral-10) 10%, transparent) 0%,
+    color-mix(in oklch, var(--neutral-1) 12%, transparent) 100%
   );
   --alloy-action-shadow:
-    inset 0 1px 0 0 color-mix(in oklab, var(--neutral-10) 24%, transparent),
-    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-1) 24%, transparent),
-    inset 0 0 0 1px color-mix(in oklab, var(--neutral-10) 6%, transparent);
+    inset 0 1px 0 0 color-mix(in oklch, var(--neutral-10) 24%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklch, var(--neutral-1) 24%, transparent),
+    inset 0 0 0 1px color-mix(in oklch, var(--neutral-10) 6%, transparent);
 }
 
 /*
@@ -416,14 +447,45 @@
   }
 }
 
-/* A 1px checkerboard in the current color, for meter and progress tracks. */
-@utility bg-dither {
+/*
+ * Ordered dither: 1px pixels in the current color at four densities. Each
+ * density lights a superset of the pixels below it, so adjacent steps line
+ * up. They set background-image, so they combine with bg-* fills but not
+ * with alloy surfaces. They are not bg-* utilities so cn() never merges them
+ * away as colors.
+ */
+
+/* 1 pixel in 8: faint grain. */
+@utility dither-12 {
+  background-image:
+    conic-gradient(at 1px 1px, transparent 75%, currentColor 0),
+    conic-gradient(at 1px 1px, transparent 75%, currentColor 0);
+  background-position:
+    1px 0,
+    3px 2px;
+  background-size: 4px 4px;
+}
+
+/* 1 pixel in 4: chart areas. */
+@utility dither-25 {
+  background-image: conic-gradient(currentColor 25%, transparent 0);
+  background-size: 2px 2px;
+}
+
+/* A checkerboard: tracks, skeletons, and modal scrims. */
+@utility dither-50 {
   background-image: conic-gradient(
     currentColor 25%,
     transparent 0 50%,
     currentColor 0 75%,
     transparent 0
   );
+  background-size: 2px 2px;
+}
+
+/* 3 pixels in 4: the dense step before solid. */
+@utility dither-75 {
+  background-image: conic-gradient(currentColor 75%, transparent 0);
   background-size: 2px 2px;
 }
 

@@ -1,6 +1,10 @@
 import type { Metadata } from "next"
 
-import { ContrastPair, SwatchGrid } from "@/components/showcase/color"
+import {
+  ContrastPair,
+  SignalGrid,
+  SwatchGrid,
+} from "@/components/showcase/color"
 import { PageHeader, Prose, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Color" }
@@ -32,7 +36,7 @@ const ink = [
 
 const status = ["destructive", "success", "warning"]
 
-const charts = ["chart-1", "chart-2", "chart-3", "chart-4", "chart-5"]
+const signals = ["phosphor", "astral", "flame", "magenta", "chrome"]
 
 const pairs = [
   ["foreground", "background", "Titles and body text"],
@@ -55,10 +59,14 @@ export default function ColorPage() {
       <Section title="Neutral ramp">
         <Prose>
           <p>
-            Ten steps from canvas to ink. Dark mode starts at #030303 and ends
-            at #fafafa; light mode runs from white to #030303. The middle steps
-            carry a slight cool tint. Components never use the ramp directly;
-            the roles below pick steps from it.
+            Ten steps from canvas to ink: white to near-black in light mode,
+            near-black to near-white in dark mode. The middle steps carry a
+            slight cool tint. Components never use the ramp directly; the roles
+            below pick steps from it.
+          </p>
+          <p>
+            Values are OKLCH as written in the theme, with sRGB hex for
+            convenience.
           </p>
         </Prose>
         <SwatchGrid tokens={neutrals} />
@@ -76,17 +84,28 @@ export default function ColorPage() {
       </Section>
 
       <Section title="Status">
+        <Prose>
+          <p>
+            Destructive is scarlet, success is phosphor, and warning is amber,
+            each with the most chroma sRGB allows at its lightness. They also
+            color text, so each clears 4.5:1 on the canvas.
+          </p>
+        </Prose>
         <SwatchGrid tokens={status} />
       </Section>
 
-      <Section title="Charts">
+      <Section title="Signal">
         <Prose>
           <p>
-            Signal colors for data series only: phosphor, astral, amber,
-            scarlet, and magenta. They do not mark status.
+            From the KKB Images boards: oscilloscope phosphor, starry astral
+            blue, and the flame&apos;s orange, magenta, and chrome. Each keeps
+            its family&apos;s hue from the KKB Palette and takes the most chroma
+            sRGB allows at its lightness. Charts read them through chart-1 to
+            chart-5. Astral leads in light mode and phosphor in dark mode.
           </p>
+          <p>Use them for data series. They do not mark status.</p>
         </Prose>
-        <SwatchGrid tokens={charts} />
+        <SignalGrid tokens={signals} />
       </Section>
 
       <Section title="Contrast">

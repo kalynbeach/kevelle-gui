@@ -27,7 +27,7 @@ function NumberFieldGroup({
     <NumberFieldPrimitive.Group
       data-slot="number-field-group"
       className={cn(
-        "flex h-8 w-fit items-stretch overflow-hidden rounded-lg border border-input alloy-recessed transition-colors has-focus-visible:border-ring has-focus-visible:ring-2 has-focus-visible:ring-ring/50 has-aria-invalid:border-destructive has-aria-invalid:ring-2 has-aria-invalid:ring-destructive/20 dark:bg-input/30 data-disabled:opacity-50",
+        "flex h-8 w-fit items-stretch overflow-hidden rounded-none border border-input alloy-recessed transition-colors has-focus-visible:border-ring has-focus-visible:ring-2 has-focus-visible:ring-ring/50 has-aria-invalid:border-destructive has-aria-invalid:ring-2 has-aria-invalid:ring-destructive/20 dark:bg-input/30 data-disabled:opacity-50",
         className
       )}
       {...props}

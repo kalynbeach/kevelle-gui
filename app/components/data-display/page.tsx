@@ -52,7 +52,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ChartDemo } from "@/components/showcase/demos/data-display"
+import {
+  AreaChartDemo,
+  ChartDemo,
+} from "@/components/showcase/demos/data-display"
 import {
   Demo,
   PageHeader,
@@ -242,15 +245,26 @@ export default function DataDisplayPage() {
       </Section>
 
       <Section title="Chart">
-        <Card>
-          <CardHeader>
-            <CardTitle>Studio hours</CardTitle>
-            <CardDescription>Last six weeks, by phase</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartDemo />
-          </CardContent>
-        </Card>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Studio hours</CardTitle>
+              <CardDescription>Last six weeks, by phase</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartDemo />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>DSP load</CardTitle>
+              <CardDescription>Last 12 minutes, percent</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AreaChartDemo />
+            </CardContent>
+          </Card>
+        </div>
       </Section>
 
       <Section title="Carousel">

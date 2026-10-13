@@ -5,13 +5,93 @@ import { cn } from "cn"
 
 import { useTokenValues } from "@/components/showcase/live-token"
 
+let shared: CanvasRenderingContext2D | null = null
+
+let probe: HTMLElement | null = null
+
+/* A shared 1px canvas for reading colors back as sRGB bytes. */
+function context() {
+  if (!shared) {
+    const element = document.createElement("canvas")
+
+    element.width = element.height = 1
+    shared = element.getContext("2d", { willReadFrequently: true })
+  }
+
+  return shared
+}
+
+/* Paints a color onto the canvas, over a backdrop when given. */
+function toRgba(color: string, backdrop?: string) {
+  const ctx = context()
+
+  if (!ctx) return null
+
+  ctx.clearRect(0, 0, 1, 1)
+
+  if (backdrop) {
+    ctx.fillStyle = backdrop
+    ctx.fillRect(0, 0, 1, 1)
+  }
+
+  ctx.fillStyle = color
+  ctx.fillRect(0, 0, 1, 1)
+
+  return [...ctx.getImageData(0, 0, 1, 1).data]
+}
+
+/* Hex for convenience: sRGB, with an alpha byte for translucent colors. */
+function toHex(color: string) {
+  const rgba = toRgba(color)
+
+  if (!rgba) return ""
+  const [r, g, b, a] = rgba
+  const bytes = a === 255 ? [r, g, b] : [r, g, b, a]
+
+  return `#${bytes.map((byte) => byte.toString(16).padStart(2, "0")).join("")}`
+}
+
+/*
+ * Resolves any CSS color to OKLCH with the browser's own conversion, so the
+ * readout stays in OKLCH even if a build step rewrites the authored value.
+ * Achromatic colors print hue 0, since their hue is noise.
+ */
+function toOklch(color: string) {
+  if (!probe) {
+    probe = document.createElement("span")
+    probe.hidden = true
+    document.body.append(probe)
+  }
+
+  probe.style.color = ""
+  probe.style.color = `oklch(from ${color} l c h / alpha)`
+  const resolved = getComputedStyle(probe).color
+  const match = /^oklch\(([^/)]+)(?:\/\s*([^)]+))?\)$/.exec(resolved)
+
+  if (!match) return color
+
+  const [l, c, h] = match[1]
+    .trim()
+    .split(/\s+/)
+    .map((channel) => Number.parseFloat(channel) || 0)
+
+  const chroma = +c.toFixed(3)
+  const hue = chroma === 0 ? 0 : +h.toFixed(1)
+
+  const alpha = match[2] ? ` / ${+Number.parseFloat(match[2]).toFixed(2)}` : ""
+
+  return `oklch(${+l.toFixed(3)} ${chroma} ${hue}${alpha})`
+}
+
 /* Swatches paint with SVG fills so they follow the live token in each mode. */
 export function Swatch({
   token,
   label = token,
+  note,
 }: {
   token: string
   label?: string
+  note?: string
 }) {
   const [value] = useTokenValues([`--${token}`])
 
@@ -25,9 +105,15 @@ export function Swatch({
         <rect width="100%" height="100%" fill={`var(--${token})`} />
       </svg>
       <div className="flex min-w-0 flex-col">
-        <span className="truncate text-sm text-foreground">{label}</span>
-        <span className="truncate type-pixel text-muted-foreground">
-          {value || " "}
+        <span className="truncate text-sm text-foreground">
+          {label}
+          {note ? <span className="text-muted-foreground"> {note}</span> : null}
+        </span>
+        <span className="type-pixel text-muted-foreground">
+          {value ? toOklch(value) : " "}
+        </span>
+        <span className="type-pixel text-muted-foreground">
+          {value ? toHex(value) : " "}
         </span>
       </div>
     </div>
@@ -55,21 +141,28 @@ export function SwatchGrid({
   )
 }
 
-/* Paints a color onto a 1px canvas to resolve any CSS color to sRGB. */
-function toRgb(color: string, backdrop: string) {
-  const canvas = document.createElement("canvas")
+const charts = ["chart-1", "chart-2", "chart-3", "chart-4", "chart-5"]
 
-  canvas.width = canvas.height = 1
-  const context = canvas.getContext("2d", { willReadFrequently: true })
+/* Signal colors, each labeled with the chart role that reads it in this mode. */
+export function SignalGrid({ tokens }: { tokens: readonly string[] }) {
+  const values = useTokenValues([...tokens, ...charts].map((t) => `--${t}`))
+  const chartValues = values.slice(tokens.length)
 
-  if (!context) return null
-  context.fillStyle = backdrop
-  context.fillRect(0, 0, 1, 1)
-  context.fillStyle = color
-  context.fillRect(0, 0, 1, 1)
-  const [r, g, b] = context.getImageData(0, 0, 1, 1).data
+  return (
+    <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-5">
+      {tokens.map((token, index) => {
+        const chart = values[index] ? chartValues.indexOf(values[index]) : -1
 
-  return [r, g, b]
+        return (
+          <Swatch
+            key={token}
+            token={token}
+            note={chart === -1 ? undefined : charts[chart]}
+          />
+        )
+      })}
+    </div>
+  )
 }
 
 function luminance(rgb: number[]) {
@@ -85,11 +178,15 @@ function luminance(rgb: number[]) {
 }
 
 function contrastRatio(foreground: string, background: string, canvas: string) {
-  const bg = toRgb(background, canvas)
-  const fg = bg && toRgb(foreground, `rgb(${bg.join(",")})`)
+  const bg = toRgba(background, canvas)
+  const fg = bg && toRgba(foreground, `rgb(${bg.slice(0, 3).join(" ")})`)
 
   if (!bg || !fg) return null
-  const [light, dark] = [luminance(fg), luminance(bg)].sort((a, b) => b - a)
+
+  const [light, dark] = [
+    luminance(fg.slice(0, 3)),
+    luminance(bg.slice(0, 3)),
+  ].sort((a, b) => b - a)
 
   return (light + 0.05) / (dark + 0.05)
 }
