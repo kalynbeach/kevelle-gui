@@ -269,7 +269,7 @@ export default function DataDisplayPage() {
 
       <Section title="Carousel">
         <Demo className="justify-center">
-          <Carousel className="w-full max-w-xs">
+          <Carousel aria-label="Takes" className="w-full max-w-xs">
             <CarouselContent>
               {takes.map((take) => (
                 <CarouselItem key={take}>
