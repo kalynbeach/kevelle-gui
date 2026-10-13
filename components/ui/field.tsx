@@ -1,11 +1,21 @@
 "use client"
 
-import { useMemo } from "react"
+import { createContext, useContext, useMemo } from "react"
+import { Field as FieldPrimitive } from "@base-ui/react/field"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+
+/*
+ * Field is Base UI's Field.Root, so labels, descriptions, and errors inside it
+ * link to Base UI controls (Input, Checkbox, Switch, Select, and so on) through
+ * htmlFor and aria-describedby. Base UI's parts throw outside Field.Root, and
+ * shadcn also places descriptions in a FieldSet and labels around a Field, so
+ * outside a Field these parts render plain elements.
+ */
+const FieldContext = createContext(false)
 
 function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   return (
@@ -52,7 +62,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 const fieldVariants = cva(
-  "group/field flex w-full gap-2 data-[invalid=true]:text-destructive",
+  "group/field flex w-full gap-2 data-invalid:text-destructive",
   {
     variants: {
       orientation: {
@@ -73,15 +83,17 @@ function Field({
   className,
   orientation = "vertical",
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof fieldVariants>) {
+}: FieldPrimitive.Root.Props & VariantProps<typeof fieldVariants>) {
   return (
-    <div
-      role="group"
-      data-slot="field"
-      data-orientation={orientation}
-      className={cn(fieldVariants({ orientation }), className)}
-      {...props}
-    />
+    <FieldContext.Provider value={true}>
+      <FieldPrimitive.Root
+        role="group"
+        data-slot="field"
+        data-orientation={orientation}
+        className={cn(fieldVariants({ orientation }), className)}
+        {...props}
+      />
+    </FieldContext.Provider>
   )
 }
 
@@ -102,16 +114,22 @@ function FieldLabel({
   className,
   ...props
 }: React.ComponentProps<typeof Label>) {
-  return (
+  const label = (
     <Label
       data-slot="field-label"
       className={cn(
-        "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-muted/50 has-[>[data-slot=field]]:has-[:focus-visible]:border-ring has-[>[data-slot=field]]:has-[:focus-visible]:ring-2 has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring/50 *:data-[slot=field]:p-2.5 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10",
+        "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-disabled/field:opacity-50 has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-muted/50 has-[>[data-slot=field]]:has-[:focus-visible]:border-ring has-[>[data-slot=field]]:has-[:focus-visible]:ring-2 has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring/50 *:data-[slot=field]:p-2.5 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10",
         "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
         className
       )}
       {...props}
     />
+  )
+
+  return useContext(FieldContext) ? (
+    <FieldPrimitive.Label render={label} />
+  ) : (
+    label
   )
 }
 
@@ -120,7 +138,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="field-label"
       className={cn(
-        "flex w-fit items-center gap-2 text-sm font-medium group-data-[disabled=true]/field:opacity-50",
+        "flex w-fit items-center gap-2 text-sm font-medium group-data-disabled/field:opacity-50",
         className
       )}
       {...props}
@@ -129,7 +147,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
-  return (
+  const description = (
     <p
       data-slot="field-description"
       className={cn(
@@ -140,6 +158,12 @@ function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
       )}
       {...props}
     />
+  )
+
+  return useContext(FieldContext) ? (
+    <FieldPrimitive.Description render={description} />
+  ) : (
+    description
   )
 }
 
@@ -181,6 +205,7 @@ function FieldError({
 }: React.ComponentProps<"div"> & {
   errors?: Array<{ message?: string } | undefined>
 }) {
+  const inField = useContext(FieldContext)
   const content = useMemo(() => {
     if (children) {
       return children
@@ -212,7 +237,7 @@ function FieldError({
     return null
   }
 
-  return (
+  const error = (
     <div
       role="alert"
       data-slot="field-error"
@@ -222,6 +247,9 @@ function FieldError({
       {content}
     </div>
   )
+
+  // match keeps shadcn behavior: the error shows whenever it has content.
+  return inField ? <FieldPrimitive.Error match render={error} /> : error
 }
 
 export {
