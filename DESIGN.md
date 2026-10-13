@@ -66,7 +66,7 @@ Components never use the ramp directly. The shadcn roles pick steps from it: `ba
 
 ### Radius
 
-`--radius` is 2px. The scale derives whole pixels from it: `rounded-sm` 1px, `md` and `lg` 2px, `xl` 3px, `2xl` 4px. Checkboxes, switches, avatars, badges, progress tracks, and slider thumbs are square. Radio buttons stay round.
+`--radius` is 2px. The scale derives whole pixels from it: `rounded-sm` 1px, `md` and `lg` 2px, `xl` 3px, `2xl` 4px. Checkboxes, switches, avatars, badges, progress tracks, slider thumbs, and carousel buttons are square. Radio buttons stay round.
 
 ### Edges and elevation
 
