@@ -85,7 +85,7 @@ The raised and recessed bevels compose with ring and shadow utilities.
 
 ### Motion
 
-Transitions default to 160ms on `cubic-bezier(0.16, 1, 0.3, 1)` (`ease-out`). Toasts are the exception: they travel 150% of their height and restack, so they move over 500ms on the same `--ease-out` curve. Reduced motion makes every transition and animation immediate.
+Transitions default to 160ms on `cubic-bezier(0.16, 1, 0.3, 1)` (`ease-out`). Two components are exceptions and keep longer durations on the same `--ease-out` curve: toasts move over 500ms because they travel 150% of their height and restack, and the navigation menu moves over 350ms while its popup changes size between panels. Reduced motion makes every transition and animation immediate.
 
 ## Typography
 
