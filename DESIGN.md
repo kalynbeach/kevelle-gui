@@ -123,6 +123,8 @@ Kevelle changes to the registry components:
 
 Use Toast (Base UI) for notifications. Sonner is installed for parity with the registry.
 
+Enabled buttons and `role="button"` elements get the pointer cursor from shadcn's `init --pointer` base rule in `app/globals.css`. Don't add `cursor-pointer` to individual components.
+
 ## Updating from the registry
 
 The `components/ui/**` and `hooks/**` files stay close to upstream so `bunx --bun shadcn@latest add <name> --diff` remains readable. Linting there skips the generic code-style rules (anti-slop, some jsx-a11y and React rules) and the shadcn usage rules. The full rule set applies everywhere else.

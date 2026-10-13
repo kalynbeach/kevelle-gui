@@ -441,6 +441,12 @@
     text-wrap: pretty;
   }
 
+  /* shadcn's `init --pointer` rule. Tailwind v4 leaves buttons on the default cursor. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
   /* Base UI popups and backdrops position against the root stacking context. */
   .root {
     isolation: isolate;
