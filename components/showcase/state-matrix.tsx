@@ -1,9 +1,9 @@
 import * as React from "react"
+import { cn } from "cn"
 
-import { cn } from "@/lib/utils"
 import { stage } from "@/components/showcase/page"
 
-const stateLabel = "font-data text-xs font-regular text-neutral-6"
+const stateLabel = "type-pixel text-muted-foreground"
 
 /*
  * Renders a variant × state grid. States are pinned with data-preview (see
@@ -24,10 +24,11 @@ export function StateMatrix<Row extends string>({
 }) {
   if (rows.length === 1) {
     const [row] = rows
+
     return (
-      <div className={cn("flex flex-wrap gap-x-l gap-y-m", stage)}>
+      <div className={cn("flex flex-wrap gap-x-8 gap-y-6", stage)}>
         {states.map((state) => (
-          <div key={state} className="flex flex-col items-start gap-xs">
+          <div key={state} className="flex flex-col items-start gap-2">
             <span className={stateLabel}>{state}</span>
             {render(row, state)}
           </div>
@@ -38,12 +39,18 @@ export function StateMatrix<Row extends string>({
 
   return (
     <div className={cn("w-full overflow-x-auto", stage)}>
-      <table className="border-separate border-spacing-x-m border-spacing-y-s sm:border-spacing-x-l">
+      <table className="border-separate border-spacing-x-4 border-spacing-y-3 sm:border-spacing-x-6">
         <thead>
           <tr>
-            <td />
+            <th scope="col">
+              <span className="sr-only">Variant</span>
+            </th>
             {states.map((state) => (
-              <th key={state} scope="col" className={cn("text-start", stateLabel)}>
+              <th
+                key={state}
+                scope="col"
+                className={cn("text-start", stateLabel)}
+              >
                 {state}
               </th>
             ))}
@@ -72,7 +79,7 @@ export function StateMatrix<Row extends string>({
 }
 
 /* Spread onto a component to pin a state. */
-export function previewState(state: string): Record<string, unknown> {
+export function previewState(state: string) {
   switch (state) {
     case "disabled":
       return { disabled: true }
@@ -81,6 +88,8 @@ export function previewState(state: string): Record<string, unknown> {
       return { "data-preview": state }
     case "pressed":
       return { "data-preview": "hover active" }
+    case "invalid":
+      return { "aria-invalid": true }
     default:
       return {}
   }

@@ -22,6 +22,7 @@ const subscribe = () => () => {}
 /* The stored theme is only known on the client, so render it after mount. */
 export function ModeToggle() {
   const { theme, setTheme } = useTheme()
+
   const mounted = React.useSyncExternalStore(
     subscribe,
     () => true,
@@ -31,7 +32,8 @@ export function ModeToggle() {
   return (
     <ToggleGroup
       aria-label="Color mode"
-      size="icon"
+      variant="outline"
+      spacing={0}
       value={mounted && theme ? [theme] : []}
       onValueChange={(value) => {
         if (value[0]) setTheme(value[0])
@@ -44,7 +46,7 @@ export function ModeToggle() {
           >
             <Icon />
           </TooltipTrigger>
-          <TooltipContent side="bottom">{label}</TooltipContent>
+          <TooltipContent side="top">{label}</TooltipContent>
         </Tooltip>
       ))}
     </ToggleGroup>

@@ -1,5 +1,10 @@
 import type { Metadata } from "next"
 
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Progress } from "@/components/ui/progress"
+import { Switch } from "@/components/ui/switch"
 import {
   Demo,
   PageHeader,
@@ -7,130 +12,135 @@ import {
   Section,
   Subsection,
 } from "@/components/showcase/page"
-import { TokenList } from "@/components/showcase/token-list"
+import { TokenTable } from "@/components/showcase/token-table"
 
 export const metadata: Metadata = { title: "Radius and elevation" }
 
+const block = "h-10 w-24 border bg-muted"
+
 const radii = [
-  { token: "radius-zero", use: "Square bottom corners on the drawer" },
-  { token: "radius-xs", use: "Checkbox, menu and select options" },
-  { token: "radius-s", use: "Buttons, inputs, tooltips, toolbar" },
-  { token: "radius-m", use: "Popovers, menus, dialogs, tabs list" },
-  { token: "radius-l" },
-  { token: "radius-xl" },
-  { token: "radius-full", use: "Radio, switch, avatar, tracks, steppers" },
-] as const
+  {
+    token: "radius-xs",
+    utility: "rounded-xs",
+    preview: <div className={`${block} rounded-xs`} />,
+    use: "Square controls",
+  },
+  {
+    token: "radius-sm",
+    utility: "rounded-sm",
+    preview: <div className={`${block} rounded-sm`} />,
+    use: "Keys and small accents",
+  },
+  {
+    token: "radius-md",
+    utility: "rounded-md",
+    preview: <div className={`${block} rounded-md`} />,
+    use: "Menu and list items",
+  },
+  {
+    token: "radius-lg",
+    utility: "rounded-lg",
+    preview: <div className={`${block} rounded-lg`} />,
+    use: "Buttons, inputs, popovers",
+  },
+  {
+    token: "radius-xl",
+    utility: "rounded-xl",
+    preview: <div className={`${block} rounded-xl`} />,
+    use: "Cards and dialogs",
+  },
+  {
+    token: "radius-2xl",
+    utility: "rounded-2xl",
+    preview: <div className={`${block} rounded-2xl`} />,
+    use: "Toasts",
+  },
+]
+
+const surface = "h-12 w-24 bg-card ring-1 ring-foreground/10"
 
 const shadows = [
-  { token: "shadow-s", use: "Buttons, toolbar, menubar, tooltip, thumbs" },
-  { token: "shadow-m", use: "Menus, popovers, selects, toasts" },
-  { token: "shadow-l", use: "Dialogs and drawers" },
-] as const
+  {
+    token: "shadow-sm",
+    utility: "shadow-sm",
+    preview: <div className={`${surface} shadow-sm`} />,
+    use: "Filled buttons, toolbars",
+  },
+  {
+    token: "shadow-md",
+    utility: "shadow-md",
+    preview: <div className={`${surface} shadow-md`} />,
+    use: "Menus and popovers",
+  },
+  {
+    token: "shadow-lg",
+    utility: "shadow-lg",
+    preview: <div className={`${surface} shadow-lg`} />,
+    use: "Dialogs, sheets, toasts",
+  },
+]
 
-function Surface({
-  label,
-  className,
-}: {
-  label: string
-  className: string
-}) {
-  return (
-    <div className="flex flex-col gap-xs">
-      <div className={`h-xxl w-[8rem] rounded-s ${className}`} />
-      <span className="font-data text-xs text-neutral-7">{label}</span>
-    </div>
-  )
-}
-
-export default function ShapePage() {
+export default function RadiusElevationPage() {
   return (
     <>
       <PageHeader title="Radius and elevation" />
 
       <Section title="Radius">
-        <TokenList rows={radii} kind="radius" />
-      </Section>
-
-      <Section title="Elevation">
         <Prose>
           <p>
-            Each level combines a contact layer and an ambient layer. Dark mode
-            uses neutral-1 for the shadow color.
+            One knob, --radius at 2px, sets every step in whole pixels.
+            Checkboxes, switches, avatars, badges, and progress tracks are
+            square.
           </p>
         </Prose>
-        <TokenList rows={shadows} kind="shadow" />
+        <TokenTable rows={radii} />
       </Section>
 
-      <Section title="Edges">
+      <Section title="Edges and elevation">
         <Prose>
           <p>
-            Component edges are box shadows at the border-s width, with native
-            borders at zero. Each part sets whether its edge sits outside or
-            inside the box. In light mode, filled actions take inside edges;
-            in dark mode most filled surfaces do.
+            Edges are 1px hairlines in the border role. Shadows are reserved for
+            layers that float: they read in light mode and fall away on the dark
+            canvas, where the hairline carries the edge.
           </p>
         </Prose>
-        <Demo className="gap-xl">
-          <Surface
-            label="outside edge"
-            className="bg-neutral-1 ring ring-neutral-6-transparent"
-          />
-          <Surface
-            label="inside edge"
-            className="bg-neutral-1 ring ring-inset ring-neutral-6-transparent"
-          />
-          <Surface
-            label="solid neutral-4"
-            className="bg-neutral-1 ring ring-neutral-4"
-          />
-        </Demo>
+        <TokenTable rows={shadows} />
       </Section>
 
-      <Section title="Surfaces">
+      <Section title="Alloy">
         <Prose>
           <p>
-            Three material treatments pair a gradient fill with an inner bevel.
+            Kevelle&apos;s machined surfaces. Filled buttons carry a lit top
+            edge and a shaded base. Checkboxes, switch thumbs, and select
+            triggers are raised; text fields are recessed. Meter and progress
+            tracks are dithered.
           </p>
         </Prose>
-        <Demo className="gap-xl">
-          <Surface
-            label="raised"
-            className="bg-neutral-1 ring ring-neutral-4 inset-shadow-raised surface-raised dark:ring-inset"
-          />
-          <Surface
-            label="recessed"
-            className="bg-neutral-1 ring ring-neutral-4 inset-shadow-recessed surface-recessed dark:ring-inset"
-          />
-          <Surface
-            label="action"
-            className="bg-neutral-10 shadow-s ring ring-inset ring-neutral-6-transparent surface-action dark:ring-outset"
-          />
-        </Demo>
-        <Subsection title="Where they apply">
-          <Prose>
-            <p>
-              Raised: checkbox, radio, select trigger, slider and switch thumbs.
-              Recessed: text inputs. Action: primary, secondary, and danger
-              buttons, including dialog, popover, form, and toast actions.
-            </p>
-          </Prose>
+        <div className="grid gap-6 md:grid-cols-3">
+          <Subsection title="alloy-action">
+            <Demo>
+              <Button>Render</Button>
+              <Button variant="secondary">Duplicate</Button>
+            </Demo>
+          </Subsection>
+          <Subsection title="alloy-raised">
+            <Demo>
+              <Checkbox aria-label="Solo" defaultChecked />
+              <Checkbox aria-label="Mute" />
+              <Switch aria-label="Monitor" defaultChecked />
+            </Demo>
+          </Subsection>
+          <Subsection title="alloy-recessed">
+            <Demo>
+              <Input aria-label="Bus name" defaultValue="Drum bus" />
+            </Demo>
+          </Subsection>
+        </div>
+        <Subsection title="bg-dither">
+          <Demo>
+            <Progress value={34} aria-label="Disk usage" className="w-full" />
+          </Demo>
         </Subsection>
-      </Section>
-
-      <Section title="Focus">
-        <Prose>
-          <p>
-            Keyboard focus draws an outline in color-1 at 55% opacity and the
-            border-l width. Options and menu items show focus with their
-            highlight fill instead.
-          </p>
-        </Prose>
-        <Demo>
-          <div
-            data-preview="focus"
-            className="h-xxl w-[8rem] rounded-s bg-neutral-1 ring ring-color-1-transparent"
-          />
-        </Demo>
       </Section>
     </>
   )

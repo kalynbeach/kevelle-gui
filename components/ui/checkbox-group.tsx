@@ -1,18 +1,14 @@
 "use client"
 
 import { CheckboxGroup as CheckboxGroupPrimitive } from "@base-ui/react/checkbox-group"
+import { cn } from "cn"
 
-import { cn } from "@/lib/utils"
-
-/* Kevelle Checkbox group: rows of <Checkbox /> and label on the s gap. */
+/* Shared value for a set of checkboxes. Compose rows with Field. */
 function CheckboxGroup({ className, ...props }: CheckboxGroupPrimitive.Props) {
   return (
     <CheckboxGroupPrimitive
       data-slot="checkbox-group"
-      className={cn(
-        "flex flex-col gap-s font-ui text-s text-neutral-10",
-        className
-      )}
+      className={cn("flex flex-col gap-3", className)}
       {...props}
     />
   )

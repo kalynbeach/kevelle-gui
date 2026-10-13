@@ -1,25 +1,19 @@
 "use client"
 
 import { NumberField as NumberFieldPrimitive } from "@base-ui/react/number-field"
+import { cn } from "cn"
 import { MinusIcon, PlusIcon } from "@phosphor-icons/react"
 
-import { cn } from "@/lib/utils"
-import { textFieldControl } from "@/components/ui/input"
-
 /*
- * Kevelle Number field: a centered Text field input between round stepper
- * buttons. Each stepper is a square the height of the input (its line height
- * plus the xs padding), so the full radius makes it a circle.
+ * Number field is not in the shadcn registry. Its group reads as one text
+ * field: a recessed input between square steppers that share its edge.
  */
 
-function NumberField({
-  className,
-  ...props
-}: NumberFieldPrimitive.Root.Props) {
+function NumberField({ className, ...props }: NumberFieldPrimitive.Root.Props) {
   return (
     <NumberFieldPrimitive.Root
       data-slot="number-field"
-      className={cn("flex flex-col gap-xs font-ui text-s", className)}
+      className={cn("flex flex-col gap-2", className)}
       {...props}
     />
   )
@@ -32,7 +26,10 @@ function NumberFieldGroup({
   return (
     <NumberFieldPrimitive.Group
       data-slot="number-field-group"
-      className={cn("flex items-center gap-xs", className)}
+      className={cn(
+        "flex h-8 w-fit items-stretch overflow-hidden rounded-lg border border-input alloy-recessed transition-colors has-focus-visible:border-ring has-focus-visible:ring-2 has-focus-visible:ring-ring/50 has-aria-invalid:border-destructive has-aria-invalid:ring-2 has-aria-invalid:ring-destructive/20 dark:bg-input/30 data-disabled:opacity-50",
+        className
+      )}
       {...props}
     />
   )
@@ -46,8 +43,7 @@ function NumberFieldInput({
     <NumberFieldPrimitive.Input
       data-slot="number-field-input"
       className={cn(
-        textFieldControl,
-        "w-[80px] text-center tabular-nums",
+        "w-20 min-w-0 bg-transparent px-2 text-center text-base tabular-nums outline-none md:text-sm",
         className
       )}
       {...props}
@@ -56,7 +52,7 @@ function NumberFieldInput({
 }
 
 const stepper =
-  "flex size-[calc(1lh+var(--space-xs)*2)] shrink-0 cursor-pointer items-center justify-center rounded-full bg-neutral-1 text-s font-medium text-neutral-10 shadow-s ring ring-neutral-4 transition-[background-color,box-shadow] select-none hover:ring-neutral-5 focus-visible:ring-color-1 dark:ring-inset data-disabled:cursor-default data-disabled:bg-neutral-2 data-disabled:text-neutral-6 data-disabled:shadow-none [&_svg]:size-[1em] [&_svg]:transition-[scale] active:[&_svg]:scale-75"
+  "flex w-8 shrink-0 cursor-pointer items-center justify-center text-muted-foreground transition-colors select-none hover:bg-muted hover:text-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-3.5"
 
 function NumberFieldDecrement({
   className,
@@ -66,7 +62,7 @@ function NumberFieldDecrement({
     <NumberFieldPrimitive.Decrement
       data-slot="number-field-decrement"
       aria-label="Decrease"
-      className={cn(stepper, className)}
+      className={cn(stepper, "border-r border-input", className)}
       {...props}
     >
       <MinusIcon />
@@ -82,7 +78,7 @@ function NumberFieldIncrement({
     <NumberFieldPrimitive.Increment
       data-slot="number-field-increment"
       aria-label="Increase"
-      className={cn(stepper, className)}
+      className={cn(stepper, "border-l border-input", className)}
       {...props}
     >
       <PlusIcon />

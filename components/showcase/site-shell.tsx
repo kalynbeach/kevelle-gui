@@ -3,129 +3,148 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ListIcon } from "@phosphor-icons/react"
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import {
-  Drawer,
-  DrawerContent,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+  useSidebar,
+} from "@/components/ui/sidebar"
 import { componentGroups, foundations } from "@/components/showcase/nav"
 import { ModeToggle } from "@/components/showcase/mode-toggle"
 
-const navLabel = "px-s pb-xxs text-xs font-medium text-neutral-6"
-
-/* Sidebar rows use the Navigation menu link treatment at a tighter density. */
-const navLink =
-  "block rounded-s px-s py-xxs text-s text-neutral-8 transition-colors hover:bg-neutral-3 hover:text-neutral-10 aria-[current=page]:bg-neutral-3 aria-[current=page]:text-neutral-10"
-
-function SiteNav({ onNavigate }: { onNavigate?: () => void }) {
-  const pathname = usePathname()
-
-  return (
-    <nav aria-label="Showcase" className="flex flex-col gap-l">
-      <div className="flex flex-col gap-xxs">
-        <Link
-          href="/"
-          onClick={onNavigate}
-          aria-current={pathname === "/" ? "page" : undefined}
-          className={navLink}
-        >
-          Overview
-        </Link>
-      </div>
-      <div className="flex flex-col gap-xxs">
-        <h2 className={navLabel}>Foundations</h2>
-        {foundations.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={onNavigate}
-            aria-current={pathname === item.href ? "page" : undefined}
-            className={navLink}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </div>
-      {componentGroups.map((group) => (
-        <div key={group.href} className="flex flex-col gap-xxs">
-          <h2
-            className={cn(
-              navLabel,
-              pathname === group.href && "text-neutral-10"
-            )}
-          >
-            {group.label}
-          </h2>
-          {group.items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onNavigate}
-              className={navLink}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      ))}
-    </nav>
-  )
-}
-
 function Wordmark() {
+  const { setOpenMobile } = useSidebar()
+
   return (
     <Link
       href="/"
-      className="rounded-s font-brand text-m font-medium text-neutral-10"
+      onClick={() => setOpenMobile(false)}
+      className="w-fit font-brand text-4xl leading-none text-foreground"
     >
       Kevelle
     </Link>
   )
 }
 
-export function SiteShell({ children }: { children: React.ReactNode }) {
-  const [navOpen, setNavOpen] = React.useState(false)
+function SiteSidebar() {
+  const pathname = usePathname()
+  const { setOpenMobile } = useSidebar()
+  const close = () => setOpenMobile(false)
 
   return (
-    <div className="flex min-h-dvh">
-      <aside className="sticky top-0 hidden h-dvh w-[232px] shrink-0 flex-col gap-l overflow-y-auto overscroll-contain px-s py-l shadow-[inset_calc(var(--border-s)*-1)_0_0_0_var(--neutral-4)] md:flex">
-        <div className="flex items-center justify-between ps-s">
+    <Sidebar>
+      <SidebarHeader>
+        <div className="px-2 pt-4 pb-2">
           <Wordmark />
+        </div>
+      </SidebarHeader>
+
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                isActive={pathname === "/"}
+                render={<Link href="/" onClick={close} />}
+              >
+                Overview
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Foundations</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {foundations.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton
+                    isActive={pathname === item.href}
+                    render={<Link href={item.href} onClick={close} />}
+                  >
+                    {item.label}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Components</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {componentGroups.map((group) => {
+                const current = pathname === group.href
+
+                return (
+                  <SidebarMenuItem key={group.href}>
+                    <SidebarMenuButton
+                      isActive={current}
+                      render={<Link href={group.href} onClick={close} />}
+                    >
+                      {group.label}
+                    </SidebarMenuButton>
+                    {current ? (
+                      <SidebarMenuSub>
+                        {group.items.map((item) => (
+                          <SidebarMenuSubItem key={item.href}>
+                            <SidebarMenuSubButton
+                              render={<Link href={item.href} onClick={close} />}
+                            >
+                              {item.label}
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    ) : null}
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <div className="px-2 pb-2">
           <ModeToggle />
         </div>
-        <SiteNav />
-      </aside>
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
+  )
+}
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-40 flex items-center justify-between gap-s bg-neutral-1 px-l py-s shadow-[inset_0_calc(var(--border-s)*-1)_0_0_var(--neutral-4)] md:hidden">
+export function SiteShell({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <SiteSidebar />
+      <SidebarInset>
+        <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b bg-background px-4 md:hidden">
           <Wordmark />
-          <div className="flex items-center gap-xs">
-            <ModeToggle />
-            <Drawer open={navOpen} onOpenChange={setNavOpen}>
-              <DrawerTrigger
-                render={
-                  <Button variant="ghost" size="icon" aria-label="Open navigation" />
-                }
-              >
-                <ListIcon />
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerTitle className="sr-only">Navigation</DrawerTitle>
-                <SiteNav onNavigate={() => setNavOpen(false)} />
-              </DrawerContent>
-            </Drawer>
-          </div>
+          <SidebarTrigger />
         </header>
-
-        <main className="mx-auto flex w-full max-w-[60rem] min-w-0 flex-col gap-xxl px-l py-xxl md:px-xxl">
+        <div className="mx-auto flex w-full max-w-5xl min-w-0 flex-col gap-16 px-4 py-10 md:px-10 md:py-14">
           {children}
-        </main>
-      </div>
-    </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

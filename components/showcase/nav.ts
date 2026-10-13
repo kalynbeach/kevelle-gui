@@ -1,4 +1,5 @@
 export type NavItem = { label: string; href: string }
+
 export type NavGroup = { label: string; href: string; items: NavItem[] }
 
 export function slugify(label: string) {
@@ -7,6 +8,7 @@ export function slugify(label: string) {
 
 function group(label: string, path: string, items: string[]): NavGroup {
   const href = `/components/${path}`
+
   return {
     label,
     href,
@@ -20,55 +22,98 @@ function group(label: string, path: string, items: string[]): NavGroup {
 export const foundations: NavItem[] = [
   { label: "Color", href: "/foundations/color" },
   { label: "Typography", href: "/foundations/typography" },
-  { label: "Spacing and sizing", href: "/foundations/spacing" },
+  { label: "Spacing", href: "/foundations/spacing" },
   { label: "Radius and elevation", href: "/foundations/shape" },
   { label: "Motion", href: "/foundations/motion" },
   { label: "Icons", href: "/foundations/icons" },
 ]
 
-/* Every component in gui/themes/kevelle-components.md, grouped by task. */
+/* Every file in components/ui, grouped by task. */
 export const componentGroups: NavGroup[] = [
-  group("Actions", "actions", ["Button", "Toggle", "Toggle group", "Toolbar"]),
-  group("Text input", "text-input", [
-    "Text field",
+  group("Actions", "actions", [
+    "Button",
+    "Button group",
+    "Toggle",
+    "Toggle group",
+    "Toolbar",
+    "Kbd",
+  ]),
+  group("Forms", "forms", [
+    "Input",
+    "Textarea",
+    "Input group",
     "Field",
-    "Fieldset",
     "Form",
     "Autocomplete",
     "Combobox",
     "Number field",
+    "Input OTP",
     "OTP field",
   ]),
   group("Selection", "selection", [
     "Select",
+    "Native select",
     "Checkbox",
     "Checkbox group",
-    "Radio",
     "Radio group",
     "Switch",
     "Slider",
+    "Calendar",
   ]),
-  group("Menus and navigation", "navigation", [
-    "Menu",
-    "Context menu",
-    "Menubar",
-    "Navigation menu",
+  group("Navigation", "navigation", [
+    "Sidebar",
+    "Breadcrumb",
+    "Pagination",
     "Tabs",
+    "Navigation menu",
+    "Menubar",
+    "Dropdown menu",
+    "Context menu",
+    "Command",
   ]),
   group("Overlays", "overlays", [
     "Dialog",
     "Alert dialog",
+    "Sheet",
     "Drawer",
     "Popover",
-    "Preview card",
+    "Hover card",
     "Tooltip",
     "Toast",
+    "Sonner",
   ]),
-  group("Disclosure and layout", "disclosure", [
+  group("Data display", "data-display", [
+    "Card",
+    "Table",
+    "Badge",
+    "Avatar",
+    "Item",
+    "Chart",
+    "Carousel",
+    "Aspect ratio",
+  ]),
+  group("Feedback", "feedback", [
+    "Alert",
+    "Progress",
+    "Meter",
+    "Skeleton",
+    "Spinner",
+    "Empty",
+  ]),
+  group("Layout", "layout", [
     "Accordion",
     "Collapsible",
-    "Scroll area",
     "Separator",
+    "Scroll area",
+    "Resizable",
+    "Direction",
   ]),
-  group("Status", "status", ["Progress", "Meter", "Avatar"]),
+  group("Conversation", "conversation", [
+    "Message",
+    "Bubble",
+    "Message scroller",
+    "Attachment",
+    "Marker",
+    "Questionnaire",
+  ]),
 ]

@@ -1,40 +1,15 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
 import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
-} from "@/components/ui/context-menu"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "@/components/ui/menubar"
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -43,147 +18,210 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { componentGroups, foundations } from "@/components/showcase/nav"
-import { Demo, PageHeader, Section } from "@/components/showcase/page"
+import {
+  CommandDemo,
+  ContextMenuDemo,
+  DropdownMenuDemo,
+  MenubarDemo,
+  SidebarDemo,
+} from "@/components/showcase/demos/navigation"
+import {
+  Demo,
+  PageHeader,
+  Prose,
+  Section,
+  Subsection,
+} from "@/components/showcase/page"
 
-export const metadata: Metadata = { title: "Menus and navigation" }
+export const metadata: Metadata = { title: "Navigation" }
+
+const guides = [
+  {
+    title: "Gain staging",
+    href: "#navigation-menu",
+    description: "Set levels before the first insert so plugins see −18 dBFS.",
+  },
+  {
+    title: "Bus routing",
+    href: "#navigation-menu",
+    description: "Group drums and vocals for shared compression.",
+  },
+  {
+    title: "Stem export",
+    href: "#navigation-menu",
+    description: "Render each bus to its own file for mastering.",
+  },
+]
 
 export default function NavigationPage() {
   return (
     <>
-      <PageHeader title="Menus and navigation" />
+      <PageHeader title="Navigation" />
 
-      <Section title="Menu">
+      <Section title="Sidebar">
+        <Prose>
+          <p>
+            The site navigation is a full-height Sidebar. This one is contained,
+            with group labels in Paper Mono and counts in Departure Mono.
+          </p>
+        </Prose>
         <Demo>
-          <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="outline" />}>Track</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  Rename<DropdownMenuShortcut>⌘R</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  Duplicate<DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>Move to</DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent>
-                    <DropdownMenuItem>Drums bus</DropdownMenuItem>
-                    <DropdownMenuItem>Vocal bus</DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuLabel>Monitoring</DropdownMenuLabel>
-                <DropdownMenuCheckboxItem defaultChecked>Solo</DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Mute</DropdownMenuCheckboxItem>
-                <DropdownMenuItem disabled>Freeze</DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem variant="danger">Delete track</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <SidebarDemo />
         </Demo>
       </Section>
 
-      <Section title="Context menu">
+      <Section title="Breadcrumb">
         <Demo>
-          <ContextMenu>
-            <ContextMenuTrigger className="h-[6rem] w-full max-w-[20rem]">
-              Right-click for clip actions
-            </ContextMenuTrigger>
-            <ContextMenuContent>
-              <ContextMenuItem>
-                Split at playhead<ContextMenuShortcut>S</ContextMenuShortcut>
-              </ContextMenuItem>
-              <ContextMenuItem>Reverse</ContextMenuItem>
-              <ContextMenuItem>Normalize</ContextMenuItem>
-              <ContextMenuSeparator />
-              <ContextMenuItem variant="danger">Delete clip</ContextMenuItem>
-            </ContextMenuContent>
-          </ContextMenu>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink render={<Link href="/" />}>
+                  Sessions
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbEllipsis />
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#breadcrumb">Night drive</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Mixdown</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
         </Demo>
       </Section>
 
-      <Section title="Menubar">
+      <Section title="Pagination">
         <Demo>
-          <Menubar>
-            <MenubarMenu>
-              <MenubarTrigger>File</MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem>New session<MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
-                <MenubarItem>Open<MenubarShortcut>⌘O</MenubarShortcut></MenubarItem>
-                <MenubarSeparator />
-                <MenubarItem>Export<MenubarShortcut>⌘E</MenubarShortcut></MenubarItem>
-              </MenubarContent>
-            </MenubarMenu>
-            <MenubarMenu>
-              <MenubarTrigger>Edit</MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem>Undo<MenubarShortcut>⌘Z</MenubarShortcut></MenubarItem>
-                <MenubarItem disabled>Redo<MenubarShortcut>⇧⌘Z</MenubarShortcut></MenubarItem>
-              </MenubarContent>
-            </MenubarMenu>
-            <MenubarMenu>
-              <MenubarTrigger>View</MenubarTrigger>
-              <MenubarContent>
-                <MenubarRadioGroup defaultValue="arrange">
-                  <MenubarRadioItem value="arrange">Arrange</MenubarRadioItem>
-                  <MenubarRadioItem value="mixer">Mixer</MenubarRadioItem>
-                </MenubarRadioGroup>
-              </MenubarContent>
-            </MenubarMenu>
-          </Menubar>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#pagination" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#pagination">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#pagination" isActive>
+                  2
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#pagination">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#pagination" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </Demo>
+      </Section>
+
+      <Section title="Tabs">
+        <div className="grid gap-6 md:grid-cols-2">
+          <Subsection title="Default">
+            <Demo>
+              <Tabs defaultValue="arrange" className="w-full">
+                <TabsList>
+                  <TabsTrigger value="arrange">Arrange</TabsTrigger>
+                  <TabsTrigger value="mixer">Mixer</TabsTrigger>
+                  <TabsTrigger value="editor">Editor</TabsTrigger>
+                </TabsList>
+                <TabsContent value="arrange">
+                  Twelve tracks, 3:41 at 120 BPM.
+                </TabsContent>
+                <TabsContent value="mixer">Four buses, two sends.</TabsContent>
+                <TabsContent value="editor">No region selected.</TabsContent>
+              </Tabs>
+            </Demo>
+          </Subsection>
+          <Subsection title="Line">
+            <Demo>
+              <Tabs defaultValue="inputs" className="w-full">
+                <TabsList variant="line">
+                  <TabsTrigger value="inputs">Inputs</TabsTrigger>
+                  <TabsTrigger value="outputs">Outputs</TabsTrigger>
+                  <TabsTrigger value="midi" disabled>
+                    MIDI
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="inputs">
+                  Interface: 8 in, 8 out.
+                </TabsContent>
+                <TabsContent value="outputs">Main out on 1–2.</TabsContent>
+              </Tabs>
+            </Demo>
+          </Subsection>
+        </div>
       </Section>
 
       <Section title="Navigation menu">
-        <Demo className="min-h-[14rem] items-start">
+        <Demo className="pb-48">
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Foundations</NavigationMenuTrigger>
-                <NavigationMenuContent className="w-[14rem]">
-                  {foundations.map((item) => (
-                    <NavigationMenuLink key={item.href} render={<Link href={item.href} />}>
-                      {item.label}
-                    </NavigationMenuLink>
-                  ))}
+                <NavigationMenuTrigger>Guides</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="flex w-80 flex-col">
+                    {guides.map((guide) => (
+                      <li key={guide.title}>
+                        <NavigationMenuLink render={<Link href={guide.href} />}>
+                          <div className="flex flex-col gap-1 text-sm">
+                            <span className="font-medium">{guide.title}</span>
+                            <span className="text-muted-foreground">
+                              {guide.description}
+                            </span>
+                          </div>
+                        </NavigationMenuLink>
+                      </li>
+                    ))}
+                  </ul>
                 </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-                <NavigationMenuContent className="w-[14rem]">
-                  {componentGroups.map((group) => (
-                    <NavigationMenuLink key={group.href} render={<Link href={group.href} />}>
-                      {group.label}
-                    </NavigationMenuLink>
-                  ))}
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink render={<Link href="/" />}>Overview</NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </Demo>
       </Section>
 
-      <Section title="Tabs">
-        <Demo className="items-start">
-          <Tabs defaultValue="arrange" className="w-full max-w-[24rem]">
-            <TabsList>
-              <TabsTrigger value="arrange">Arrange</TabsTrigger>
-              <TabsTrigger value="mixer">Mixer</TabsTrigger>
-              <TabsTrigger value="export">Export</TabsTrigger>
-              <TabsTrigger value="history" disabled>History</TabsTrigger>
-            </TabsList>
-            <TabsContent value="arrange">14 tracks, 3:48 at 120 BPM.</TabsContent>
-            <TabsContent value="mixer">Master bus peaks at −1.2 dBFS.</TabsContent>
-            <TabsContent value="export">Last export: 4 stems, 24-bit WAV.</TabsContent>
-          </Tabs>
+      <Section title="Menubar">
+        <Demo>
+          <MenubarDemo />
+        </Demo>
+      </Section>
+
+      <Section title="Dropdown menu">
+        <Demo>
+          <DropdownMenuDemo />
+        </Demo>
+      </Section>
+
+      <Section title="Context menu">
+        <Demo>
+          <ContextMenuDemo />
+        </Demo>
+      </Section>
+
+      <Section title="Command">
+        <Demo>
+          <CommandDemo />
         </Demo>
       </Section>
     </>

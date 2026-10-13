@@ -2,8 +2,19 @@ import type { Metadata } from "next"
 
 import { Checkbox } from "@/components/ui/checkbox"
 import { CheckboxGroup } from "@/components/ui/checkbox-group"
-import { Field, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field"
-import { Label } from "@/components/ui/label"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field"
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Select,
@@ -17,6 +28,7 @@ import {
 } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
+import { CalendarDemo, SliderDemo } from "@/components/showcase/demos/selection"
 import {
   Demo,
   PageHeader,
@@ -27,51 +39,21 @@ import { previewState, StateMatrix } from "@/components/showcase/state-matrix"
 
 export const metadata: Metadata = { title: "Selection" }
 
-const sampleRates = [
-  { value: "44100", label: "44.1 kHz" },
-  { value: "48000", label: "48 kHz" },
-  { value: "88200", label: "88.2 kHz" },
-  { value: "96000", label: "96 kHz" },
+const rates = [
+  { label: "44.1 kHz", value: "44100" },
+  { label: "48 kHz", value: "48000" },
+  { label: "96 kHz", value: "96000" },
 ]
 
-const choiceLabel = "font-regular data-disabled:text-neutral-6"
+const depths = [
+  { label: "16-bit", value: "16" },
+  { label: "24-bit", value: "24" },
+  { label: "32-bit float", value: "32f" },
+]
 
-function SampleRateSelect({
-  state = "rest",
-}: {
-  state?: string
-}) {
-  return (
-    <Select
-      items={sampleRates}
-      defaultValue="48000"
-      disabled={state === "disabled"}
-    >
-      <SelectTrigger
-        aria-label="Sample rate"
-        className="w-[9rem]"
-        {...(state === "disabled" ? {} : previewState(state))}
-      >
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>CD and video</SelectLabel>
-          <SelectItem value="44100">44.1 kHz</SelectItem>
-          <SelectItem value="48000">48 kHz</SelectItem>
-        </SelectGroup>
-        <SelectSeparator />
-        <SelectGroup>
-          <SelectLabel>High resolution</SelectLabel>
-          <SelectItem value="88200">88.2 kHz</SelectItem>
-          <SelectItem value="96000">96 kHz</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  )
-}
+const formats = [...rates, ...depths]
 
-const checkStates = ["rest", "hover", "focus", "disabled"]
+const toggleStates = ["rest", "hover", "focus", "invalid", "disabled"]
 
 export default function SelectionPage() {
   return (
@@ -81,39 +63,80 @@ export default function SelectionPage() {
       <Section title="Select">
         <Demo>
           <Field className="w-fit">
-            <FieldLabel>Sample rate</FieldLabel>
-            <SampleRateSelect />
+            <FieldLabel htmlFor="select-rate">Sample rate</FieldLabel>
+            <Select items={formats} defaultValue="48000">
+              <SelectTrigger id="select-rate" className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Rate</SelectLabel>
+                  {rates.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+                <SelectSeparator />
+                <SelectGroup>
+                  <SelectLabel>Bit depth</SelectLabel>
+                  {depths.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </Field>
         </Demo>
-        <Subsection title="States">
-          <StateMatrix
-            rows={["select"] as const}
-            states={checkStates}
-            render={(_, state) => <SampleRateSelect state={state} />}
-          />
-        </Subsection>
+      </Section>
+
+      <Section title="Native select">
+        <Demo>
+          <Field className="w-fit">
+            <FieldLabel htmlFor="native-format">Format</FieldLabel>
+            <NativeSelect id="native-format" defaultValue="wav">
+              <NativeSelectOptGroup label="Lossless">
+                <NativeSelectOption value="wav">WAV</NativeSelectOption>
+                <NativeSelectOption value="aiff">AIFF</NativeSelectOption>
+                <NativeSelectOption value="flac">FLAC</NativeSelectOption>
+              </NativeSelectOptGroup>
+              <NativeSelectOptGroup label="Lossy">
+                <NativeSelectOption value="mp3">MP3</NativeSelectOption>
+              </NativeSelectOptGroup>
+            </NativeSelect>
+          </Field>
+        </Demo>
       </Section>
 
       <Section title="Checkbox">
-        <Demo className="flex-col items-start gap-s">
-          <Label className={choiceLabel}>
-            <Checkbox defaultChecked />
-            Normalize loudness
-          </Label>
-          <Label className={choiceLabel}>
-            <Checkbox />
-            Add dither
-          </Label>
+        <Demo className="flex-col items-start">
+          <Field orientation="horizontal">
+            <Checkbox id="checkbox-dither" defaultChecked />
+            <FieldLabel htmlFor="checkbox-dither">Dither on export</FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="checkbox-tail" />
+            <FieldContent>
+              <FieldLabel htmlFor="checkbox-tail">
+                Include reverb tails
+              </FieldLabel>
+              <FieldDescription>
+                Adds two bars after the last region.
+              </FieldDescription>
+            </FieldContent>
+          </Field>
         </Demo>
+
         <Subsection title="States">
           <StateMatrix
-            rows={["unchecked", "checked", "indeterminate"] as const}
-            states={checkStates}
+            rows={["unchecked", "checked"] as const}
+            states={toggleStates}
             render={(row, state) => (
               <Checkbox
-                aria-label={`${row} ${state}`}
-                checked={row === "checked"}
-                indeterminate={row === "indeterminate"}
+                aria-label={`${row}, ${state}`}
+                defaultChecked={row === "checked"}
                 {...previewState(state)}
               />
             )}
@@ -123,95 +146,66 @@ export default function SelectionPage() {
 
       <Section title="Checkbox group">
         <Demo>
-          <CheckboxGroup
-            aria-labelledby="formats-label"
-            defaultValue={["wav", "flac"]}
-            allValues={["wav", "flac", "mp3"]}
-          >
-            <Label id="formats-label" className={choiceLabel}>
-              <Checkbox parent />
-              All formats
-            </Label>
-            <div className="flex flex-col gap-s ps-l">
-              <Label className={choiceLabel}>
-                <Checkbox value="wav" />
-                WAV
-              </Label>
-              <Label className={choiceLabel}>
-                <Checkbox value="flac" />
-                FLAC
-              </Label>
-              <Label className={choiceLabel}>
-                <Checkbox value="mp3" />
-                MP3
-              </Label>
-            </div>
-          </CheckboxGroup>
+          <FieldSet>
+            <FieldLegend variant="label">Stems</FieldLegend>
+            <CheckboxGroup defaultValue={["drums", "bass"]}>
+              {["Drums", "Bass", "Keys", "Vocals"].map((stem) => (
+                <Field key={stem} orientation="horizontal">
+                  <Checkbox
+                    id={`stem-${stem.toLowerCase()}`}
+                    name="stems"
+                    value={stem.toLowerCase()}
+                  />
+                  <FieldLabel htmlFor={`stem-${stem.toLowerCase()}`}>
+                    {stem}
+                  </FieldLabel>
+                </Field>
+              ))}
+            </CheckboxGroup>
+          </FieldSet>
         </Demo>
-      </Section>
-
-      <Section title="Radio">
-        <Subsection title="States">
-          <StateMatrix
-            rows={["unchecked", "checked"] as const}
-            states={checkStates}
-            render={(row, state) => (
-              <RadioGroup
-                aria-label={`${row} ${state}`}
-                value={row === "checked" ? "on" : ""}
-                disabled={state === "disabled"}
-              >
-                <RadioGroupItem
-                  value="on"
-                  {...(state === "disabled" ? {} : previewState(state))}
-                />
-              </RadioGroup>
-            )}
-          />
-        </Subsection>
       </Section>
 
       <Section title="Radio group">
         <Demo>
           <FieldSet>
-            <FieldLegend className="text-s">Bit depth</FieldLegend>
-            <RadioGroup defaultValue="24">
-              <Label className={choiceLabel}>
-                <RadioGroupItem value="16" />
-                16-bit
-              </Label>
-              <Label className={choiceLabel}>
-                <RadioGroupItem value="24" />
-                24-bit
-              </Label>
-              <Label className={choiceLabel}>
-                <RadioGroupItem value="32" />
-                32-bit float
-              </Label>
+            <FieldLegend variant="label">Monitoring</FieldLegend>
+            <RadioGroup defaultValue="stereo">
+              {[
+                ["mono", "Mono"],
+                ["stereo", "Stereo"],
+                ["surround", "5.1 surround"],
+              ].map(([value, label]) => (
+                <Field key={value} orientation="horizontal">
+                  <RadioGroupItem id={`radio-${value}`} value={value} />
+                  <FieldLabel htmlFor={`radio-${value}`}>{label}</FieldLabel>
+                </Field>
+              ))}
             </RadioGroup>
           </FieldSet>
         </Demo>
       </Section>
 
       <Section title="Switch">
-        <Demo className="flex-col items-start gap-s">
-          <Label>
-            <Switch defaultChecked />
-            Loop playback
-          </Label>
-          <Label>
-            <Switch />
-            Metronome
-          </Label>
+        <Demo className="flex-col items-start">
+          <Field orientation="horizontal">
+            <Switch id="switch-click" defaultChecked />
+            <FieldLabel htmlFor="switch-click">Click track</FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Switch id="switch-loop" size="sm" />
+            <FieldLabel htmlFor="switch-loop">Loop selection</FieldLabel>
+          </Field>
         </Demo>
+
         <Subsection title="States">
           <StateMatrix
             rows={["off", "on"] as const}
-            states={["rest", "focus", "disabled"]}
+            states={["rest", "hover", "focus", "disabled"]}
             render={(row, state) => (
               <Switch
-                aria-label={`${row} ${state}`}
-                checked={row === "on"}
+                aria-label={`${row}, ${state}`}
+                defaultChecked={row === "on"}
                 {...previewState(state)}
               />
             )}
@@ -220,26 +214,20 @@ export default function SelectionPage() {
       </Section>
 
       <Section title="Slider">
-        <Demo className="flex-col items-stretch gap-l">
-          <Field className="max-w-[20rem]">
-            <div className="flex items-baseline justify-between">
-              <FieldLabel>Volume</FieldLabel>
-            </div>
-            <Slider defaultValue={64} aria-label="Volume" />
-          </Field>
-          <div className="flex max-w-[20rem] flex-col gap-xs">
-            <span className="text-s font-medium text-neutral-10">
-              Frequency range
-            </span>
-            <Slider
-              defaultValue={[20, 80]}
-              aria-label="Frequency range"
-            />
-          </div>
-          <div className="flex max-w-[20rem] flex-col gap-xs">
-            <span className="text-s font-medium text-neutral-6">Pan</span>
-            <Slider defaultValue={50} disabled aria-label="Pan" />
-          </div>
+        <Demo className="flex-col items-stretch">
+          <SliderDemo />
+          <Slider
+            aria-label="Loop range"
+            defaultValue={[16, 48]}
+            max={64}
+            className="max-w-sm"
+          />
+        </Demo>
+      </Section>
+
+      <Section title="Calendar">
+        <Demo>
+          <CalendarDemo />
         </Demo>
       </Section>
     </>

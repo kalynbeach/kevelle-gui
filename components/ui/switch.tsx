@@ -1,26 +1,28 @@
 "use client"
 
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
+import { cn } from "cn"
 
-import { cn } from "@/lib/utils"
-
-/*
- * Kevelle Switch. The track is control-l tall: a control-m thumb inset by
- * xxs on every side, so the thumb travels one thumb width.
- */
-function Switch({ className, ...props }: SwitchPrimitive.Root.Props) {
+function Switch({
+  className,
+  size = "default",
+  ...props
+}: SwitchPrimitive.Root.Props & {
+  size?: "sm" | "default"
+}) {
   return (
     <SwitchPrimitive.Root
       data-slot="switch"
+      data-size={size}
       className={cn(
-        "peer group/switch relative inline-flex h-control-l w-[calc(var(--control-size-m)*2+var(--space-xxs)*2)] shrink-0 cursor-pointer items-center rounded-full bg-neutral-4 p-xxs transition-colors after:absolute after:-inset-xs data-checked:bg-color-1 data-disabled:cursor-default data-disabled:bg-neutral-3",
+        "peer group/switch relative inline-flex shrink-0 items-center rounded-none border border-transparent transition-all outline-none group-has-[:focus-visible]/field-label:border-transparent group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20 data-[size=default]:h-[18.4px] data-[size=default]:w-[32px] data-[size=sm]:h-[14px] data-[size=sm]:w-[24px] dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:bg-primary data-unchecked:bg-input dark:data-unchecked:bg-input/80 data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className
       )}
       {...props}
     >
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
-        className="pointer-events-none block size-control-m rounded-full bg-neutral-1 shadow-s ring ring-neutral-4-transparent inset-shadow-raised surface-raised transition-[translate,background-color] data-checked:translate-x-(--control-size-m) dark:ring-inset data-disabled:bg-neutral-6 data-disabled:bg-none data-disabled:shadow-none data-disabled:inset-shadow-none dark:data-disabled:ring-outset"
+        className="pointer-events-none block rounded-none bg-background alloy-raised transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 group-data-[size=default]/switch:data-checked:translate-x-[calc(100%-2px)] group-data-[size=sm]/switch:data-checked:translate-x-[calc(100%-2px)] dark:data-checked:bg-primary-foreground group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 dark:data-unchecked:bg-foreground"
       />
     </SwitchPrimitive.Root>
   )

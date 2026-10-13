@@ -1,21 +1,18 @@
 "use client"
 
 import { Form as FormPrimitive } from "@base-ui/react/form"
-
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 /*
- * Kevelle Form on Base UI: native submission with field-level errors.
- * Fields stack on the group gap (m); the action part is the primary Button.
+ * Base UI Form: native submission with field-level errors. The shadcn
+ * registry ships no base form, so this wraps the primitive. Lay out its
+ * fields with FieldGroup.
  */
 function Form({ className, ...props }: FormPrimitive.Props) {
   return (
     <FormPrimitive
       data-slot="form"
-      className={cn(
-        "flex w-full flex-col gap-m font-ui text-s text-neutral-10",
-        className
-      )}
+      className={cn("flex w-full flex-col gap-6", className)}
       {...props}
     />
   )

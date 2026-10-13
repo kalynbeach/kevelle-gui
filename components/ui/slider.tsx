@@ -1,13 +1,6 @@
-"use client"
-
 import { Slider as SliderPrimitive } from "@base-ui/react/slider"
+import { cn } from "cn"
 
-import { cn } from "@/lib/utils"
-
-/*
- * Kevelle Slider: a control-xxs track with a color-1 indicator and raised
- * control-m thumbs edged in color-1.
- */
 function Slider({
   className,
   defaultValue,
@@ -16,16 +9,16 @@ function Slider({
   max = 100,
   ...props
 }: SliderPrimitive.Root.Props) {
-  const values = Array.isArray(value)
+  const _values = Array.isArray(value)
     ? value
     : Array.isArray(defaultValue)
       ? defaultValue
-      : [value ?? defaultValue ?? min]
+      : [min, max]
 
   return (
     <SliderPrimitive.Root
+      className={cn("data-horizontal:w-full data-vertical:h-full", className)}
       data-slot="slider"
-      className={cn("w-full font-ui text-s", className)}
       defaultValue={defaultValue}
       value={value}
       min={min}
@@ -33,21 +26,21 @@ function Slider({
       thumbAlignment="edge"
       {...props}
     >
-      <SliderPrimitive.Control className="relative flex w-full touch-none items-center py-xs select-none">
+      <SliderPrimitive.Control className="relative flex w-full touch-none items-center select-none data-disabled:opacity-50 data-vertical:h-full data-vertical:min-h-40 data-vertical:w-auto data-vertical:flex-col">
         <SliderPrimitive.Track
           data-slot="slider-track"
-          className="relative h-control-xxs w-full grow overflow-hidden rounded-full bg-neutral-3 select-none"
+          className="relative grow overflow-hidden rounded-none bg-dither text-muted-foreground/50 select-none data-horizontal:h-1 data-horizontal:w-full data-vertical:h-full data-vertical:w-1"
         >
           <SliderPrimitive.Indicator
-            data-slot="slider-indicator"
-            className="h-full rounded-full bg-color-1 select-none data-disabled:bg-neutral-5"
+            data-slot="slider-range"
+            className="bg-primary select-none data-horizontal:h-full data-vertical:w-full"
           />
         </SliderPrimitive.Track>
-        {values.map((_, index) => (
+        {Array.from({ length: _values.length }, (_, index) => (
           <SliderPrimitive.Thumb
             data-slot="slider-thumb"
             key={index}
-            className="relative block size-control-m shrink-0 cursor-grab rounded-full bg-neutral-1 shadow-s ring ring-color-1 inset-shadow-raised surface-raised select-none after:absolute after:-inset-xs has-focus-visible:focus-ring active:cursor-grabbing dark:ring-inset data-disabled:cursor-default data-disabled:bg-neutral-2 data-disabled:bg-none data-disabled:shadow-none data-disabled:inset-shadow-none data-disabled:ring-neutral-5-transparent"
+            className="relative block size-3 shrink-0 rounded-none border border-ring bg-background alloy-raised ring-ring/50 transition-[color,box-shadow] select-none after:absolute after:-inset-2 hover:ring-2 focus-visible:ring-2 focus-visible:outline-hidden active:ring-2 disabled:pointer-events-none disabled:opacity-50"
           />
         ))}
       </SliderPrimitive.Control>
@@ -55,17 +48,4 @@ function Slider({
   )
 }
 
-function SliderValue({ className, ...props }: SliderPrimitive.Value.Props) {
-  return (
-    <SliderPrimitive.Value
-      data-slot="slider-value"
-      className={cn(
-        "text-xs text-neutral-7 tabular-nums data-disabled:text-neutral-6",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-export { Slider, SliderValue }
+export { Slider }

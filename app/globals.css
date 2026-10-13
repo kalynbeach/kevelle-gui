@@ -1,6 +1,6 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "./styles/kevelle-tokens.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -22,13 +22,9 @@
 @custom-variant active (&:active, &[data-preview~="active"]);
 
 /*
- * shadcn wraps data-disabled in :where(), so Tailwind's own data-* variants
- * (data-indeterminate, data-invalid, data-pressed) outrank it. Without
- * :where, disabled takes precedence over every other state.
+ * Fonts. ABC Areal and MEKZANTINE are not committed (see README.md); without
+ * them, text falls back to the next family in each stack.
  */
-@custom-variant data-disabled (&[data-disabled]:not([data-disabled="false"]));
-
-/* Fonts. Family names match the theme stacks in kevelle-tokens.css. */
 @font-face {
   font-family: "ABC Areal";
   src: url("/fonts/abc-areal/ABCArealVariable.woff2") format("woff2");
@@ -45,257 +41,404 @@
   font-display: swap;
 }
 
-/*
- * Tailwind vocabulary for the Kevelle tokens. `reference` keeps Tailwind from
- * emitting its own variables, so every utility reads the live theme value
- * from kevelle-tokens.css. Default scales are cleared so only theme steps
- * exist: p-m, gap-s, text-s, rounded-s, shadow-m, bg-neutral-3, ...
- */
-@theme inline reference {
-  --color-*: initial;
-  --color-color-1: var(--color-1);
-  --color-color-1-transparent: var(--color-1-transparent);
-  --color-color-2: var(--color-2);
-  --color-color-2-transparent: var(--color-2-transparent);
-  --color-color-3: var(--color-3);
-  --color-color-3-transparent: var(--color-3-transparent);
-  --color-color-4: var(--color-4);
-  --color-color-4-transparent: var(--color-4-transparent);
-  --color-color-5: var(--color-5);
-  --color-color-5-transparent: var(--color-5-transparent);
-  --color-color-6: var(--color-6);
-  --color-color-6-transparent: var(--color-6-transparent);
-  --color-neutral-1: var(--neutral-1);
-  --color-neutral-1-transparent: var(--neutral-1-transparent);
-  --color-neutral-2: var(--neutral-2);
-  --color-neutral-2-transparent: var(--neutral-2-transparent);
-  --color-neutral-3: var(--neutral-3);
-  --color-neutral-3-transparent: var(--neutral-3-transparent);
-  --color-neutral-4: var(--neutral-4);
-  --color-neutral-4-transparent: var(--neutral-4-transparent);
-  --color-neutral-5: var(--neutral-5);
-  --color-neutral-5-transparent: var(--neutral-5-transparent);
-  --color-neutral-6: var(--neutral-6);
-  --color-neutral-6-transparent: var(--neutral-6-transparent);
-  --color-neutral-7: var(--neutral-7);
-  --color-neutral-7-transparent: var(--neutral-7-transparent);
-  --color-neutral-8: var(--neutral-8);
-  --color-neutral-8-transparent: var(--neutral-8-transparent);
-  --color-neutral-9: var(--neutral-9);
-  --color-neutral-9-transparent: var(--neutral-9-transparent);
-  --color-neutral-10: var(--neutral-10);
-  --color-neutral-10-transparent: var(--neutral-10-transparent);
+@font-face {
+  font-family: "Departure Mono";
+  src: url("/fonts/departure-mono/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MEKZANTINE";
+  src: url("/fonts/mekzantine/MEKZANTINE-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
-  --color-success-transparent: var(--success-transparent);
+  --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
-  --color-warning-transparent: var(--warning-transparent);
-  --color-error: var(--error);
-  --color-error-transparent: var(--error-transparent);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-scrim: var(--scrim);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 
-  --spacing-*: initial;
-  /* 0 aliases zero so layout idioms like min-w-0 and inset-0 keep working. */
-  --spacing-0: var(--space-zero);
-  --spacing-zero: var(--space-zero);
-  --spacing-xxs: var(--space-xxs);
-  --spacing-xs: var(--space-xs);
-  --spacing-s: var(--space-s);
-  --spacing-m: var(--space-m);
-  --spacing-l: var(--space-l);
-  --spacing-xl: var(--space-xl);
-  --spacing-xxl: var(--space-xxl);
-  --spacing-control-xxs: var(--control-size-xxs);
-  --spacing-control-xs: var(--control-size-xs);
-  --spacing-control-s: var(--control-size-s);
-  --spacing-control-m: var(--control-size-m);
-  --spacing-control-l: var(--control-size-l);
-  --spacing-control-xl: var(--control-size-xl);
-  --spacing-control-xxl: var(--control-size-xxl);
+  /* Whole pixels from one knob, so edges stay crisp. */
+  --radius-xs: 0px;
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 2);
+  --radius-4xl: calc(var(--radius) * 3);
+}
 
-  --text-*: initial;
-  --text-xxs: var(--size-xxs);
-  --text-xxs--line-height: var(--line-xxs);
-  --text-xxs--letter-spacing: var(--letter-spacing-xxs);
-  --text-xs: var(--size-xs);
-  --text-xs--line-height: var(--line-xs);
-  --text-xs--letter-spacing: var(--letter-spacing-xs);
-  --text-s: var(--size-s);
-  --text-s--line-height: var(--line-s);
-  --text-s--letter-spacing: var(--letter-spacing-s);
-  --text-m: var(--size-m);
-  --text-m--line-height: var(--line-m);
-  --text-m--letter-spacing: var(--letter-spacing-m);
-  --text-l: var(--size-l);
-  --text-l--line-height: var(--line-l);
-  --text-l--letter-spacing: var(--letter-spacing-l);
-  --text-xl: var(--size-xl);
-  --text-xl--line-height: var(--line-xl);
-  --text-xl--letter-spacing: var(--letter-spacing-xl);
-  --text-xxl: var(--size-xxl);
-  --text-xxl--line-height: var(--line-xxl);
-  --text-xxl--letter-spacing: var(--letter-spacing-xxl);
+@theme {
+  /*
+   * Font roles. sans carries UI and editorial text, mono carries code and
+   * technical headings, pixel carries data and small UI details, and brand
+   * carries page titles.
+   */
+  --font-sans: "ABC Areal", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Paper Mono", ui-monospace, monospace;
+  --font-pixel: "Departure Mono", "Paper Mono", ui-monospace, monospace;
+  --font-brand: "MEKZANTINE", "ABC Areal", ui-sans-serif, sans-serif;
+  --font-heading: var(--font-sans);
 
-  --tracking-*: initial;
-  --tracking-xs: var(--tracking-xs);
-  --tracking-s: var(--tracking-s);
-  --tracking-m: var(--tracking-m);
-  --tracking-l: var(--tracking-l);
-  --tracking-xl: var(--tracking-xl);
+  /* Hairline system: inputs and outline buttons draw edges, not shadows. */
+  --shadow-2xs: 0 0 #0000;
+  --shadow-xs: 0 0 #0000;
+  --shadow-sm:
+    0 0.25px 0.75px 0 color-mix(in oklab, var(--shadow-color) 5%, transparent),
+    0 1px 3px 0 color-mix(in oklab, var(--shadow-color) 8%, transparent);
+  --shadow-md:
+    0 1px 4px 0 color-mix(in oklab, var(--shadow-color) 4%, transparent),
+    0 4px 16px 0 color-mix(in oklab, var(--shadow-color) 6%, transparent);
+  --shadow-lg:
+    0 3px 9px 0 color-mix(in oklab, var(--shadow-color) 6%, transparent),
+    0 12px 36px 0 color-mix(in oklab, var(--shadow-color) 9%, transparent);
+  --shadow-xl: var(--shadow-lg);
+  --shadow-2xl: var(--shadow-lg);
 
-  /* Weights follow the font role in scope; see the font-* utilities below. */
-  --font-weight-*: initial;
-  --font-weight-regular: var(--weight-regular);
-  --font-weight-medium: var(--weight-medium);
-  --font-weight-heavy: var(--weight-heavy);
-
-  --leading-*: initial;
-
-  --radius-*: initial;
-  --radius-zero: var(--radius-zero);
-  --radius-xs: var(--radius-xs);
-  --radius-s: var(--radius-s);
-  --radius-m: var(--radius-m);
-  --radius-l: var(--radius-l);
-  --radius-xl: var(--radius-xl);
-  --radius-full: var(--radius-full);
-
-  --shadow-*: initial;
-  --shadow-s: var(--shadow-s);
-  --shadow-m: var(--shadow-m);
-  --shadow-l: var(--shadow-l);
-
-  /* Inner bevels. They compose with ring edges and shadow-* elevation. */
-  --inset-shadow-*: initial;
-  --inset-shadow-raised: var(--surface-raised-shadow);
-  --inset-shadow-recessed: var(--surface-recessed-shadow);
-
-  /* Edges are rings at the border-s width. Use ring-inset or ring-outset
-     to follow each part's authored edge placement. */
-  --default-ring-width: var(--border-s);
-
-  /* Small motion is the default; motion-large selects the large curve. */
-  --default-transition-duration: var(--motion-duration);
-  --default-transition-timing-function: var(--motion-easing);
-  --ease-*: initial;
-  --ease-small: var(--motion-easing);
-  --ease-large: var(--motion-large-easing);
-
-  --animate-*: initial;
-  --animate-spin: spin calc(var(--motion-large-duration) * 4) linear
-    var(--motion-large-iterations);
-  --animate-progress-sweep: progress-sweep
-    calc(var(--motion-large-duration) * 4) var(--motion-large-easing)
-    var(--motion-large-iterations) alternate;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Indeterminate progress: a third-width bar sweeping the track. */
+  --animate-progress-sweep: progress-sweep 1.2s var(--ease-out) infinite
+    alternate;
 
   @keyframes progress-sweep {
     from {
       translate: 0;
     }
     to {
-      translate: calc(100% / 0.35 - 100%);
+      translate: 200%;
     }
   }
+
+  --default-transition-duration: 160ms;
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Font roles carry their own weight mappings into font-regular/medium/heavy. */
-@utility font-ui {
-  font-family: var(--font-ui);
-  --weight-regular: var(--weight-ui-regular);
-  --weight-medium: var(--weight-ui-medium);
-  --weight-heavy: var(--weight-ui-heavy);
+:root {
+  --radius: 2px;
+
+  /*
+   * Neutral ramp. Semantic roles below pick steps from it; components use
+   * the roles. Light runs from a white canvas to near-black ink.
+   */
+  --neutral-1: oklch(1 0 0);
+  --neutral-2: oklch(0.982 0 0);
+  --neutral-3: oklch(0.954 0.001 286.4);
+  --neutral-4: oklch(0.904 0.004 286.3);
+  --neutral-5: oklch(0.79 0.007 286.2);
+  --neutral-6: oklch(0.603 0.012 286.1);
+  --neutral-7: oklch(0.449 0.012 286);
+  --neutral-8: oklch(0.32 0.011 285.9);
+  --neutral-9: oklch(0.191 0.007 286);
+  --neutral-10: oklch(0.097 0 0);
+
+  --background: var(--neutral-1);
+  --foreground: var(--neutral-10);
+  --card: var(--neutral-1);
+  --card-foreground: var(--neutral-10);
+  --popover: var(--neutral-1);
+  --popover-foreground: var(--neutral-10);
+  --primary: var(--neutral-10);
+  --primary-foreground: var(--neutral-1);
+  --secondary: var(--neutral-3);
+  --secondary-foreground: var(--neutral-10);
+  --muted: var(--neutral-3);
+  --muted-foreground: var(--neutral-7);
+  --accent: var(--neutral-3);
+  --accent-foreground: var(--neutral-10);
+  --destructive: oklch(0.546 0.164 22.3);
+  --destructive-foreground: var(--neutral-1);
+  --success: oklch(0.496 0.103 155.5);
+  --success-foreground: var(--neutral-1);
+  --warning: oklch(0.544 0.103 72.8);
+  --warning-foreground: var(--neutral-1);
+  --border: var(--neutral-4);
+  --input: var(--neutral-5);
+  --ring: var(--neutral-7);
+  /* Dims the page behind modal overlays. */
+  --scrim: oklch(0 0 0 / 0.2);
+
+  /* Signal colors for data: phosphor, astral, amber, scarlet, magenta. */
+  --chart-1: oklch(0.575 0.166 145.6);
+  --chart-2: oklch(0.45 0.31 264.1);
+  --chart-3: oklch(0.675 0.139 79.9);
+  --chart-4: oklch(0.575 0.235 29.2);
+  --chart-5: oklch(0.59 0.25 325);
+
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  --shadow-color: var(--neutral-10);
+
+  /*
+   * Alloy bevels: a lit top edge and a shaded bottom edge on raised parts,
+   * and the reverse on recessed fields.
+   */
+  --alloy-raised-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neutral-1) 12%, transparent) 0%,
+    transparent 48%,
+    color-mix(in oklab, var(--neutral-10) 5%, transparent) 100%
+  );
+  --alloy-raised-shadow:
+    inset 0 1px 0 0 color-mix(in oklab, var(--neutral-1) 70%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-10) 16%, transparent);
+  --alloy-recessed-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neutral-10) 5%, transparent) 0%,
+    transparent 55%
+  );
+  --alloy-recessed-shadow:
+    inset 0 1px 2px 0 color-mix(in oklab, var(--neutral-10) 8%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-1) 35%, transparent);
+  --alloy-action-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neutral-1) 12%, transparent) 0%,
+    color-mix(in oklab, var(--neutral-10) 5%, transparent) 100%
+  );
+  --alloy-action-shadow:
+    inset 0 1px 0 0 color-mix(in oklab, var(--neutral-1) 70%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-10) 16%, transparent),
+    inset 0 0 0 1px color-mix(in oklab, var(--neutral-1) 18%, transparent);
 }
 
-@utility font-brand {
-  font-family: var(--font-brand);
-  --weight-regular: var(--weight-brand-regular);
-  --weight-medium: var(--weight-brand-medium);
-  --weight-heavy: var(--weight-brand-heavy);
-}
+.dark {
+  /* Dark runs from a #030303 canvas to #fafafa ink. */
+  --neutral-1: oklch(0.097 0 0);
+  --neutral-2: oklch(0.142 0.006 286);
+  --neutral-3: oklch(0.189 0.007 285.9);
+  --neutral-4: oklch(0.266 0.009 286);
+  --neutral-5: oklch(0.378 0.013 285.9);
+  --neutral-6: oklch(0.55 0.015 285.9);
+  --neutral-7: oklch(0.71 0.013 286.1);
+  --neutral-8: oklch(0.831 0.008 286.2);
+  --neutral-9: oklch(0.925 0.007 286.3);
+  --neutral-10: oklch(0.985 0 0);
 
-@utility font-editorial {
-  font-family: var(--font-editorial);
-  --weight-regular: var(--weight-editorial-regular);
-  --weight-medium: var(--weight-editorial-medium);
-  --weight-heavy: var(--weight-editorial-heavy);
-}
+  --background: var(--neutral-1);
+  --foreground: var(--neutral-10);
+  --card: var(--neutral-2);
+  --card-foreground: var(--neutral-10);
+  --popover: var(--neutral-2);
+  --popover-foreground: var(--neutral-10);
+  --primary: var(--neutral-10);
+  --primary-foreground: var(--neutral-1);
+  --secondary: var(--neutral-3);
+  --secondary-foreground: var(--neutral-10);
+  --muted: var(--neutral-3);
+  --muted-foreground: var(--neutral-7);
+  --accent: var(--neutral-4);
+  --accent-foreground: var(--neutral-10);
+  --destructive: oklch(0.789 0.102 15);
+  --destructive-foreground: var(--neutral-1);
+  --success: oklch(0.816 0.091 158.5);
+  --success-foreground: var(--neutral-1);
+  --warning: oklch(0.829 0.1 84.7);
+  --warning-foreground: var(--neutral-1);
+  --border: var(--neutral-4);
+  --input: var(--neutral-5);
+  --ring: var(--neutral-7);
+  --scrim: oklch(0 0 0 / 0.7);
 
-@utility font-data {
-  font-family: var(--font-data);
-  --weight-regular: var(--weight-data-regular);
-  --weight-medium: var(--weight-data-medium);
-  --weight-heavy: var(--weight-data-heavy);
-}
+  --chart-1: oklch(0.803 0.234 146.9);
+  --chart-2: oklch(0.625 0.202 260);
+  --chart-3: oklch(0.825 0.168 91.3);
+  --chart-4: oklch(0.725 0.141 27.6);
+  --chart-5: oklch(0.675 0.223 324.1);
 
-/* Draws a ring edge outside the box; the counterpart to ring-inset. */
-@utility ring-outset {
-  --tw-ring-inset: initial;
-}
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 
-/* The theme focus outline, for wrappers whose inner control holds focus. */
-@utility focus-ring {
-  outline: var(--focus-ring-outline);
-  outline-offset: 0;
-}
+  --shadow-color: oklch(0 0 0);
 
-/* Raised fill (checkbox, radio, select trigger, slider and switch thumbs). */
-@utility surface-raised {
-  background-image: var(--surface-raised-image);
-}
-
-/* Recessed fill (text inputs). */
-@utility surface-recessed {
-  background-image: var(--surface-recessed-image);
+  --alloy-raised-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neutral-10) 10%, transparent) 0%,
+    transparent 48%,
+    color-mix(in oklab, var(--neutral-1) 12%, transparent) 100%
+  );
+  --alloy-raised-shadow:
+    inset 0 1px 0 0 color-mix(in oklab, var(--neutral-10) 24%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-1) 24%, transparent);
+  --alloy-recessed-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neutral-1) 12%, transparent) 0%,
+    transparent 55%
+  );
+  --alloy-recessed-shadow:
+    inset 0 1px 2px 0 color-mix(in oklab, var(--neutral-1) 20%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-10) 12%, transparent);
+  --alloy-action-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neutral-10) 10%, transparent) 0%,
+    color-mix(in oklab, var(--neutral-1) 12%, transparent) 100%
+  );
+  --alloy-action-shadow:
+    inset 0 1px 0 0 color-mix(in oklab, var(--neutral-10) 24%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklab, var(--neutral-1) 24%, transparent),
+    inset 0 0 0 1px color-mix(in oklab, var(--neutral-10) 6%, transparent);
 }
 
 /*
- * Raised action fill. The bevel sits on an overlay inset by the edge width so
- * its highlights do not wash out a translucent edge.
+ * Type roles that set family, size, line height, and tracking together.
+ * They are utilities rather than --text-* keys so cn() never mistakes them
+ * for text colors.
  */
-@utility surface-action {
+
+/* MEKZANTINE page titles: the sidebar wordmark and each page's h1. */
+@utility type-display {
+  font-family: var(--font-brand);
+  font-size: clamp(2.25rem, 1.75rem + 2vw, 3rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Paper Mono technical headings: group labels, table heads, legends. */
+@utility type-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/*
+ * Departure Mono is drawn on an 11px grid and only renders crisply at
+ * multiples of 11px.
+ */
+@utility type-pixel {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+@utility type-pixel-2x {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0;
+}
+
+/*
+ * The raised and recessed bevels ride on Tailwind's inset-shadow slot, so
+ * they compose with ring-* edges, focus rings, and shadow-* elevation.
+ */
+
+/* Raised fill: checkbox, radio, switch and slider thumbs, select trigger. */
+@utility alloy-raised {
+  background-image: var(--alloy-raised-image);
+  --tw-inset-shadow: var(--alloy-raised-shadow);
+  box-shadow:
+    var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+    var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+
+/* Recessed fill: text fields. */
+@utility alloy-recessed {
+  background-image: var(--alloy-recessed-image);
+  --tw-inset-shadow: var(--alloy-recessed-shadow);
+  box-shadow:
+    var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+    var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+
+/*
+ * Raised action fill for filled buttons. The bevel sits on an overlay so its
+ * highlights do not wash out the edge or the focus ring.
+ */
+@utility alloy-action {
   position: relative;
-  background-image: var(--surface-action-image);
+  background-image: var(--alloy-action-image);
 
   &::before {
     content: "";
     position: absolute;
-    inset: var(--border-s);
+    inset: 0;
     border-radius: inherit;
-    box-shadow: var(--surface-action-shadow);
+    box-shadow: var(--alloy-action-shadow);
     opacity: 50%;
     pointer-events: none;
   }
 }
 
-/* Dialogs, drawers, toasts, navigation surfaces, and disclosure panels. */
-@utility motion-large {
-  --tw-duration: var(--motion-large-duration);
-  --tw-ease: var(--motion-large-easing);
-  transition-duration: var(--motion-large-duration);
-  transition-timing-function: var(--motion-large-easing);
+/* A 1px checkerboard in the current color, for meter and progress tracks. */
+@utility bg-dither {
+  background-image: conic-gradient(
+    currentColor 25%,
+    transparent 0 50%,
+    currentColor 0 75%,
+    transparent 0
+  );
+  background-size: 2px 2px;
 }
 
 @layer base {
-  :root {
-    --weight-regular: var(--weight-ui-regular);
-    --weight-medium: var(--weight-ui-medium);
-    --weight-heavy: var(--weight-ui-heavy);
-    color-scheme: light;
+  * {
+    @apply border-border outline-ring/50;
   }
 
-  .dark {
-    color-scheme: dark;
+  html {
+    @apply font-sans;
   }
 
   body {
-    background-color: var(--cte-canvas);
-    color: var(--cte-text);
-    font-family: var(--cte-font);
-    font-size: var(--cte-font-size);
-    font-weight: var(--cte-font-weight);
-    line-height: var(--cte-line-height);
-    letter-spacing: var(--cte-letter-spacing);
+    @apply bg-background text-foreground antialiased;
     text-wrap: pretty;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Base UI popups and backdrops position against the root stacking context. */
@@ -303,19 +446,13 @@
     isolation: isolate;
   }
 
-  :focus-visible,
-  [data-preview~="focus"] {
-    outline: var(--focus-ring-outline);
-    outline-offset: 0;
-  }
-
-  /* Options and menu items show focus with their highlighted fill. */
-  :where([role="option"], [role^="menuitem"]):focus-visible {
-    outline: none;
-  }
-
-  ::placeholder {
-    color: var(--neutral-6);
-    opacity: 1;
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

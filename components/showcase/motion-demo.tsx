@@ -1,44 +1,30 @@
 "use client"
 
 import * as React from "react"
+import { cn } from "cn"
 
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { Demo } from "@/components/showcase/page"
 
-/* Moves a marker across a track on each curve so their timing can be compared. */
+/* Slides a marker across a track on the default transition. */
 export function MotionDemo() {
-  const [moved, setMoved] = React.useState(false)
+  const [end, setEnd] = React.useState(false)
 
   return (
-    <div className="flex w-full flex-col gap-m">
-      {(
-        [
-          ["small", "transition-[translate]"],
-          ["large", "transition-[translate] motion-large"],
-        ] as const
-      ).map(([name, transition]) => (
-        <div key={name} className="flex items-center gap-l">
-          <span className="w-xxl shrink-0 font-data text-xs text-neutral-7">
-            {name}
-          </span>
-          <div className="relative h-control-m flex-1 rounded-full bg-neutral-3">
-            <div
-              className={cn(
-                "absolute inset-y-0 left-0 w-full",
-                transition,
-                moved ? "translate-x-[calc(100%-var(--control-size-m))]" : "translate-x-0"
-              )}
-            >
-              <div className="size-control-m rounded-full bg-color-1" />
-            </div>
-          </div>
-        </div>
-      ))}
+    <Demo className="flex-col items-stretch">
+      <div className="relative h-8 bg-dither text-muted-foreground/40">
+        <div
+          className={cn(
+            "absolute inset-y-0 left-0 w-8 bg-primary transition-all",
+            end && "left-full -translate-x-full"
+          )}
+        />
+      </div>
       <div>
-        <Button variant="secondary" onClick={() => setMoved((value) => !value)}>
-          {moved ? "Move back" : "Move"}
+        <Button variant="outline" onClick={() => setEnd((value) => !value)}>
+          {end ? "Return" : "Move"}
         </Button>
       </div>
-    </div>
+    </Demo>
   )
 }

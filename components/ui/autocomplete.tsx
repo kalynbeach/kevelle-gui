@@ -1,20 +1,11 @@
 "use client"
 
 import { Autocomplete as AutocompletePrimitive } from "@base-ui/react/autocomplete"
-
-import { cn } from "@/lib/utils"
-import { textFieldControl } from "@/components/ui/input"
-import {
-  menuLabel,
-  menuSeparator,
-  popupMotion,
-  popupSurface,
-} from "@/components/ui/popup"
+import { cn } from "cn"
 
 /*
- * Kevelle Autocomplete. Its input differs from the Text field control: it
- * carries an s shadow, focuses to a solid color-1 edge, and disables to
- * neutral-2. Options use the s radius and neutral-3 for selection.
+ * Autocomplete is not in the shadcn registry. It follows the Combobox
+ * treatment: a text field input over a popover list of suggestions.
  */
 
 const Autocomplete = AutocompletePrimitive.Root
@@ -27,8 +18,7 @@ function AutocompleteInput({
     <AutocompletePrimitive.Input
       data-slot="autocomplete-input"
       className={cn(
-        textFieldControl,
-        "shadow-s focus-visible:ring-color-1 data-disabled:bg-neutral-2 data-disabled:shadow-none data-disabled:ring-neutral-4",
+        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent alloy-recessed px-2.5 py-1 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30",
         className
       )}
       {...props}
@@ -39,7 +29,7 @@ function AutocompleteInput({
 function AutocompleteContent({
   className,
   side = "bottom",
-  sideOffset = 4,
+  sideOffset = 6,
   align = "start",
   alignOffset = 0,
   ...props
@@ -55,14 +45,12 @@ function AutocompleteContent({
         sideOffset={sideOffset}
         align={align}
         alignOffset={alignOffset}
-        className="z-50"
+        className="isolate z-50"
       >
         <AutocompletePrimitive.Popup
           data-slot="autocomplete-content"
           className={cn(
-            popupSurface,
-            popupMotion,
-            "group/autocomplete-content w-(--anchor-width) max-w-(--available-width) overflow-hidden rounded-m",
+            "group/autocomplete-content relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) overflow-hidden rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className
           )}
           {...props}
@@ -80,7 +68,7 @@ function AutocompleteList({
     <AutocompletePrimitive.List
       data-slot="autocomplete-list"
       className={cn(
-        "flex max-h-[min(22.5rem,var(--available-height))] scroll-py-xxs flex-col gap-xxs overflow-y-auto overscroll-contain p-xxs data-empty:p-zero",
+        "max-h-[min(--spacing(72),var(--available-height))] scroll-py-1 overflow-y-auto overscroll-contain p-1 data-empty:p-0",
         className
       )}
       {...props}
@@ -96,7 +84,7 @@ function AutocompleteItem({
     <AutocompletePrimitive.Item
       data-slot="autocomplete-item"
       className={cn(
-        "flex cursor-default items-center gap-xs rounded-s px-xs py-xxs text-s text-neutral-10 outline-none select-none data-highlighted:bg-neutral-3 data-selected:bg-neutral-3 data-disabled:pointer-events-none data-disabled:text-neutral-6",
+        "relative flex w-full cursor-default items-center gap-2 rounded-md px-1.5 py-1 text-sm outline-hidden select-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
@@ -111,7 +99,7 @@ function AutocompleteGroup({
   return (
     <AutocompletePrimitive.Group
       data-slot="autocomplete-group"
-      className={cn("flex flex-col gap-xxs", className)}
+      className={cn(className)}
       {...props}
     />
   )
@@ -124,13 +112,12 @@ function AutocompleteGroupLabel({
   return (
     <AutocompletePrimitive.GroupLabel
       data-slot="autocomplete-group-label"
-      className={cn(menuLabel, className)}
+      className={cn("px-2 py-1.5 type-label text-muted-foreground", className)}
       {...props}
     />
   )
 }
 
-/* The content part: empty and status messages in neutral-7. */
 function AutocompleteEmpty({
   className,
   ...props
@@ -139,7 +126,7 @@ function AutocompleteEmpty({
     <AutocompletePrimitive.Empty
       data-slot="autocomplete-empty"
       className={cn(
-        "hidden px-xs py-s text-s text-neutral-7 group-data-empty/autocomplete-content:block",
+        "hidden w-full justify-center py-2 text-center text-sm text-muted-foreground group-data-empty/autocomplete-content:flex",
         className
       )}
       {...props}
@@ -154,7 +141,7 @@ function AutocompleteSeparator({
   return (
     <AutocompletePrimitive.Separator
       data-slot="autocomplete-separator"
-      className={cn(menuSeparator, className)}
+      className={cn("-mx-1 my-1 h-px bg-border", className)}
       {...props}
     />
   )

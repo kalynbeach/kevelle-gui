@@ -1,20 +1,14 @@
 "use client"
 
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
-import { CaretRightIcon } from "@phosphor-icons/react"
-
-import { cn } from "@/lib/utils"
-
-/*
- * Kevelle Accordion. Items are separated by a one-sided neutral-4-transparent
- * divider; panels open on the large motion curve.
- */
+import { cn } from "cn"
+import { CaretDownIcon, CaretUpIcon } from "@phosphor-icons/react"
 
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   return (
     <AccordionPrimitive.Root
       data-slot="accordion"
-      className={cn("flex w-full flex-col font-ui text-s", className)}
+      className={cn("flex w-full flex-col", className)}
       {...props}
     />
   )
@@ -24,10 +18,7 @@ function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
-      className={cn(
-        "min-w-0 shadow-[inset_0_calc(var(--border-s)*-1)_0_0_var(--neutral-4-transparent)] last:shadow-none",
-        className
-      )}
+      className={cn("not-last:border-b", className)}
       {...props}
     />
   )
@@ -43,18 +34,20 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "group/accordion-trigger flex flex-1 cursor-pointer items-center gap-xs rounded-s py-m text-start text-s font-medium text-neutral-10 data-disabled:cursor-default data-disabled:text-neutral-6",
+          "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:after:border-ring aria-disabled:pointer-events-none aria-disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground",
           className
         )}
         {...props}
       >
-        <span
-          data-slot="accordion-indicator"
-          className="flex shrink-0 items-center text-m text-neutral-7 transition-transform motion-large group-data-disabled/accordion-trigger:text-neutral-6 group-data-panel-open/accordion-trigger:rotate-90"
-        >
-          <CaretRightIcon className="size-[1em]" />
-        </span>
         {children}
+        <CaretDownIcon
+          data-slot="accordion-trigger-icon"
+          className="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden"
+        />
+        <CaretUpIcon
+          data-slot="accordion-trigger-icon"
+          className="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline"
+        />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )
@@ -68,12 +61,12 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
-      className="h-(--accordion-panel-height) overflow-hidden transition-[height,opacity] motion-large data-ending-style:h-0 data-ending-style:opacity-0 data-starting-style:h-0 data-starting-style:opacity-0"
+      className="overflow-hidden text-sm data-open:animate-accordion-down data-closed:animate-accordion-up"
       {...props}
     >
       <div
         className={cn(
-          "flex flex-col gap-s pb-m text-s text-neutral-8 data-disabled:text-neutral-6",
+          "h-(--accordion-panel-height) pt-0 pb-2.5 data-ending-style:h-0 data-starting-style:h-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
           className
         )}
       >

@@ -1,13 +1,9 @@
 "use client"
 
+import * as React from "react"
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area"
+import { cn } from "cn"
 
-import { cn } from "@/lib/utils"
-
-/*
- * Kevelle Scroll area: a neutral-1 viewport with a translucent edge and m
- * padding. Scrollbars are control-xs wide, inset by xxs, with neutral-4 thumbs.
- */
 function ScrollArea({
   className,
   children,
@@ -16,19 +12,14 @@ function ScrollArea({
   return (
     <ScrollAreaPrimitive.Root
       data-slot="scroll-area"
-      className={cn(
-        "relative overflow-hidden rounded-s bg-neutral-1 font-ui text-s text-neutral-8 ring ring-neutral-4-transparent dark:ring-inset",
-        className
-      )}
+      className={cn("relative", className)}
       {...props}
     >
       <ScrollAreaPrimitive.Viewport
         data-slot="scroll-area-viewport"
-        className="size-full overscroll-contain rounded-[inherit]"
+        className="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-1"
       >
-        <ScrollAreaPrimitive.Content className="flex flex-col gap-s p-m">
-          {children}
-        </ScrollAreaPrimitive.Content>
+        {children}
       </ScrollAreaPrimitive.Viewport>
       <ScrollBar />
       <ScrollAreaPrimitive.Corner />
@@ -44,16 +35,17 @@ function ScrollBar({
   return (
     <ScrollAreaPrimitive.Scrollbar
       data-slot="scroll-area-scrollbar"
+      data-orientation={orientation}
       orientation={orientation}
       className={cn(
-        "m-xxs flex touch-none rounded-full select-none data-[orientation=horizontal]:h-control-xs data-[orientation=vertical]:w-control-xs",
+        "flex touch-none p-px transition-colors select-none data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent",
         className
       )}
       {...props}
     >
       <ScrollAreaPrimitive.Thumb
         data-slot="scroll-area-thumb"
-        className="flex-1 rounded-full bg-neutral-4 transition-colors hover:bg-neutral-5 active:bg-neutral-5"
+        className="relative flex-1 rounded-full bg-border"
       />
     </ScrollAreaPrimitive.Scrollbar>
   )
