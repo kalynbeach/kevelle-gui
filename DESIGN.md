@@ -193,12 +193,6 @@ Local deviations to keep when merging upstream changes:
   - `CommandDialog` renders its visually hidden title and description inside `DialogContent`, so they mount with the popup instead of staying on the page while it is closed.
   - `InputOTPSeparator` and `ContextMenuSubContent` merge a consumer `className` with their own classes instead of replacing them.
 
-`components.json` sets `rtl: true`, and `bunx --bun shadcn@latest migrate rtl` has converted `components/ui/` to logical classes, so `shadcn add` output matches. The migration leaves these to hand edits, which are also deviations to keep:
-
-- `Sidebar` keeps physical classes on its container, rail, and inset, because its `side` prop is physical: an RTL layout uses `dir="rtl" side="right"`. Its menu actions, badges, text, and sub-menu border are logical.
-- Submenu carets, the breadcrumb separator, and the pagination carets carry `rtl:rotate-180`. The calendar already rotates its nav carets.
-- The carousel is not RTL-ready. Embla needs `opts={{ direction: "rtl" }}`, which the showcase does not set.
-
 ## Showcase
 
 `app/` renders every foundation and component in both modes. `components/showcase/` holds the shell, page primitives, and client demos. Its state matrices pin hover, focus, and pressed with `data-preview`, which the custom variants at the top of `app/globals.css` read.

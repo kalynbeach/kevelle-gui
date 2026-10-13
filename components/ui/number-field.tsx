@@ -62,7 +62,7 @@ function NumberFieldDecrement({
     <NumberFieldPrimitive.Decrement
       data-slot="number-field-decrement"
       aria-label="Decrease"
-      className={cn(stepper, "border-e border-input", className)}
+      className={cn(stepper, "border-r border-input", className)}
       {...props}
     >
       <MinusIcon />
@@ -78,7 +78,7 @@ function NumberFieldIncrement({
     <NumberFieldPrimitive.Increment
       data-slot="number-field-increment"
       aria-label="Increase"
-      className={cn(stepper, "border-s border-input", className)}
+      className={cn(stepper, "border-l border-input", className)}
       {...props}
     >
       <PlusIcon />
