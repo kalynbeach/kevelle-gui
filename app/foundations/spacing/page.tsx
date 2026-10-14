@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import {
   Code,
   Demo,
-  Notes,
+  Details,
   PageHeader,
   Section,
 } from "@/components/showcase/page"
@@ -48,16 +48,19 @@ export default function SpacingPage() {
               <div className="flex h-4 w-24 items-center">
                 <div className={cn("h-2 bg-foreground", width)} />
               </div>
-              <span className="text-sm text-muted-foreground">{use}</span>
+              {/* Its own line on phones, the remaining width from sm up. */}
+              <span className="basis-full text-sm text-muted-foreground sm:flex-1">
+                {use}
+              </span>
             </div>
           ))}
         </div>
-        <Notes>
+        <Details>
           <p>
             Tailwind&apos;s 4px scale. Components own their internal spacing;
             pages place them with gap and margin.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Control heights">
@@ -70,12 +73,12 @@ export default function SpacingPage() {
             <Input aria-label="Track name" placeholder="Track name" />
           </div>
         </Demo>
-        <Notes>
+        <Details>
           <p>
             Buttons, inputs, selects, and toggles share heights so they align in
             a row: 24, 28, 32, and 36px.
           </p>
-        </Notes>
+        </Details>
       </Section>
     </>
   )

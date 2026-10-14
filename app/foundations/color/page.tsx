@@ -5,7 +5,7 @@ import {
   SignalGrid,
   SwatchGrid,
 } from "@/components/showcase/color"
-import { Notes, PageHeader, Section } from "@/components/showcase/page"
+import { Details, PageHeader, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Color" }
 
@@ -58,7 +58,7 @@ export default function ColorPage() {
 
       <Section title="Neutral ramp">
         <SwatchGrid tokens={neutrals} />
-        <Notes>
+        <Details>
           <p>
             Ten steps from canvas to ink: white to near-black in light mode,
             near-black to near-white in dark mode. The middle steps carry a
@@ -69,34 +69,34 @@ export default function ColorPage() {
             Values are OKLCH as written in the theme, with sRGB hex for
             convenience.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Roles">
         <SwatchGrid tokens={surfaces} className="md:grid-cols-6" />
         <SwatchGrid tokens={ink} className="md:grid-cols-4" />
-        <Notes>
+        <Details>
           <p>
             shadcn/ui roles. Each fill pairs with a -foreground role for the
             text on it.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Status">
         <SwatchGrid tokens={status} />
-        <Notes>
+        <Details>
           <p>
             Destructive is scarlet, success is phosphor, and warning is amber,
             each with the most chroma sRGB allows at its lightness. They also
             color text, so each clears 4.5:1 on the canvas.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Signal">
         <SignalGrid tokens={signals} />
-        <Notes>
+        <Details>
           <p>
             From the KKB Images boards: oscilloscope phosphor, starry astral
             blue, and the flame&apos;s orange, magenta, and chrome. Each keeps
@@ -105,7 +105,7 @@ export default function ColorPage() {
             chart-5. Astral leads in light mode and phosphor in dark mode.
           </p>
           <p>Use them for data series. They do not mark status.</p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Contrast">
@@ -119,11 +119,11 @@ export default function ColorPage() {
             />
           ))}
         </div>
-        <Notes>
+        <Details>
           <p>
             Measured live in the current mode. Ratios under 4.5:1 are marked.
           </p>
-        </Notes>
+        </Details>
       </Section>
     </>
   )

@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/resizable"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { Demo, PageHeader, Prose, Section } from "@/components/showcase/page"
+import { Demo, PageHeader, Details, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Layout" }
 
@@ -162,12 +162,6 @@ export default function LayoutPage() {
       </Section>
 
       <Section title="Direction">
-        <Prose>
-          <p>
-            DirectionProvider sets reading direction for Base UI parts. The
-            wrapper also needs a dir attribute to flip layout.
-          </p>
-        </Prose>
         <Demo>
           <DirectionProvider direction="rtl">
             <div dir="rtl" className="flex w-full max-w-sm flex-col gap-3">
@@ -181,6 +175,12 @@ export default function LayoutPage() {
             </div>
           </DirectionProvider>
         </Demo>
+        <Details>
+          <p>
+            DirectionProvider sets reading direction for Base UI parts. The
+            wrapper also needs a dir attribute to flip layout.
+          </p>
+        </Details>
       </Section>
     </>
   )

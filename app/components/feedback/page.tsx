@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@/components/ui/spinner"
-import { Demo, PageHeader, Prose, Section } from "@/components/showcase/page"
+import { Demo, PageHeader, Details, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Feedback" }
 
@@ -76,12 +76,6 @@ export default function FeedbackPage() {
       </Section>
 
       <Section title="Progress">
-        <Prose>
-          <p>
-            Tracks are dithered, like the bars on a machine report. Values set
-            in Departure Mono.
-          </p>
-        </Prose>
         <Demo className="flex-col items-stretch">
           <Progress value={34}>
             <ProgressLabel>Rendering stems</ProgressLabel>
@@ -89,6 +83,12 @@ export default function FeedbackPage() {
           </Progress>
           <Progress value={null} aria-label="Scanning plugins" />
         </Demo>
+        <Details>
+          <p>
+            Tracks are dithered, like the bars on a machine report. Values set
+            in Departure Mono.
+          </p>
+        </Details>
       </Section>
 
       <Section title="Meter">

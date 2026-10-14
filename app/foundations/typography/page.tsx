@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Kbd } from "@/components/ui/kbd"
 import {
   Code,
-  Notes,
+  Details,
   PageHeader,
   Section,
   Subsection,
@@ -109,13 +109,13 @@ export default function TypographyPage() {
             <p className="type-pixel-2x text-foreground">120 BPM</p>
           </Subsection>
         </div>
-        <Notes>
+        <Details>
           <p>
             Utilities that set family, size, line height, and tracking together.
             Departure Mono is drawn on an 11px grid, so its roles stay at 11px
             and 22px.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Text scale">
@@ -136,11 +136,11 @@ export default function TypographyPage() {
             </div>
           ))}
         </div>
-        <Notes>
+        <Details>
           <p>
             Tailwind&apos;s default scale. Each step sets size and line height.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Running text">
@@ -149,12 +149,12 @@ export default function TypographyPage() {
           mastering engineer can rebalance the low end. Keep peaks below
           &minus;1 dBTP and leave the limiter off the stem exports.
         </p>
-        <Notes>
+        <Details>
           <p>
             Wrapping text uses <Code>text-wrap: pretty</Code>, set once on the
             body so portalled popups inherit it.
           </p>
-        </Notes>
+        </Details>
       </Section>
     </>
   )

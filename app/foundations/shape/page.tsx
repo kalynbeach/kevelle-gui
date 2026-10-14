@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import {
   Demo,
-  Notes,
+  Details,
   PageHeader,
   Section,
   Subsection,
@@ -68,25 +68,25 @@ export default function RadiusElevationPage() {
 
       <Section title="Radius">
         <TokenTable rows={radii} />
-        <Notes>
+        <Details>
           <p>
             Components are square: they use rounded-none. Radio buttons, scroll
             area thumbs, and the drawer handle stay round. The ramp is there for
             elements that opt into rounding. One knob, --radius at 8px, sets
             every step in whole pixels.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Edges and elevation">
         <TokenTable rows={shadows} />
-        <Notes>
+        <Details>
           <p>
             Edges are 1px hairlines in the border role. Shadows are reserved for
             layers that float: they read in light mode and fall away on the dark
             canvas, where the hairline carries the edge.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Alloy">
@@ -110,13 +110,13 @@ export default function RadiusElevationPage() {
             </Demo>
           </Subsection>
         </div>
-        <Notes>
+        <Details>
           <p>
             Kevelle&apos;s machined surfaces. Filled buttons carry a lit top
             edge and a shaded base. Checkboxes, switch thumbs, and select
             triggers are raised; text fields are recessed.
           </p>
-        </Notes>
+        </Details>
       </Section>
     </>
   )

@@ -68,7 +68,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Kbd } from "@/components/ui/kbd"
 import { SonnerDemo, ToastDemo } from "@/components/showcase/demos/overlays"
-import { Demo, PageHeader, Prose, Section } from "@/components/showcase/page"
+import { Demo, PageHeader, Details, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Overlays" }
 
@@ -262,24 +262,24 @@ export default function OverlaysPage() {
       </Section>
 
       <Section title="Toast">
-        <Prose>
-          <p>Base UI toasts, the default for this project.</p>
-        </Prose>
         <Demo>
           <ToastDemo />
         </Demo>
+        <Details>
+          <p>Base UI toasts, the default for this project.</p>
+        </Details>
       </Section>
 
       <Section title="Sonner">
-        <Prose>
+        <Demo>
+          <SonnerDemo />
+        </Demo>
+        <Details>
           <p>
             The registry&apos;s Sonner toaster, themed with the popover role.
             Use Toast unless a feature depends on Sonner&apos;s API.
           </p>
-        </Prose>
-        <Demo>
-          <SonnerDemo />
-        </Demo>
+        </Details>
       </Section>
     </>
   )

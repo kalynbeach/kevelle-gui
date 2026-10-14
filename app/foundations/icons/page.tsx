@@ -19,7 +19,7 @@ import {
 } from "@phosphor-icons/react/ssr"
 
 import { Button } from "@/components/ui/button"
-import { Demo, Notes, PageHeader, Section } from "@/components/showcase/page"
+import { Demo, Details, PageHeader, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Icons" }
 
@@ -59,13 +59,13 @@ export default function IconsPage() {
             </div>
           ))}
         </div>
-        <Notes>
+        <Details>
           <p>
             Phosphor at the regular weight. Components size icons from their own
             text; a button icon is 16px. Icon-only controls need an accessible
             name.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="In controls">

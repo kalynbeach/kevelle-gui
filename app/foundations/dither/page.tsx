@@ -13,7 +13,7 @@ import { AreaChartDemo } from "@/components/showcase/demos/data-display"
 import {
   Code,
   Demo,
-  Notes,
+  Details,
   PageHeader,
   Section,
   Subsection,
@@ -85,7 +85,7 @@ export default function DitherPage() {
             </div>
           ))}
         </div>
-        <Notes>
+        <Details>
           <p>
             Kevelle shades with 1px ordered dither, like the meters on a machine
             report. Each utility draws in the current color, so a text color
@@ -97,7 +97,7 @@ export default function DitherPage() {
             even number of pixels, the pattern ends on a lit row at one edge and
             an empty row at the other.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="Ramp">
@@ -109,12 +109,12 @@ export default function DitherPage() {
             <Ramp className="text-chart-1" />
           </Subsection>
         </div>
-        <Notes>
+        <Details>
           <p>
             For a gradient, step through the densities instead of fading
             opacity. In a signal color it reads as a glow.
           </p>
-        </Notes>
+        </Details>
       </Section>
 
       <Section title="In components">
@@ -148,7 +148,7 @@ export default function DitherPage() {
             </Demo>
           </Subsection>
         </div>
-        <Notes>
+        <Details>
           <p>
             Empty capacity, unloaded content, and dimmed pages are dithered.
             Charts fill areas with <Code>DitherPattern</Code>, the SVG
@@ -165,7 +165,7 @@ export default function DitherPage() {
             </Link>{" "}
             page to see it.
           </p>
-        </Notes>
+        </Details>
       </Section>
     </>
   )

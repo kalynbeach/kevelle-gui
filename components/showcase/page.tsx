@@ -5,21 +5,10 @@ import { CaretRightIcon } from "@phosphor-icons/react/ssr"
 import { slugify } from "@/components/showcase/nav"
 
 /* Page titles use the brand face; nothing else on the page does. */
-export function PageHeader({
-  title,
-  children,
-}: {
-  title: string
-  children?: React.ReactNode
-}) {
+export function PageHeader({ title }: { title: string }) {
   return (
-    <header className="flex flex-col gap-4">
+    <header>
       <h1 className="type-display text-foreground">{title}</h1>
-      {children ? (
-        <div className="max-w-prose text-base text-muted-foreground">
-          {children}
-        </div>
-      ) : null}
     </header>
   )
 }
@@ -54,7 +43,10 @@ export function Section({
   )
 }
 
-/* Paper Mono technical heading for a group inside a section. */
+/*
+ * Paper Mono technical heading for a group inside a section. Often a grid
+ * item, so it shrinks to its column instead of growing to fit a wide demo.
+ */
 export function Subsection({
   title,
   children,
@@ -65,7 +57,7 @@ export function Subsection({
   className?: string
 }) {
   return (
-    <div className={cn("flex flex-col gap-3", className)}>
+    <div className={cn("flex min-w-0 flex-col gap-3", className)}>
       <h3 className="type-label text-muted-foreground">{title}</h3>
       {children}
     </div>
@@ -96,10 +88,10 @@ export function Demo({
 }
 
 /*
- * Supporting notes, collapsed at the end of a section so the specimens come
- * first. Find in page still opens them.
+ * A section's description, collapsed at its end so the specimens come first.
+ * Every section that explains itself uses this. Find in page still opens it.
  */
-export function Notes({ children }: { children: React.ReactNode }) {
+export function Details({ children }: { children: React.ReactNode }) {
   return (
     <details className="group text-sm text-muted-foreground">
       {/* Unselectable, so repeated clicks toggle without selecting text. */}
@@ -108,18 +100,10 @@ export function Notes({ children }: { children: React.ReactNode }) {
           aria-hidden="true"
           className="size-4 transition-transform group-open:rotate-90"
         />
-        Notes
+        Details
       </summary>
       <div className="flex flex-col gap-3 pt-2">{children}</div>
     </details>
-  )
-}
-
-export function Prose({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex max-w-prose flex-col gap-3 text-sm text-muted-foreground">
-      {children}
-    </div>
   )
 }
 
