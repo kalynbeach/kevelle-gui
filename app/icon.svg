@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720">
+  <!-- MEKZANTINE "K" (glyph 28). Path data is verbatim in font units; the transform flips it onto the baseline. -->
+  <style>
+    path { fill: #030303 }
+    @media (prefers-color-scheme: dark) { path { fill: #fafafa } }
+  </style>
+  <path transform="matrix(1 0 0 -1 185 720)" shape-rendering="crispEdges" d="M130 0L130 405L175 405L175 450L130 450L130 720L40 720L40 0ZM220 540L220 495L175 495L175 450L265 450L265 495L310 495L310 540L355 540L355 720L265 720L265 540ZM220 315L220 270L265 270L265 0L355 0L355 225L310 225L310 315L265 315L265 360L220 360L220 405L175 405L175 315Z"/>
+</svg>
