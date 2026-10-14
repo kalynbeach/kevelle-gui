@@ -102,7 +102,8 @@ export function Demo({
 export function Notes({ children }: { children: React.ReactNode }) {
   return (
     <details className="group text-sm text-muted-foreground">
-      <summary className="-mx-1 flex w-fit cursor-pointer items-center gap-1.5 px-1 py-1 transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 [&::-webkit-details-marker]:hidden">
+      {/* Unselectable, so repeated clicks toggle without selecting text. */}
+      <summary className="-mx-1 flex w-fit cursor-pointer items-center gap-1.5 px-1 py-1 transition-colors outline-none select-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 [&::-webkit-details-marker]:hidden">
         <CaretRightIcon
           aria-hidden="true"
           className="size-4 transition-transform group-open:rotate-90"

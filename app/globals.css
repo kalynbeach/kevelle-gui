@@ -503,6 +503,11 @@
     text-wrap: pretty;
   }
 
+  /* Selections invert: ink highlight, canvas text. */
+  ::selection {
+    @apply bg-foreground text-background;
+  }
+
   /* shadcn's `init --pointer` rule. Tailwind v4 leaves buttons on the default cursor. */
   button:not(:disabled),
   [role="button"]:not(:disabled) {

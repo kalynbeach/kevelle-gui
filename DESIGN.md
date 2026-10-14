@@ -64,6 +64,8 @@ A ten-step neutral ramp, `--neutral-1` to `--neutral-10`, runs from canvas to in
 
 Components never use the ramp directly. The shadcn roles pick steps from it: `background`, `foreground`, `card`, `popover`, `primary`, `secondary`, `muted`, `accent`, `border`, `input`, `ring`, and the `sidebar-*` set. Kevelle adds `success`, `warning`, `destructive-foreground`, and `scrim` (the modal overlay).
 
+Text selection inverts the canvas: a `foreground` highlight with `background` text, set once on `::selection` in `app/globals.css`.
+
 Status and signal colors follow one rule. The hue comes from a family in the KKB Palette artboard of the KKB Paper file, the lightness is whatever the role needs for contrast, and the chroma is the most sRGB allows at that lightness and hue. Every value stays inside sRGB, so its hex needs no gamut mapping.
 
 Status colors also color text in alerts, badges, and field errors. Each clears 4.5:1 on the canvas and on its badge tint, and its `-foreground` clears 4.5:1 on its fill. In light mode, warning is a deep amber, because no yellow reaches 4.5:1 on white and stays saturated.
