@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { cn } from "cn"
 
 import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
@@ -12,8 +13,8 @@ import { AreaChartDemo } from "@/components/showcase/demos/data-display"
 import {
   Code,
   Demo,
+  Details,
   PageHeader,
-  Prose,
   Section,
   Subsection,
 } from "@/components/showcase/page"
@@ -23,14 +24,8 @@ export const metadata: Metadata = { title: "Dither" }
 const densities = [
   { utility: "dither-12", use: "Ramps and faint grain" },
   { utility: "dither-25", use: "Chart areas" },
-  { utility: "dither-50", use: "Tracks, skeletons, and scrims" },
+  { utility: "dither-50", use: "Tracks, skeletons, and backdrops" },
   { utility: "dither-75", use: "Ramps, the last step before solid" },
-]
-
-const buses = [
-  ["Drum bus", "−3.1 dB"],
-  ["Bass", "−6.0 dB"],
-  ["Vocals", "−4.4 dB"],
 ]
 
 /* Utilities stay literal so Tailwind generates them. */
@@ -43,12 +38,16 @@ const ramp = [
   { label: "100", className: "bg-current" },
 ]
 
+/*
+ * Framed blocks have odd inner sizes, so each dither meets opposite hairlines
+ * the same way: 97px swatches inside 1px borders, and 63px ramp cells.
+ */
 function Ramp({ className }: { className: string }) {
   return (
     <div className="flex flex-col gap-2">
       <div className={cn("grid grid-cols-6 border", className)}>
         {ramp.map((step) => (
-          <div key={step.label} className={cn("h-16", step.className)} />
+          <div key={step.label} className={cn("h-15.75", step.className)} />
         ))}
       </div>
       <div className="grid grid-cols-6 type-pixel text-muted-foreground">
@@ -66,19 +65,14 @@ export default function DitherPage() {
       <PageHeader title="Dither" />
 
       <Section title="Density">
-        <Prose>
-          <p>
-            Kevelle shades with 1px ordered dither, like the meters on a machine
-            report. Each utility draws in the current color, so a text color
-            sets the dither color. Each density lights every pixel of the
-            density below it, so neighboring steps line up.
-          </p>
-        </Prose>
         <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-4">
           {densities.map((density) => (
             <div key={density.utility} className="flex flex-col gap-2">
               <div
-                className={cn("h-24 border text-foreground", density.utility)}
+                className={cn(
+                  "size-24.25 border text-foreground",
+                  density.utility
+                )}
               />
               <div className="flex flex-col">
                 <span className="font-mono text-xs text-foreground">
@@ -91,15 +85,22 @@ export default function DitherPage() {
             </div>
           ))}
         </div>
+        <Details>
+          <p>
+            Kevelle shades with 1px ordered dither, like the meters on a machine
+            report. Each utility draws in the current color, so a text color
+            sets the dither color. Each density lights every pixel of the
+            density below it, so neighboring steps line up.
+          </p>
+          <p>
+            Give a dithered block inside a hairline an odd inner size. Across an
+            even number of pixels, the pattern ends on a lit row at one edge and
+            an empty row at the other.
+          </p>
+        </Details>
       </Section>
 
       <Section title="Ramp">
-        <Prose>
-          <p>
-            For a gradient, step through the densities instead of fading
-            opacity. In a signal color it reads as a glow.
-          </p>
-        </Prose>
         <div className="grid gap-6 md:grid-cols-2">
           <Subsection title="foreground">
             <Ramp className="text-foreground" />
@@ -108,16 +109,15 @@ export default function DitherPage() {
             <Ramp className="text-chart-1" />
           </Subsection>
         </div>
+        <Details>
+          <p>
+            For a gradient, step through the densities instead of fading
+            opacity. In a signal color it reads as a glow.
+          </p>
+        </Details>
       </Section>
 
       <Section title="In components">
-        <Prose>
-          <p>
-            Empty capacity, unloaded content, and dimmed pages are dithered.
-            Charts fill areas with <Code>DitherPattern</Code>, the SVG
-            counterpart of the utilities.
-          </p>
-        </Prose>
         <div className="grid gap-6 md:grid-cols-2">
           <Subsection title="Tracks">
             <Demo className="flex-col items-stretch">
@@ -142,28 +142,30 @@ export default function DitherPage() {
               </div>
             </Demo>
           </Subsection>
-          <Subsection title="Scrim">
-            <Demo className="relative flex-col items-stretch gap-2 overflow-hidden">
-              {buses.map(([name, peak]) => (
-                <div key={name} className="flex justify-between gap-4">
-                  <span className="text-sm text-foreground">{name}</span>
-                  <span className="type-pixel text-muted-foreground">
-                    {peak}
-                  </span>
-                </div>
-              ))}
-              <div
-                aria-hidden="true"
-                className="absolute inset-y-0 right-0 w-1/2 bg-scrim dither-50 text-scrim"
-              />
-            </Demo>
-          </Subsection>
           <Subsection title="Chart area">
             <Demo>
               <AreaChartDemo />
             </Demo>
           </Subsection>
         </div>
+        <Details>
+          <p>
+            Empty capacity, unloaded content, and dimmed pages are dithered.
+            Charts fill areas with <Code>DitherPattern</Code>, the SVG
+            counterpart of the utilities.
+          </p>
+          <p>
+            Dialogs, sheets, and drawers dim the page with a{" "}
+            <Code>dither-50</Code> backdrop. Open one on the{" "}
+            <Link
+              href="/components/overlays"
+              className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+            >
+              Overlays
+            </Link>{" "}
+            page to see it.
+          </p>
+        </Details>
       </Section>
     </>
   )

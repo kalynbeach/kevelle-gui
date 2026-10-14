@@ -19,7 +19,7 @@ import {
 } from "@phosphor-icons/react/ssr"
 
 import { Button } from "@/components/ui/button"
-import { Demo, PageHeader, Prose, Section } from "@/components/showcase/page"
+import { Demo, Details, PageHeader, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Icons" }
 
@@ -48,13 +48,6 @@ export default function IconsPage() {
       <PageHeader title="Icons" />
 
       <Section title="Phosphor">
-        <Prose>
-          <p>
-            Phosphor at the regular weight. Components size icons from their own
-            text; a button icon is 16px. Icon-only controls need an accessible
-            name.
-          </p>
-        </Prose>
         <div className="grid grid-cols-4 border-t border-l sm:grid-cols-8">
           {icons.map(([label, Icon]) => (
             <div
@@ -66,6 +59,13 @@ export default function IconsPage() {
             </div>
           ))}
         </div>
+        <Details>
+          <p>
+            Phosphor at the regular weight. Components size icons from their own
+            text; a button icon is 16px. Icon-only controls need an accessible
+            name.
+          </p>
+        </Details>
       </Section>
 
       <Section title="In controls">

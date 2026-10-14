@@ -38,7 +38,7 @@ import {
 import {
   Demo,
   PageHeader,
-  Prose,
+  Details,
   Section,
   Subsection,
 } from "@/components/showcase/page"
@@ -69,15 +69,15 @@ export default function NavigationPage() {
       <PageHeader title="Navigation" />
 
       <Section title="Sidebar">
-        <Prose>
+        <Demo>
+          <SidebarDemo />
+        </Demo>
+        <Details>
           <p>
             The site navigation is a full-height Sidebar. This one is contained,
             with group labels in Paper Mono and counts in Departure Mono.
           </p>
-        </Prose>
-        <Demo>
-          <SidebarDemo />
-        </Demo>
+        </Details>
       </Section>
 
       <Section title="Breadcrumb">

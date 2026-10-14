@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import {
   Demo,
+  Details,
   PageHeader,
-  Prose,
   Section,
   Subsection,
 } from "@/components/showcase/page"
@@ -67,36 +67,29 @@ export default function RadiusElevationPage() {
       <PageHeader title="Radius and elevation" />
 
       <Section title="Radius">
-        <Prose>
+        <TokenTable rows={radii} />
+        <Details>
           <p>
             Components are square: they use rounded-none. Radio buttons, scroll
             area thumbs, and the drawer handle stay round. The ramp is there for
             elements that opt into rounding. One knob, --radius at 8px, sets
             every step in whole pixels.
           </p>
-        </Prose>
-        <TokenTable rows={radii} />
+        </Details>
       </Section>
 
       <Section title="Edges and elevation">
-        <Prose>
+        <TokenTable rows={shadows} />
+        <Details>
           <p>
             Edges are 1px hairlines in the border role. Shadows are reserved for
             layers that float: they read in light mode and fall away on the dark
             canvas, where the hairline carries the edge.
           </p>
-        </Prose>
-        <TokenTable rows={shadows} />
+        </Details>
       </Section>
 
       <Section title="Alloy">
-        <Prose>
-          <p>
-            Kevelle&apos;s machined surfaces. Filled buttons carry a lit top
-            edge and a shaded base. Checkboxes, switch thumbs, and select
-            triggers are raised; text fields are recessed.
-          </p>
-        </Prose>
         <div className="grid gap-6 md:grid-cols-3">
           <Subsection title="alloy-action">
             <Demo>
@@ -117,6 +110,13 @@ export default function RadiusElevationPage() {
             </Demo>
           </Subsection>
         </div>
+        <Details>
+          <p>
+            Kevelle&apos;s machined surfaces. Filled buttons carry a lit top
+            edge and a shaded base. Checkboxes, switch thumbs, and select
+            triggers are raised; text fields are recessed.
+          </p>
+        </Details>
       </Section>
     </>
   )

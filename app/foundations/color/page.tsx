@@ -5,7 +5,7 @@ import {
   SignalGrid,
   SwatchGrid,
 } from "@/components/showcase/color"
-import { PageHeader, Prose, Section } from "@/components/showcase/page"
+import { Details, PageHeader, Section } from "@/components/showcase/page"
 
 export const metadata: Metadata = { title: "Color" }
 
@@ -31,7 +31,7 @@ const ink = [
   "border",
   "input",
   "ring",
-  "scrim",
+  "backdrop",
 ]
 
 const status = ["destructive", "success", "warning"]
@@ -57,7 +57,8 @@ export default function ColorPage() {
       <PageHeader title="Color" />
 
       <Section title="Neutral ramp">
-        <Prose>
+        <SwatchGrid tokens={neutrals} />
+        <Details>
           <p>
             Ten steps from canvas to ink: white to near-black in light mode,
             near-black to near-white in dark mode. The middle steps carry a
@@ -68,34 +69,34 @@ export default function ColorPage() {
             Values are OKLCH as written in the theme, with sRGB hex for
             convenience.
           </p>
-        </Prose>
-        <SwatchGrid tokens={neutrals} />
+        </Details>
       </Section>
 
       <Section title="Roles">
-        <Prose>
+        <SwatchGrid tokens={surfaces} className="md:grid-cols-6" />
+        <SwatchGrid tokens={ink} className="md:grid-cols-4" />
+        <Details>
           <p>
             shadcn/ui roles. Each fill pairs with a -foreground role for the
             text on it.
           </p>
-        </Prose>
-        <SwatchGrid tokens={surfaces} className="md:grid-cols-6" />
-        <SwatchGrid tokens={ink} className="md:grid-cols-4" />
+        </Details>
       </Section>
 
       <Section title="Status">
-        <Prose>
+        <SwatchGrid tokens={status} />
+        <Details>
           <p>
             Destructive is scarlet, success is phosphor, and warning is amber,
             each with the most chroma sRGB allows at its lightness. They also
             color text, so each clears 4.5:1 on the canvas.
           </p>
-        </Prose>
-        <SwatchGrid tokens={status} />
+        </Details>
       </Section>
 
       <Section title="Signal">
-        <Prose>
+        <SignalGrid tokens={signals} />
+        <Details>
           <p>
             From the KKB Images boards: oscilloscope phosphor, starry astral
             blue, and the flame&apos;s orange, magenta, and chrome. Each keeps
@@ -104,16 +105,10 @@ export default function ColorPage() {
             chart-5. Astral leads in light mode and phosphor in dark mode.
           </p>
           <p>Use them for data series. They do not mark status.</p>
-        </Prose>
-        <SignalGrid tokens={signals} />
+        </Details>
       </Section>
 
       <Section title="Contrast">
-        <Prose>
-          <p>
-            Measured live in the current mode. Ratios under 4.5:1 are marked.
-          </p>
-        </Prose>
         <div className="grid gap-6 md:grid-cols-2">
           {pairs.map(([foreground, background, use]) => (
             <ContrastPair
@@ -124,6 +119,11 @@ export default function ColorPage() {
             />
           ))}
         </div>
+        <Details>
+          <p>
+            Measured live in the current mode. Ratios under 4.5:1 are marked.
+          </p>
+        </Details>
       </Section>
     </>
   )

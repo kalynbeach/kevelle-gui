@@ -268,7 +268,8 @@ export default function DataDisplayPage() {
       </Section>
 
       <Section title="Carousel">
-        <Demo className="justify-center">
+        {/* The arrows sit 48px outside the slides; the side padding holds them. */}
+        <Demo className="justify-center px-16">
           <Carousel aria-label="Takes" className="w-full max-w-xs">
             <CarouselContent>
               {takes.map((take) => (

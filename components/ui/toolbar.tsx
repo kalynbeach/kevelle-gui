@@ -8,7 +8,8 @@ import { toggleVariants } from "@/components/ui/toggle"
 
 /*
  * Toolbar is not in the shadcn registry. Buttons and toggles inside share
- * the Toggle treatment so pressed state reads the same everywhere.
+ * the Toggle treatment so pressed state reads the same everywhere. A toolbar
+ * wider than its container scrolls rather than pushing the page sideways.
  */
 
 function Toolbar({ className, ...props }: ToolbarPrimitive.Root.Props) {
@@ -16,7 +17,7 @@ function Toolbar({ className, ...props }: ToolbarPrimitive.Root.Props) {
     <ToolbarPrimitive.Root
       data-slot="toolbar"
       className={cn(
-        "flex w-fit items-center gap-1 rounded-none bg-card p-1 text-card-foreground shadow-sm ring-1 ring-foreground/10",
+        "flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-none bg-card p-1 text-card-foreground shadow-sm ring-1 ring-foreground/10",
         className
       )}
       {...props}
@@ -70,7 +71,7 @@ function ToolbarSeparator({
   return (
     <ToolbarPrimitive.Separator
       data-slot="toolbar-separator"
-      className={cn("mx-1 w-px self-stretch bg-border", className)}
+      className={cn("mx-1 w-px shrink-0 self-stretch bg-border", className)}
       {...props}
     />
   )
