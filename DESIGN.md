@@ -119,6 +119,8 @@ Kevelle shades with 1px ordered dither, like the meters on a machine report. The
 
 They set `background-image`, so they combine with `bg-*` fills but not with alloy surfaces. They are not named `bg-*` because `cn()` would merge them away as background colors. For a gradient, step through the densities rather than fading opacity.
 
+Give a dithered block inside a hairline an odd inner size. Across an even number of pixels, the pattern ends on a lit row at one edge and an empty row at the other, so the block looks shifted.
+
 `DitherPattern` in `components/ui/dither.tsx` is the SVG counterpart, for chart areas and other SVG graphics. It takes the same densities, matches the utilities pixel for pixel, and fills with any color, such as a chart's `var(--color-*)`.
 
 ### Motion

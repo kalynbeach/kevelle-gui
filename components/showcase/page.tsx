@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "cn"
+import { CaretRightIcon } from "@phosphor-icons/react/ssr"
 
 import { slugify } from "@/components/showcase/nav"
 
@@ -91,6 +92,25 @@ export function Demo({
     >
       {children}
     </div>
+  )
+}
+
+/*
+ * Supporting notes, collapsed at the end of a section so the specimens come
+ * first. Find in page still opens them.
+ */
+export function Notes({ children }: { children: React.ReactNode }) {
+  return (
+    <details className="group text-sm text-muted-foreground">
+      <summary className="-mx-1 flex w-fit cursor-pointer items-center gap-1.5 px-1 py-1 transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 [&::-webkit-details-marker]:hidden">
+        <CaretRightIcon
+          aria-hidden="true"
+          className="size-4 transition-transform group-open:rotate-90"
+        />
+        Notes
+      </summary>
+      <div className="flex flex-col gap-3 pt-2">{children}</div>
+    </details>
   )
 }
 

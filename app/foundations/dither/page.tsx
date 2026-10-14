@@ -12,8 +12,8 @@ import { AreaChartDemo } from "@/components/showcase/demos/data-display"
 import {
   Code,
   Demo,
+  Notes,
   PageHeader,
-  Prose,
   Section,
   Subsection,
 } from "@/components/showcase/page"
@@ -43,12 +43,16 @@ const ramp = [
   { label: "100", className: "bg-current" },
 ]
 
+/*
+ * Framed blocks have odd inner sizes, so each dither meets opposite hairlines
+ * the same way: 97px swatches inside 1px borders, and 63px ramp cells.
+ */
 function Ramp({ className }: { className: string }) {
   return (
     <div className="flex flex-col gap-2">
       <div className={cn("grid grid-cols-6 border", className)}>
         {ramp.map((step) => (
-          <div key={step.label} className={cn("h-16", step.className)} />
+          <div key={step.label} className={cn("h-15.75", step.className)} />
         ))}
       </div>
       <div className="grid grid-cols-6 type-pixel text-muted-foreground">
@@ -66,19 +70,14 @@ export default function DitherPage() {
       <PageHeader title="Dither" />
 
       <Section title="Density">
-        <Prose>
-          <p>
-            Kevelle shades with 1px ordered dither, like the meters on a machine
-            report. Each utility draws in the current color, so a text color
-            sets the dither color. Each density lights every pixel of the
-            density below it, so neighboring steps line up.
-          </p>
-        </Prose>
         <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-4">
           {densities.map((density) => (
             <div key={density.utility} className="flex flex-col gap-2">
               <div
-                className={cn("h-24 border text-foreground", density.utility)}
+                className={cn(
+                  "size-24.25 border text-foreground",
+                  density.utility
+                )}
               />
               <div className="flex flex-col">
                 <span className="font-mono text-xs text-foreground">
@@ -91,15 +90,22 @@ export default function DitherPage() {
             </div>
           ))}
         </div>
+        <Notes>
+          <p>
+            Kevelle shades with 1px ordered dither, like the meters on a machine
+            report. Each utility draws in the current color, so a text color
+            sets the dither color. Each density lights every pixel of the
+            density below it, so neighboring steps line up.
+          </p>
+          <p>
+            Give a dithered block inside a hairline an odd inner size. Across an
+            even number of pixels, the pattern ends on a lit row at one edge and
+            an empty row at the other.
+          </p>
+        </Notes>
       </Section>
 
       <Section title="Ramp">
-        <Prose>
-          <p>
-            For a gradient, step through the densities instead of fading
-            opacity. In a signal color it reads as a glow.
-          </p>
-        </Prose>
         <div className="grid gap-6 md:grid-cols-2">
           <Subsection title="foreground">
             <Ramp className="text-foreground" />
@@ -108,16 +114,15 @@ export default function DitherPage() {
             <Ramp className="text-chart-1" />
           </Subsection>
         </div>
+        <Notes>
+          <p>
+            For a gradient, step through the densities instead of fading
+            opacity. In a signal color it reads as a glow.
+          </p>
+        </Notes>
       </Section>
 
       <Section title="In components">
-        <Prose>
-          <p>
-            Empty capacity, unloaded content, and dimmed pages are dithered.
-            Charts fill areas with <Code>DitherPattern</Code>, the SVG
-            counterpart of the utilities.
-          </p>
-        </Prose>
         <div className="grid gap-6 md:grid-cols-2">
           <Subsection title="Tracks">
             <Demo className="flex-col items-stretch">
@@ -152,10 +157,18 @@ export default function DitherPage() {
                   </span>
                 </div>
               ))}
+              {/* The dialog backdrop's treatment, under a stand-in popup. */}
               <div
                 aria-hidden="true"
-                className="absolute inset-y-0 right-0 w-1/2 bg-scrim dither-50 text-scrim"
-              />
+                className="absolute inset-0 flex items-center justify-center bg-scrim dither-50 text-scrim supports-backdrop-filter:backdrop-blur-xs"
+              >
+                <div className="flex flex-col gap-1 bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10">
+                  <span className="font-medium">Bounce mix</span>
+                  <span className="text-muted-foreground">
+                    3 buses to 24-bit WAV
+                  </span>
+                </div>
+              </div>
             </Demo>
           </Subsection>
           <Subsection title="Chart area">
@@ -164,6 +177,13 @@ export default function DitherPage() {
             </Demo>
           </Subsection>
         </div>
+        <Notes>
+          <p>
+            Empty capacity, unloaded content, and dimmed pages are dithered.
+            Charts fill areas with <Code>DitherPattern</Code>, the SVG
+            counterpart of the utilities.
+          </p>
+        </Notes>
       </Section>
     </>
   )

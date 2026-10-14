@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input"
 import {
   Code,
   Demo,
+  Notes,
   PageHeader,
-  Prose,
   Section,
 } from "@/components/showcase/page"
 
@@ -33,12 +33,6 @@ export default function SpacingPage() {
       <PageHeader title="Spacing" />
 
       <Section title="Scale">
-        <Prose>
-          <p>
-            Tailwind&apos;s 4px scale. Components own their internal spacing;
-            pages place them with gap and margin.
-          </p>
-        </Prose>
         <div className="flex flex-col">
           {steps.map(([step, width, value, use]) => (
             <div
@@ -58,15 +52,15 @@ export default function SpacingPage() {
             </div>
           ))}
         </div>
+        <Notes>
+          <p>
+            Tailwind&apos;s 4px scale. Components own their internal spacing;
+            pages place them with gap and margin.
+          </p>
+        </Notes>
       </Section>
 
       <Section title="Control heights">
-        <Prose>
-          <p>
-            Buttons, inputs, selects, and toggles share heights so they align in
-            a row: 24, 28, 32, and 36px.
-          </p>
-        </Prose>
         <Demo>
           <Button size="xs">Extra small</Button>
           <Button size="sm">Small</Button>
@@ -76,6 +70,12 @@ export default function SpacingPage() {
             <Input aria-label="Track name" placeholder="Track name" />
           </div>
         </Demo>
+        <Notes>
+          <p>
+            Buttons, inputs, selects, and toggles share heights so they align in
+            a row: 24, 28, 32, and 36px.
+          </p>
+        </Notes>
       </Section>
     </>
   )
