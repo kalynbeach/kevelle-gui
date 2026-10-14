@@ -81,7 +81,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-scrim: var(--scrim);
+  --color-backdrop: var(--backdrop);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -207,7 +207,7 @@
    * Dims the page behind modal overlays. Overlays lay a 50% dither of the
    * same color over the fill, so the average dim is about 20%.
    */
-  --scrim: oklch(0 0 0 / 0.14);
+  --backdrop: oklch(0 0 0 / 0.14);
 
   /*
    * Signal colors from the KKB Images boards: oscilloscope phosphor, starry
@@ -307,7 +307,7 @@
   --input: var(--neutral-5);
   --ring: var(--neutral-7);
   /* With the dither layer, the average dim is about 70%. */
-  --scrim: oklch(0 0 0 / 0.59);
+  --backdrop: oklch(0 0 0 / 0.59);
 
   --phosphor: oklch(0.86 0.262 146);
   --astral: oklch(0.64 0.192 262);
@@ -472,7 +472,7 @@
   background-size: 2px 2px;
 }
 
-/* A checkerboard: tracks, skeletons, and modal scrims. */
+/* A checkerboard: tracks, skeletons, and modal backdrops. */
 @utility dither-50 {
   background-image: conic-gradient(
     currentColor 25%,

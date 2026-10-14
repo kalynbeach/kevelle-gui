@@ -62,7 +62,7 @@ A ten-step neutral ramp, `--neutral-1` to `--neutral-10`, runs from canvas to in
 | Dark  | `oklch(0.097 0 0)`, `#030303` | `oklch(0.985 0 0)`, `#fafafa` |
 | Light | `oklch(1 0 0)`, `#ffffff`     | `oklch(0.097 0 0)`, `#030303` |
 
-Components never use the ramp directly. The shadcn roles pick steps from it: `background`, `foreground`, `card`, `popover`, `primary`, `secondary`, `muted`, `accent`, `border`, `input`, `ring`, and the `sidebar-*` set. Kevelle adds `success`, `warning`, `destructive-foreground`, and `scrim` (the modal overlay).
+Components never use the ramp directly. The shadcn roles pick steps from it: `background`, `foreground`, `card`, `popover`, `primary`, `secondary`, `muted`, `accent`, `border`, `input`, `ring`, and the `sidebar-*` set. Kevelle adds `success`, `warning`, `destructive-foreground`, and `backdrop`, which dims the page behind dialogs, sheets, and drawers.
 
 Text selection inverts the canvas: a `foreground` highlight with `background` text, set once on `::selection` in `app/globals.css`.
 
@@ -112,12 +112,12 @@ The raised and recessed bevels compose with ring and shadow utilities.
 
 Kevelle shades with 1px ordered dither, like the meters on a machine report. The utilities draw in `currentColor`, so a `text-*` class sets the dither color. Each density lights every pixel of the density below it, so adjacent steps line up.
 
-| Utility     | Pixels lit | Used by                                                     |
-| ----------- | ---------- | ----------------------------------------------------------- |
-| `dither-12` | 1 in 8     | Ramps and faint grain                                       |
-| `dither-25` | 1 in 4     | Chart area fills                                            |
-| `dither-50` | 1 in 2     | Progress, meter, and slider tracks; skeletons; modal scrims |
-| `dither-75` | 3 in 4     | Ramps                                                       |
+| Utility     | Pixels lit | Used by                                                        |
+| ----------- | ---------- | -------------------------------------------------------------- |
+| `dither-12` | 1 in 8     | Ramps and faint grain                                          |
+| `dither-25` | 1 in 4     | Chart area fills                                               |
+| `dither-50` | 1 in 2     | Progress, meter, and slider tracks; skeletons; modal backdrops |
+| `dither-75` | 3 in 4     | Ramps                                                          |
 
 They set `background-image`, so they combine with `bg-*` fills but not with alloy surfaces. They are not named `bg-*` because `cn()` would merge them away as background colors. For a gradient, step through the densities rather than fading opacity.
 
@@ -159,7 +159,7 @@ Kevelle changes to the registry components:
 - Focus and invalid rings are 2px.
 - Badge and Alert have `success` and `warning` variants.
 - Every part uses `rounded-none` in place of the registry's radius steps. `rounded-full` stays on radio buttons, scroll area thumbs, and the drawer handle.
-- Overlays dim with `bg-scrim` under a `dither-50` layer of the same color, which averages about 20% in light mode and 70% in dark mode.
+- Overlays dim with `bg-backdrop` under a `dither-50` layer of the same color, which averages about 20% in light mode and 70% in dark mode.
 - Skeletons are a `dither-50` pattern in `muted-foreground` instead of a muted fill.
 - Indeterminate progress sweeps a third-width bar.
 - The tinted bubble uses `accent` instead of fixed-lightness tints of `--primary`.

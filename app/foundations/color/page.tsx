@@ -31,7 +31,7 @@ const ink = [
   "border",
   "input",
   "ring",
-  "scrim",
+  "backdrop",
 ]
 
 const status = ["destructive", "success", "warning"]

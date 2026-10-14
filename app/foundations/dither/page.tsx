@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { cn } from "cn"
 
 import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
@@ -23,14 +24,8 @@ export const metadata: Metadata = { title: "Dither" }
 const densities = [
   { utility: "dither-12", use: "Ramps and faint grain" },
   { utility: "dither-25", use: "Chart areas" },
-  { utility: "dither-50", use: "Tracks, skeletons, and scrims" },
+  { utility: "dither-50", use: "Tracks, skeletons, and backdrops" },
   { utility: "dither-75", use: "Ramps, the last step before solid" },
-]
-
-const buses = [
-  ["Drum bus", "−3.1 dB"],
-  ["Bass", "−6.0 dB"],
-  ["Vocals", "−4.4 dB"],
 ]
 
 /* Utilities stay literal so Tailwind generates them. */
@@ -147,30 +142,6 @@ export default function DitherPage() {
               </div>
             </Demo>
           </Subsection>
-          <Subsection title="Scrim">
-            <Demo className="relative flex-col items-stretch gap-2 overflow-hidden">
-              {buses.map(([name, peak]) => (
-                <div key={name} className="flex justify-between gap-4">
-                  <span className="text-sm text-foreground">{name}</span>
-                  <span className="type-pixel text-muted-foreground">
-                    {peak}
-                  </span>
-                </div>
-              ))}
-              {/* The dialog backdrop's treatment, under a stand-in popup. */}
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 flex items-center justify-center bg-scrim dither-50 text-scrim supports-backdrop-filter:backdrop-blur-xs"
-              >
-                <div className="flex flex-col gap-1 bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10">
-                  <span className="font-medium">Bounce mix</span>
-                  <span className="text-muted-foreground">
-                    3 buses to 24-bit WAV
-                  </span>
-                </div>
-              </div>
-            </Demo>
-          </Subsection>
           <Subsection title="Chart area">
             <Demo>
               <AreaChartDemo />
@@ -182,6 +153,17 @@ export default function DitherPage() {
             Empty capacity, unloaded content, and dimmed pages are dithered.
             Charts fill areas with <Code>DitherPattern</Code>, the SVG
             counterpart of the utilities.
+          </p>
+          <p>
+            Dialogs, sheets, and drawers dim the page with a{" "}
+            <Code>dither-50</Code> backdrop. Open one on the{" "}
+            <Link
+              href="/components/overlays"
+              className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+            >
+              Overlays
+            </Link>{" "}
+            page to see it.
           </p>
         </Notes>
       </Section>
